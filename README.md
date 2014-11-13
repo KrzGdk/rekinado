@@ -1,2 +1,4 @@
 rekinado
 ========
+Instalacja
+----------
