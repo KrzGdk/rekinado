@@ -1,4 +1,4 @@
-package rankine;
+package main.java.rankine;
 
 /**
  * Created by Krzysiek on 13/11/2014.

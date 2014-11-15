@@ -1,8 +1,8 @@
 apply plugin: 'java'
 apply plugin:'application'
 
-mainClassName = "rankine.Rankine"
-sourceCompatibility = 1.7
+mainClassName = "main.java.rankine.Rankine"
+sourceCompatibility = 1.8
 version = '1.0'
 
 repositories {
