@@ -1,4 +1,4 @@
-package main.java.rankine;
+package rankine;
 
 import java.awt.Point;
 import javax.vecmath.Vector2d;
