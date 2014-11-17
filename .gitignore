@@ -26,3 +26,7 @@ hs_err_pid*
 .idea/uiDesigner.xml
 .idea/vcs.xml
 .idea/workspace.xml
+.idea/gradle.xml
+.idea/libraries/Gradle__java3d_vecmath_1_3_1.xml
+.idea/libraries/Gradle__junit_junit_4_11.xml
+.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
