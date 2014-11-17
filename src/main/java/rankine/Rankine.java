@@ -97,11 +97,11 @@ public class Rankine {
         LinkedList<Tree> forest = new LinkedList<Tree>();
         for(int i = 0; i < 20; ++i){
             for(int j = 0; j < 20; ++j)
-                forest.add(new Tree(new Point(i, j), ((int)Math.random())%3 + 10 ));
+                forest.add(new Tree(new Point(i, j), ((int)Math.random())%3 + 9 ));
         }
         Hwind model = new  Hwind(forest, new HwindData());
 
-        double val = model.calcTreeForce(forest.get(10), wir);
+        double val = model.calcTreeForce(forest.get(11), wir);
         System.out.println("tree has fallen: " + ((val > 0) ? true : false));
 
         System.out.println(wir.calculateWind(0, 0).toString());
