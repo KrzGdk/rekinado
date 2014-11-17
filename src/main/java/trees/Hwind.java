@@ -13,22 +13,24 @@ public class Hwind {
 
     private final double g = 9.81;
     private double meanHeight;
-    private double forestMaxX;
-    private double forestMaxY;
+    private double forestMaxX = 0.0;
+    private double forestMaxY = 0.0;
 
     private HwindData data;
     private Vector2d northVec = new Vector2d(0, 1);
 
-    public Hwind(LinkedList<Tree> forest, HwindData data){
+    public Hwind(Tree[][] forest, HwindData data){
         this.data = data;
         double heightSum = 0;
 
-        for(Tree t : forest) {
-            heightSum += t.height;
-            forestMaxX = Math.max(forestMaxX, t.position.getX());
-            forestMaxY = Math.max(forestMaxY, t.position.getY());
+        for(Tree[] treeRow : forest) {
+            for(Tree t : treeRow) {
+                heightSum += t.height;
+                forestMaxX = Math.max(forestMaxX, t.position.getX());
+                forestMaxY = Math.max(forestMaxY, t.position.getY());
+            }
         }
-        meanHeight = heightSum / forest.size();
+        meanHeight = heightSum / (forest.length * forest[0].length);
     }
 
     public double calcTreeForce(Tree tree, Rankine rankine){
@@ -40,11 +42,11 @@ public class Hwind {
         double treeResitance = calcTreeResist();
         double rootResistance = calcRootResist();
 
-        System.out.println("Result:");
-        System.out.println("wind speed: " + rankine.calculateWind(tree.position.x, tree.position.y).length());
-        System.out.println("bending moment: " + bendingMoment);
-        System.out.println("tree resistance: " + treeResitance);
-        System.out.println("root resistance: " + rootResistance);
+//        System.out.println("Result:");
+//        System.out.println("wind speed: " + rankine.calculateWind(tree.position.x, tree.position.y).length());
+//        System.out.println("bending moment: " + bendingMoment);
+//        System.out.println("tree resistance: " + treeResitance);
+//        System.out.println("root resistance: " + rootResistance);
 
         if(bendingMoment > treeResitance || bendingMoment > rootResistance)
             tree.isFallen = true;

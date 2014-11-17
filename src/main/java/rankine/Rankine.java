@@ -92,20 +92,4 @@ public class Rankine {
         return new Vector2d(Vfi + V_tr, Vr);
     }
 
-    public static void main(String[] args) {
-        Rankine wir = new Rankine();
-        LinkedList<Tree> forest = new LinkedList<Tree>();
-        for(int i = 0; i < 20; ++i){
-            for(int j = 0; j < 20; ++j)
-                forest.add(new Tree(new Point(i, j), ((int)Math.random())%3 + 10 ));
-        }
-        Hwind model = new  Hwind(forest, new HwindData());
-
-        double val = model.calcTreeForce(forest.get(10), wir);
-        System.out.println("tree has fallen: " + ((val > 0) ? true : false));
-
-        System.out.println(wir.calculateWind(0, 0).toString());
-    }
-
-
 }
