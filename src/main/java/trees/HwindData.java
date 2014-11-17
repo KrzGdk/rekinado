@@ -23,7 +23,7 @@ public class HwindData {
     public double crownWidth = 3.5;
 
 
-    public int spacing = 2;
+    public int spacing = 5;
     public double freeFrontSpace = 15; /** wolna przestrzen przed sciana lasu */
 
 //    public double maxTreeHeight;
