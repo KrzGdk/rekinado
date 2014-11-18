@@ -1,6 +1,7 @@
 package main.java.gui;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import main.java.gui.RekinadoMain.UIListener;
 import java.awt.Polygon;
@@ -207,8 +208,7 @@ public class GUInterface extends javax.swing.JFrame{
 	
 	private int bgWidth ;
 	private int bgHeight ;
-	public void clearBG(){
-		Graphics2D g = (Graphics2D) BG.getGraphics();
+	public void clearBG(Graphics g){
 		bgWidth  = BG.getWidth();
 		bgHeight = BG.getHeight();
 		g.setColor(Color.white);
@@ -217,12 +217,61 @@ public class GUInterface extends javax.swing.JFrame{
 		//g.setColor(new Color(140, 140, 140));
 	}
 	
+	private double sin45 = .70710678118654752440084436210484903928483593768847;
+	private int toIzoX(double x, double y, double z){
+		return (bgWidth/2)+(int)x+(int)(sin45*y);
+	}
+	private int toIzoY(double x, double y, double z){
+		return (bgHeight/2)-(int)z-(int)(sin45*y);
+	}
+	
+	
+	private void drawTerrain(Graphics g){
+		
+		int[] xUp = new int[4];
+		int[] yUp = new int[4];
+		
+		xUp[0] = toIzoX(0,0,0);
+		xUp[1] = toIzoX(100,0,0);
+		xUp[2] = toIzoX(100,100,0);
+		xUp[3] = toIzoX(0,100,0);
+		
+		yUp[0] = toIzoY(0,0,0);
+		yUp[1] = toIzoY(100,0,0);
+		yUp[2] = toIzoY(100,100,0);
+		yUp[3] = toIzoY(0,100,0);
+		
+		g.setColor(new Color(128, 128, 128));
+		g.fillPolygon(new Polygon(xUp, yUp, 4));
+	}
+	
+	
+	private Polygon getTrunk(TreeGUI tree){
+		int[] xpoints = new int[4];
+		int[] ypoints = new int[4];
+		
+		xpoints[0] = toIzoX(tree.x, tree.y, tree.z+tree.height);
+		xpoints[1] = toIzoX(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		xpoints[2] = toIzoX(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		
+		ypoints[0] = toIzoY(tree.x, tree.y, tree.z+tree.height);
+		ypoints[1] = toIzoY(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		ypoints[2] = toIzoY(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		
+		return new Polygon(xpoints, ypoints, 4);
+	}
+	
 	private Polygon getCrown(TreeGUI tree){
-		int[] xpoints = new int[10];
-		int[] ypoints = new int[10];
+		int[] xpoints = new int[3];
+		int[] ypoints = new int[3];
 		
-		double crownPercent = .7;
+		xpoints[0] = toIzoX(tree.x, tree.y, tree.z+tree.height);
+		xpoints[1] = toIzoX(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		xpoints[2] = toIzoX(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
 		
+		ypoints[0] = toIzoY(tree.x, tree.y, tree.z+tree.height);
+		ypoints[1] = toIzoY(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		ypoints[2] = toIzoY(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
 		
 		return new Polygon(xpoints, ypoints, 3);
 	}
@@ -230,7 +279,15 @@ public class GUInterface extends javax.swing.JFrame{
 	public void print() {
 		//System.out.print("PRINT!!!");
 		//dialog("Mariusz Nyznar to gej");
-		clearBG();
+		Graphics g = BG.getGraphics();
+		clearBG(g);
+		drawTerrain(g);
+		
+		TreeGUI tree = new TreeGUI(0,0,0,15);
+		
+		
+		g.setColor(new Color(0, 255, 0));
+		g.fillPolygon(getCrown(tree));
 		
 		//  fillPolygon(Polygon p)
 		

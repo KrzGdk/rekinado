@@ -5,6 +5,8 @@ public class TreeGUI {
 	public double y;
 	public double z;
 	public int height;
+	public double crownHeight;
+	public double crownWidth;
 	
 	public double windRotation;
 	public double windPower;
@@ -17,6 +19,8 @@ public class TreeGUI {
 		this.y = y;
 		this.z = z;
 		this.height = height;
+		this.crownHeight = height*.7;//HwindData.crownHeight; // To dac z konstruktora;
+		this.crownWidth = height*.5;//HwindData.crownWidth; // To dac z konstruktora;
 	}
 	public void fall(){
 		this.fallen = true;
