@@ -1,6 +1,10 @@
 package main.java.gui;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import main.java.gui.RekinadoMain.UIListener;
+import java.awt.Polygon;
+import main.java.trees.TreeGUI;
 
 public class GUInterface extends javax.swing.JFrame{
 
@@ -200,9 +204,37 @@ public class GUInterface extends javax.swing.JFrame{
 		//infoBox.setTitle(text);
 		infoBox.setVisible(true);
 	}
+	
+	private int bgWidth ;
+	private int bgHeight ;
+	public void clearBG(){
+		Graphics2D g = (Graphics2D) BG.getGraphics();
+		bgWidth  = BG.getWidth();
+		bgHeight = BG.getHeight();
+		g.setColor(Color.white);
+		g.fillRect(1, 1, bgWidth - 2, bgHeight - 2);
 		
+		//g.setColor(new Color(140, 140, 140));
+	}
+	
+	private Polygon getCrown(TreeGUI tree){
+		int[] xpoints = new int[10];
+		int[] ypoints = new int[10];
+		
+		double crownPercent = .7;
+		
+		
+		return new Polygon(xpoints, ypoints, 3);
+	}
+	
 	public void print() {
-		System.out.print("PRINT!!!");
-		dialog("Mariusz Nyznar to gej");
+		//System.out.print("PRINT!!!");
+		//dialog("Mariusz Nyznar to gej");
+		clearBG();
+		
+		//  fillPolygon(Polygon p)
+		
+		// 	fillPolygon(int[] xPoints, int[] yPoints, int nPoints)
+		//  Fills a closed polygon defined by arrays of x and y coordinates.
 	}
 }
