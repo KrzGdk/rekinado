@@ -217,27 +217,29 @@ public class GUInterface extends javax.swing.JFrame{
 		//g.setColor(new Color(140, 140, 140));
 	}
 	
-	private int printscale = 2;
-	private double sin45 = .70710678118654752440084436210484903928483593768847;
-	private int toIzoX(double x, double y, double z){
-		return (bgWidth/2 )+(int)((x+sin45*y)*printscale);
+	private static int printscale = 2;
+	private static double sin45 = .70710678118654752440084436210484903928483593768847;
+	public static int toIzoX(double x, double y, double z){
+		return (int) Math.round((x+sin45*y)*printscale);
 	}
-	private int toIzoY(double x, double y, double z){
-		return (bgHeight/2)-(int)((z+sin45*y)*printscale);
-	}
-	
-	private int toIzoX(double tab[]){
-		return (bgWidth/2 )+(int)((tab[0]+sin45*tab[1])*printscale);
-	}
-	private int toIzoY(double tab[]){
-		return (bgHeight/2)-(int)((tab[2]+sin45*tab[1])*printscale);
-	}
-	private void addTreeCord(double tab[], double x, double y, double z){
-		tab[0] += x;
-		tab[1] += y;
-		tab[2] += z;
+	public static int toIzoY(double x, double y, double z){
+		return (int)-Math.round((z+sin45*y)*printscale);
 	}
 	
+	public static int toIzoX(double tab[]){
+		return (int) Math.round((tab[0]+sin45*tab[1])*printscale);
+	}
+	public static int toIzoY(double tab[]){
+		return (int)-Math.round((tab[2]+sin45*tab[1])*printscale);
+	}
+	private Polygon normToCenter(Polygon p){ // To center of Word
+		for(int i=0; i<p.npoints;i++){
+			p.xpoints[i]+=(bgWidth/2 );
+			p.ypoints[i]+=(bgHeight/2);
+		}
+		return p;
+	}
+
 	
 	private void drawTerrain(Graphics g){
 		int terrainWidth = 50;
@@ -247,102 +249,63 @@ public class GUInterface extends javax.swing.JFrame{
 		int[] xUp = new int[4];
 		int[] yUp = new int[4];
 		
-		xUp[0] = toIzoX(-terrainWidth/2,-terrainHeight/2,0);
-		xUp[1] = toIzoX( terrainWidth/2,-terrainHeight/2,0);
-		xUp[2] = toIzoX( terrainWidth/2, terrainHeight/2,0);
-		xUp[3] = toIzoX(-terrainWidth/2, terrainHeight/2,0);
+		double[] p1 = {-terrainWidth/2,-terrainHeight/2,0};
+		double[] p2 = { terrainWidth/2,-terrainHeight/2,0};
+		double[] p3 = { terrainWidth/2, terrainHeight/2,0};
+		double[] p4 = {-terrainWidth/2, terrainHeight/2,0};
 		
-		yUp[0] = toIzoY(-terrainWidth/2,-terrainHeight/2,0);
-		yUp[1] = toIzoY( terrainWidth/2,-terrainHeight/2,0);
-		yUp[2] = toIzoY( terrainWidth/2, terrainHeight/2,0);
-		yUp[3] = toIzoY(-terrainWidth/2, terrainHeight/2,0);
+		double[] d1 = {-terrainWidth/2,-terrainHeight/2,-terrainBold};
+		double[] d2 = { terrainWidth/2,-terrainHeight/2,-terrainBold};
+		double[] d3 = { terrainWidth/2,-terrainHeight/2,0};
+		double[] d4 = {-terrainWidth/2,-terrainHeight/2,0};
+		
+		double[] l1 = { terrainWidth/2,-terrainHeight/2,-terrainBold};
+		double[] l2 = { terrainWidth/2, terrainHeight/2,-terrainBold};
+		double[] l3 = { terrainWidth/2, terrainHeight/2,0};
+		double[] l4 = { terrainWidth/2,-terrainHeight/2,0};
+		
+		xUp[0] = toIzoX(p1);
+		xUp[1] = toIzoX(p2);
+		xUp[2] = toIzoX(p3);
+		xUp[3] = toIzoX(p4);
+		
+		yUp[0] = toIzoY(p1);
+		yUp[1] = toIzoY(p2);
+		yUp[2] = toIzoY(p3);
+		yUp[3] = toIzoY(p4);
 		
 		g.setColor(new Color(35, 92, 39));
-		g.fillPolygon(new Polygon(xUp, yUp, 4));
+		g.fillPolygon(normToCenter(new Polygon(xUp, yUp, 4)));
 		
 		
-		xUp[0] = toIzoX(-terrainWidth/2,-terrainHeight/2,-terrainBold);
-		xUp[1] = toIzoX( terrainWidth/2,-terrainHeight/2,-terrainBold);
-		xUp[2] = toIzoX( terrainWidth/2,-terrainHeight/2,0);
-		xUp[3] = toIzoX(-terrainWidth/2,-terrainHeight/2,0);
+		xUp[0] = toIzoX(d1);
+		xUp[1] = toIzoX(d2);
+		xUp[2] = toIzoX(d3);
+		xUp[3] = toIzoX(d4);
 		
-		yUp[0] = toIzoY(-terrainWidth/2,-terrainHeight/2,-terrainBold);
-		yUp[1] = toIzoY( terrainWidth/2,-terrainHeight/2,-terrainBold);
-		yUp[2] = toIzoY( terrainWidth/2,-terrainHeight/2,0);
-		yUp[3] = toIzoY(-terrainWidth/2,-terrainHeight/2,0);
+		yUp[0] = toIzoY(d1);
+		yUp[1] = toIzoY(d2);
+		yUp[2] = toIzoY(d3);
+		yUp[3] = toIzoY(d4);
 		
 		g.setColor(new Color(150, 100, 55));
-		g.fillPolygon(new Polygon(xUp, yUp, 4));
+		g.fillPolygon(normToCenter(new Polygon(xUp, yUp, 4)));
 		
-		xUp[0] = toIzoX( terrainWidth/2,-terrainHeight/2,-terrainBold);
-		xUp[1] = toIzoX( terrainWidth/2, terrainHeight/2,-terrainBold);
-		xUp[2] = toIzoX( terrainWidth/2, terrainHeight/2,0);
-		xUp[3] = toIzoX( terrainWidth/2,-terrainHeight/2,0);
+		xUp[0] = toIzoX(l1);
+		xUp[1] = toIzoX(l2);
+		xUp[2] = toIzoX(l3);
+		xUp[3] = toIzoX(l4);
 		
-		yUp[0] = toIzoY( terrainWidth/2,-terrainHeight/2,-terrainBold);
-		yUp[1] = toIzoY( terrainWidth/2, terrainHeight/2,-terrainBold);
-		yUp[2] = toIzoY( terrainWidth/2, terrainHeight/2,0);
-		yUp[3] = toIzoY( terrainWidth/2,-terrainHeight/2,0);
+		yUp[0] = toIzoY(l1);
+		yUp[1] = toIzoY(l2);
+		yUp[2] = toIzoY(l3);
+		yUp[3] = toIzoY(l4);
 		
 		g.setColor(new Color(100, 50, 5));
-		g.fillPolygon(new Polygon(xUp, yUp, 4));
+		g.fillPolygon(normToCenter(new Polygon(xUp, yUp, 4)));
 	}
 	
-	private void moveTree(double p[], TreeGUI tree){
-		rotX(p,tree.windPower);
-		rotZ(p,tree.windRotation);
-		addTreeCord(p,tree.x, tree.y, tree.z);
-	}
-	private Polygon getTrunk(TreeGUI tree){
-		int[] xpoints = new int[4];
-		int[] ypoints = new int[4];
-		int trunkWidth = 1;
-		
-		double[] p1 = {-trunkWidth,0,0};
-		double[] p2 = {-trunkWidth,0,+tree.height-tree.crownHeight};
-		double[] p3 = {+trunkWidth,0,+tree.height-tree.crownHeight};
-		double[] p4 = {+trunkWidth,0,0};
-		
-		moveTree(p1, tree);
-		moveTree(p2, tree);
-		moveTree(p3, tree);
-		moveTree(p4, tree);
-		
-		xpoints[0] = toIzoX(p1);
-		xpoints[1] = toIzoX(p2);
-		xpoints[2] = toIzoX(p3);
-		xpoints[3] = toIzoX(p4);
-		
-		ypoints[0] = toIzoY(p1);
-		ypoints[1] = toIzoY(p2);
-		ypoints[2] = toIzoY(p3);
-		ypoints[3] = toIzoY(p4);
-		
-		return new Polygon(xpoints, ypoints, 4);
-	}	
-	private Polygon getCrown(TreeGUI tree){
-		int[] xpoints = new int[3];
-		int[] ypoints = new int[3];
-		
-		double[] p1 = {0,0,tree.height};
-		double[] p2 = { tree.crownWidth/2,0,tree.height-tree.crownHeight};
-		double[] p3 = {-tree.crownWidth/2,0,tree.height-tree.crownHeight};
-		
-		moveTree(p1, tree);
-		moveTree(p2, tree);
-		moveTree(p3, tree);
-		
-		xpoints[0] = toIzoX(p1);
-		xpoints[1] = toIzoX(p2);
-		xpoints[2] = toIzoX(p3);
-		
-		ypoints[0] = toIzoY(p1);
-		ypoints[1] = toIzoY(p2);
-		ypoints[2] = toIzoY(p3);
-		
-		return new Polygon(xpoints, ypoints, 3);
-	}
-	
+
 	public void print() {
 		//System.out.print("PRINT!!!");
 		//dialog("Mariusz Nyznar to gej");
@@ -354,70 +317,11 @@ public class GUInterface extends javax.swing.JFrame{
 		tree.changeWind(1, .5);
 		
 		g.setColor(new Color(150, 100, 55));
-		g.fillPolygon(getTrunk(tree));
+		g.fillPolygon(normToCenter(tree.getTrunk()));
 		g.setColor(new Color(88,188,63));
-		g.fillPolygon(getCrown(tree));
+		g.fillPolygon(normToCenter(tree.getCrown()));
 		
 		
 	}
 	
-	//Pion
-	private void rotX(double[] tab,double r){
-		r = -r*Math.PI/2;
-		double p[][]={
-			{tab[0],0,0,0},
-			{0,tab[1],0,0},
-			{0,0,tab[2],0},
-			{0,0,0,1}};
-		double rot[][]={
-			{1,0,0,0},
-			{0,Math.cos(r),Math.sin(r),0},
-			{0,-Math.sin(r),Math.cos(r),0},
-			{0,0,0,1}};
-		double c[][]={
-			{0,0,0,0},
-			{0,0,0,0},
-			{0,0,0,0},
-			{0,0,0,0}};
-		
-		for(int i=0; i<4; i++){
-			for(int j=0; j<4; j++){
-				c[i][j] = p[i][0]*rot[0][j] + p[i][1]*rot[1][j] + p[i][2]*rot[2][j] + p[i][3]*rot[3][j];
-			}
-		}
-		
-		for(int i=0; i<3; i++){
-			tab[i] = c[0][i]+c[1][i]+c[2][i]+c[3][i];
-		}
-	}
-	
-	//Obrót
-	private void rotZ(double[] tab,double r){
-		r = -r*Math.PI*2;
-		double p[][]={
-			{tab[0],0,0,0},
-			{0,tab[1],0,0},
-			{0,0,tab[2],0},
-			{0,0,0,1}};
-		double rot[][]={
-			{Math.cos(r),Math.sin(r),0,0},
-			{-Math.sin(r),Math.cos(r),0,0},
-			{0,0,1,0},
-			{0,0,0,1}};
-		double c[][]={
-			{0,0,0,0},
-			{0,0,0,0},
-			{0,0,0,0},
-			{0,0,0,0}};
-		
-		for(int i=0; i<4; i++){
-			for(int j=0; j<4; j++){
-				c[i][j] = p[i][0]*rot[0][j] + p[i][1]*rot[1][j] + p[i][2]*rot[2][j] + p[i][3]*rot[3][j];
-			}
-		}
-		
-		for(int i=0; i<3; i++){
-			tab[i] = c[0][i]+c[1][i]+c[2][i]+c[3][i];
-		}
-	}
 }
