@@ -226,6 +226,18 @@ public class GUInterface extends javax.swing.JFrame{
 		return (bgHeight/2)-(int)((z+sin45*y)*printscale);
 	}
 	
+	private int toIzoX(double tab[]){
+		return (bgWidth/2 )+(int)((tab[0]+sin45*tab[1])*printscale);
+	}
+	private int toIzoY(double tab[]){
+		return (bgHeight/2)-(int)((tab[2]+sin45*tab[1])*printscale);
+	}
+	private void addTreeCord(double tab[], double x, double y, double z){
+		tab[0] += x;
+		tab[1] += y;
+		tab[2] += z;
+	}
+	
 	
 	private void drawTerrain(Graphics g){
 		int terrainWidth = 50;
@@ -276,36 +288,57 @@ public class GUInterface extends javax.swing.JFrame{
 		g.fillPolygon(new Polygon(xUp, yUp, 4));
 	}
 	
-	
+	private void moveTree(double p[], TreeGUI tree){
+		rotX(p,tree.windPower);
+		rotZ(p,tree.windRotation);
+		addTreeCord(p,tree.x, tree.y, tree.z);
+	}
 	private Polygon getTrunk(TreeGUI tree){
 		int[] xpoints = new int[4];
 		int[] ypoints = new int[4];
 		int trunkWidth = 1;
 		
-		xpoints[0] = toIzoX(tree.x-trunkWidth, tree.y, tree.z);
-		xpoints[1] = toIzoX(tree.x-trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
-		xpoints[2] = toIzoX(tree.x+trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
-		xpoints[3] = toIzoX(tree.x+trunkWidth, tree.y, tree.z);
+		double[] p1 = {-trunkWidth,0,0};
+		double[] p2 = {-trunkWidth,0,+tree.height-tree.crownHeight};
+		double[] p3 = {+trunkWidth,0,+tree.height-tree.crownHeight};
+		double[] p4 = {+trunkWidth,0,0};
 		
-		ypoints[0] = toIzoY(tree.x-trunkWidth, tree.y, tree.z);
-		ypoints[1] = toIzoY(tree.x-trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
-		ypoints[2] = toIzoY(tree.x+trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
-		ypoints[3] = toIzoY(tree.x+trunkWidth, tree.y, tree.z);
+		moveTree(p1, tree);
+		moveTree(p2, tree);
+		moveTree(p3, tree);
+		moveTree(p4, tree);
+		
+		xpoints[0] = toIzoX(p1);
+		xpoints[1] = toIzoX(p2);
+		xpoints[2] = toIzoX(p3);
+		xpoints[3] = toIzoX(p4);
+		
+		ypoints[0] = toIzoY(p1);
+		ypoints[1] = toIzoY(p2);
+		ypoints[2] = toIzoY(p3);
+		ypoints[3] = toIzoY(p4);
 		
 		return new Polygon(xpoints, ypoints, 4);
-	}
-	
+	}	
 	private Polygon getCrown(TreeGUI tree){
 		int[] xpoints = new int[3];
 		int[] ypoints = new int[3];
 		
-		xpoints[0] = toIzoX(tree.x, tree.y, tree.z+tree.height);
-		xpoints[1] = toIzoX(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
-		xpoints[2] = toIzoX(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		double[] p1 = {0,0,tree.height};
+		double[] p2 = { tree.crownWidth/2,0,tree.height-tree.crownHeight};
+		double[] p3 = {-tree.crownWidth/2,0,tree.height-tree.crownHeight};
 		
-		ypoints[0] = toIzoY(tree.x, tree.y, tree.z+tree.height);
-		ypoints[1] = toIzoY(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
-		ypoints[2] = toIzoY(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		moveTree(p1, tree);
+		moveTree(p2, tree);
+		moveTree(p3, tree);
+		
+		xpoints[0] = toIzoX(p1);
+		xpoints[1] = toIzoX(p2);
+		xpoints[2] = toIzoX(p3);
+		
+		ypoints[0] = toIzoY(p1);
+		ypoints[1] = toIzoY(p2);
+		ypoints[2] = toIzoY(p3);
 		
 		return new Polygon(xpoints, ypoints, 3);
 	}
@@ -318,16 +351,73 @@ public class GUInterface extends javax.swing.JFrame{
 		drawTerrain(g);
 		
 		TreeGUI tree = new TreeGUI(0,0,0,15);
-		
+		tree.changeWind(1, .5);
 		
 		g.setColor(new Color(150, 100, 55));
 		g.fillPolygon(getTrunk(tree));
 		g.setColor(new Color(88,188,63));
 		g.fillPolygon(getCrown(tree));
 		
-		//  fillPolygon(Polygon p)
 		
-		// 	fillPolygon(int[] xPoints, int[] yPoints, int nPoints)
-		//  Fills a closed polygon defined by arrays of x and y coordinates.
+	}
+	
+	//Pion
+	private void rotX(double[] tab,double r){
+		r = -r*Math.PI/2;
+		double p[][]={
+			{tab[0],0,0,0},
+			{0,tab[1],0,0},
+			{0,0,tab[2],0},
+			{0,0,0,1}};
+		double rot[][]={
+			{1,0,0,0},
+			{0,Math.cos(r),Math.sin(r),0},
+			{0,-Math.sin(r),Math.cos(r),0},
+			{0,0,0,1}};
+		double c[][]={
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0}};
+		
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				c[i][j] = p[i][0]*rot[0][j] + p[i][1]*rot[1][j] + p[i][2]*rot[2][j] + p[i][3]*rot[3][j];
+			}
+		}
+		
+		for(int i=0; i<3; i++){
+			tab[i] = c[0][i]+c[1][i]+c[2][i]+c[3][i];
+		}
+	}
+	
+	//Obrót
+	private void rotZ(double[] tab,double r){
+		r = -r*Math.PI*2;
+		double p[][]={
+			{tab[0],0,0,0},
+			{0,tab[1],0,0},
+			{0,0,tab[2],0},
+			{0,0,0,1}};
+		double rot[][]={
+			{Math.cos(r),Math.sin(r),0,0},
+			{-Math.sin(r),Math.cos(r),0,0},
+			{0,0,1,0},
+			{0,0,0,1}};
+		double c[][]={
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0}};
+		
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				c[i][j] = p[i][0]*rot[0][j] + p[i][1]*rot[1][j] + p[i][2]*rot[2][j] + p[i][3]*rot[3][j];
+			}
+		}
+		
+		for(int i=0; i<3; i++){
+			tab[i] = c[0][i]+c[1][i]+c[2][i]+c[3][i];
+		}
 	}
 }
