@@ -217,31 +217,62 @@ public class GUInterface extends javax.swing.JFrame{
 		//g.setColor(new Color(140, 140, 140));
 	}
 	
+	private int printscale = 2;
 	private double sin45 = .70710678118654752440084436210484903928483593768847;
 	private int toIzoX(double x, double y, double z){
-		return (bgWidth/2)+(int)x+(int)(sin45*y);
+		return (bgWidth/2 )+(int)((x+sin45*y)*printscale);
 	}
 	private int toIzoY(double x, double y, double z){
-		return (bgHeight/2)-(int)z-(int)(sin45*y);
+		return (bgHeight/2)-(int)((z+sin45*y)*printscale);
 	}
 	
 	
 	private void drawTerrain(Graphics g){
+		int terrainWidth = 50;
+		int terrainHeight = 50;
+		int terrainBold = 10;
 		
 		int[] xUp = new int[4];
 		int[] yUp = new int[4];
 		
-		xUp[0] = toIzoX(0,0,0);
-		xUp[1] = toIzoX(100,0,0);
-		xUp[2] = toIzoX(100,100,0);
-		xUp[3] = toIzoX(0,100,0);
+		xUp[0] = toIzoX(-terrainWidth/2,-terrainHeight/2,0);
+		xUp[1] = toIzoX( terrainWidth/2,-terrainHeight/2,0);
+		xUp[2] = toIzoX( terrainWidth/2, terrainHeight/2,0);
+		xUp[3] = toIzoX(-terrainWidth/2, terrainHeight/2,0);
 		
-		yUp[0] = toIzoY(0,0,0);
-		yUp[1] = toIzoY(100,0,0);
-		yUp[2] = toIzoY(100,100,0);
-		yUp[3] = toIzoY(0,100,0);
+		yUp[0] = toIzoY(-terrainWidth/2,-terrainHeight/2,0);
+		yUp[1] = toIzoY( terrainWidth/2,-terrainHeight/2,0);
+		yUp[2] = toIzoY( terrainWidth/2, terrainHeight/2,0);
+		yUp[3] = toIzoY(-terrainWidth/2, terrainHeight/2,0);
 		
-		g.setColor(new Color(128, 128, 128));
+		g.setColor(new Color(35, 92, 39));
+		g.fillPolygon(new Polygon(xUp, yUp, 4));
+		
+		
+		xUp[0] = toIzoX(-terrainWidth/2,-terrainHeight/2,-terrainBold);
+		xUp[1] = toIzoX( terrainWidth/2,-terrainHeight/2,-terrainBold);
+		xUp[2] = toIzoX( terrainWidth/2,-terrainHeight/2,0);
+		xUp[3] = toIzoX(-terrainWidth/2,-terrainHeight/2,0);
+		
+		yUp[0] = toIzoY(-terrainWidth/2,-terrainHeight/2,-terrainBold);
+		yUp[1] = toIzoY( terrainWidth/2,-terrainHeight/2,-terrainBold);
+		yUp[2] = toIzoY( terrainWidth/2,-terrainHeight/2,0);
+		yUp[3] = toIzoY(-terrainWidth/2,-terrainHeight/2,0);
+		
+		g.setColor(new Color(150, 100, 55));
+		g.fillPolygon(new Polygon(xUp, yUp, 4));
+		
+		xUp[0] = toIzoX( terrainWidth/2,-terrainHeight/2,-terrainBold);
+		xUp[1] = toIzoX( terrainWidth/2, terrainHeight/2,-terrainBold);
+		xUp[2] = toIzoX( terrainWidth/2, terrainHeight/2,0);
+		xUp[3] = toIzoX( terrainWidth/2,-terrainHeight/2,0);
+		
+		yUp[0] = toIzoY( terrainWidth/2,-terrainHeight/2,-terrainBold);
+		yUp[1] = toIzoY( terrainWidth/2, terrainHeight/2,-terrainBold);
+		yUp[2] = toIzoY( terrainWidth/2, terrainHeight/2,0);
+		yUp[3] = toIzoY( terrainWidth/2,-terrainHeight/2,0);
+		
+		g.setColor(new Color(100, 50, 5));
 		g.fillPolygon(new Polygon(xUp, yUp, 4));
 	}
 	
@@ -249,14 +280,17 @@ public class GUInterface extends javax.swing.JFrame{
 	private Polygon getTrunk(TreeGUI tree){
 		int[] xpoints = new int[4];
 		int[] ypoints = new int[4];
+		int trunkWidth = 1;
 		
-		xpoints[0] = toIzoX(tree.x, tree.y, tree.z+tree.height);
-		xpoints[1] = toIzoX(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
-		xpoints[2] = toIzoX(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		xpoints[0] = toIzoX(tree.x-trunkWidth, tree.y, tree.z);
+		xpoints[1] = toIzoX(tree.x-trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
+		xpoints[2] = toIzoX(tree.x+trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
+		xpoints[3] = toIzoX(tree.x+trunkWidth, tree.y, tree.z);
 		
-		ypoints[0] = toIzoY(tree.x, tree.y, tree.z+tree.height);
-		ypoints[1] = toIzoY(tree.x+tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
-		ypoints[2] = toIzoY(tree.x-tree.crownWidth/2, tree.y, tree.z+tree.height-tree.crownHeight);
+		ypoints[0] = toIzoY(tree.x-trunkWidth, tree.y, tree.z);
+		ypoints[1] = toIzoY(tree.x-trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
+		ypoints[2] = toIzoY(tree.x+trunkWidth, tree.y, tree.z+tree.height-tree.crownHeight);
+		ypoints[3] = toIzoY(tree.x+trunkWidth, tree.y, tree.z);
 		
 		return new Polygon(xpoints, ypoints, 4);
 	}
@@ -286,7 +320,9 @@ public class GUInterface extends javax.swing.JFrame{
 		TreeGUI tree = new TreeGUI(0,0,0,15);
 		
 		
-		g.setColor(new Color(0, 255, 0));
+		g.setColor(new Color(150, 100, 55));
+		g.fillPolygon(getTrunk(tree));
+		g.setColor(new Color(88,188,63));
 		g.fillPolygon(getCrown(tree));
 		
 		//  fillPolygon(Polygon p)
