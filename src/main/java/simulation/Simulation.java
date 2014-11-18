@@ -1,15 +1,16 @@
-package simulation;
+package main.java.simulation;
 
 import rankine.Rankine;
-import trees.Hwind;
-import trees.HwindData;
-import trees.Tree;
+import main.java.trees.Hwind;
+import main.java.trees.HwindData;
+import main.java.trees.Tree;
 
 import java.awt.*;
 import java.util.LinkedList;
 
 /**
  * Created by Krzysiek on 17/11/2014.
+ * Mariusz Nyznar to Gej
  */
 public class Simulation {
 

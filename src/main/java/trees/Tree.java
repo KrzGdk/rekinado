@@ -1,4 +1,4 @@
-package trees;
+package main.java.trees;
 
 import java.awt.Point;
 

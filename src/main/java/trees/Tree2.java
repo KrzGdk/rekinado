@@ -1,6 +1,6 @@
-package rekinado;
+package trees;
 
-public class Tree {
+public class Tree2 {
 	public double x;
 	public double y;
 	public double z;
@@ -12,7 +12,7 @@ public class Tree {
 	public boolean fallen = false;
 	public boolean cracked = false;
 	
-	public Tree(double x, double y, double z, int height){
+	public Tree2(double x, double y, double z, int height){
 		this.x = x;
 		this.y = y;
 		this.z = z;

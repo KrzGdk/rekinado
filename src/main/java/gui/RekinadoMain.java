@@ -1,5 +1,5 @@
 
-package rekinado;
+package main.java.gui;
 
 import java.io.FileNotFoundException;
 
@@ -13,6 +13,9 @@ public class RekinadoMain {
 		public void simulate(){
 			gui.print();
 			
+		}
+		public void reset(){
+					
 		}
 
 	}

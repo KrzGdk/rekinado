@@ -30,3 +30,16 @@ hs_err_pid*
 .idea/libraries/Gradle__java3d_vecmath_1_3_1.xml
 .idea/libraries/Gradle__junit_junit_4_11.xml
 .idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
+build.xml
+build/built-jar.properties
+build/classes/.netbeans_automatic_build
+build/classes/.netbeans_update_resources
+build/classes/rekinado/GUIInfo.form
+build/classes/rekinado/GUInterface.form
+manifest.mf
+nbproject/build-impl.xml
+nbproject/genfiles.properties
+nbproject/private/private.properties
+nbproject/private/private.xml
+nbproject/project.properties
+nbproject/project.xml

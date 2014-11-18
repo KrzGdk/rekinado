@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package rekinado;
+package main.java.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

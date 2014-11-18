@@ -1,6 +1,6 @@
-package rekinado;
+package main.java.gui;
 
-import rekinado.RekinadoMain.UIListener;
+import main.java.gui.RekinadoMain.UIListener;
 
 public class GUInterface extends javax.swing.JFrame{
 
@@ -26,8 +26,8 @@ public class GUInterface extends javax.swing.JFrame{
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        btnSolve = new javax.swing.JButton();
-        btnSolve1 = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        btnSim = new javax.swing.JButton();
         BG = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -40,27 +40,27 @@ public class GUInterface extends javax.swing.JFrame{
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "kontrola"));
         jPanel3.setName("nowa krzyzowka"); // NOI18N
 
-        btnSolve.setText("Reset");
-        btnSolve.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnReset.setText("Reset");
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSolveMouseClicked(evt);
+                btnResetMouseClicked(evt);
             }
         });
-        btnSolve.addActionListener(new java.awt.event.ActionListener() {
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSolveActionPerformed(evt);
+                btnResetActionPerformed(evt);
             }
         });
 
-        btnSolve1.setText("Symuluj");
-        btnSolve1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSim.setText("Symuluj");
+        btnSim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSolve1MouseClicked(evt);
+                btnSimMouseClicked(evt);
             }
         });
-        btnSolve1.addActionListener(new java.awt.event.ActionListener() {
+        btnSim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSolve1ActionPerformed(evt);
+                btnSimActionPerformed(evt);
             }
         });
 
@@ -69,16 +69,16 @@ public class GUInterface extends javax.swing.JFrame{
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(btnSolve, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSolve1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSim, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 228, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(btnSolve)
-                .addComponent(btnSolve1))
+                .addComponent(btnReset)
+                .addComponent(btnSim))
         );
 
         BG.setBackground(new java.awt.Color(255, 255, 255));
@@ -120,10 +120,10 @@ public class GUInterface extends javax.swing.JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSolveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSolveMouseClicked
+    private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
 		listener.actualizeUI(this);
-		listener.simulate();
-    }//GEN-LAST:event_btnSolveMouseClicked
+		listener.reset();
+    }//GEN-LAST:event_btnResetMouseClicked
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
        //print(lab);
@@ -133,17 +133,18 @@ public class GUInterface extends javax.swing.JFrame{
        //print();
     }//GEN-LAST:event_BGComponentResized
 
-    private void btnSolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSolveActionPerformed
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        
+    }//GEN-LAST:event_btnResetActionPerformed
 
-    private void btnSolve1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSolve1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSolve1MouseClicked
+    private void btnSimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimMouseClicked
+        listener.actualizeUI(this);
+		listener.simulate();
+    }//GEN-LAST:event_btnSimMouseClicked
 
-    private void btnSolve1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolve1ActionPerformed
+    private void btnSimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSolve1ActionPerformed
+    }//GEN-LAST:event_btnSimActionPerformed
 
 	public static void start() {
 		/* Set the Nimbus look and feel */
@@ -179,8 +180,8 @@ public class GUInterface extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
-    private javax.swing.JButton btnSolve;
-    private javax.swing.JButton btnSolve1;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSim;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
        
