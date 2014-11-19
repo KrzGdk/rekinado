@@ -217,7 +217,7 @@ public class GUInterface extends javax.swing.JFrame{
 		//g.setColor(new Color(140, 140, 140));
 	}
 	
-	private static int printscale = 2;
+	private static int printscale = 4;
 	private static double sin45 = .70710678118654752440084436210484903928483593768847;
 	public static int toIzoX(double x, double y, double z){
 		return (int) Math.round((x+sin45*y)*printscale);
@@ -305,21 +305,31 @@ public class GUInterface extends javax.swing.JFrame{
 		g.fillPolygon(normToCenter(new Polygon(xUp, yUp, 4)));
 	}
 	
-
-	public void print() {
-		//System.out.print("PRINT!!!");
-		//dialog("Mariusz Nyznar to gej");
+	private void sortTrees(TreeGUI tree[], int ntree){
+		TreeGUI temp;
+		for(int i=0;i<ntree-1;i++){
+			for(int j=0;j<ntree-i-1;j++){
+				if(tree[j].x-tree[j].y>tree[j+1].x-tree[j+1].y){
+					temp = tree[j];
+					tree[j] = tree[j+1];
+					tree[j+1]= temp;
+				}
+			}			
+		}
+	}
+	public void printFrame(TreeGUI tree[], int ntree) {
 		Graphics g = BG.getGraphics();
 		clearBG(g);
 		drawTerrain(g);
 		
-		TreeGUI tree = new TreeGUI(0,0,0,15);
-		tree.changeWind(1, .5);
+		sortTrees(tree, ntree);
 		
-		g.setColor(new Color(150, 100, 55));
-		g.fillPolygon(normToCenter(tree.getTrunk()));
-		g.setColor(new Color(88,188,63));
-		g.fillPolygon(normToCenter(tree.getCrown()));
+		for(int i=0; i<ntree;i++){
+			g.setColor(tree[i].getTrunkColor());
+			g.fillPolygon(normToCenter(tree[i].getTrunk()));
+			g.setColor(tree[i].getCrownColor());
+			g.fillPolygon(normToCenter(tree[i].getCrown()));
+		}
 		
 		
 	}

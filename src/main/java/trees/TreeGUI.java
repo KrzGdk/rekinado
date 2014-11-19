@@ -1,6 +1,8 @@
 package main.java.trees;
 
+import java.awt.Color;
 import java.awt.Polygon;
+import java.util.Random;
 import main.java.gui.GUInterface;
 
 public class TreeGUI {
@@ -10,13 +12,15 @@ public class TreeGUI {
 	public int height;
 	public double crownHeight;
 	public double crownWidth;
-		
+	
 	public double windRotation = 0; //0..1 (0-up, .25-right, .5-down, .75-left)
 	public double windPower = 0; //0..1
 	
 	public boolean fallen = false;
 	public boolean cracked = false;
 	
+	private Color trunkColor;
+	private Color crownColor;
 	
 	public TreeGUI(double x, double y, double z, int height){
 		this.x = x;
@@ -26,7 +30,11 @@ public class TreeGUI {
 		this.crownHeight = height*.7;//HwindData.crownHeight; // To dac z konstruktora;
 		this.crownWidth = height*.5;//HwindData.crownWidth; // To dac z konstruktora;
 		
-		//Losować kolor
+		Random rand = new Random();
+		int hvar = 30; //amplituda losowania koloru
+		int var = hvar*2;
+		this.trunkColor = new Color(150+rand.nextInt(var)-hvar,100+rand.nextInt(var)-hvar,55+rand.nextInt(var)-hvar);
+		this.crownColor = new Color(88+rand.nextInt(var)-hvar,188+rand.nextInt(var)-hvar,63+rand.nextInt(var)-hvar);
 	}
 	public void fall(){
 		this.fallen = true;
@@ -41,6 +49,16 @@ public class TreeGUI {
 	
 	// Do grafiki
 
+	public Color getTrunkColor(){
+		if(fallen ) return Color.blue;
+		if(cracked) return Color.red;
+		return trunkColor;
+	}
+	public Color getCrownColor(){
+		if(fallen ) return Color.blue;
+		if(cracked) return Color.red;
+		return crownColor;		
+	}
 	
 	private void moveTree(double p[]){
 		rotX(p,windPower);
