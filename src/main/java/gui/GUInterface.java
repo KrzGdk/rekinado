@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import main.java.gui.RekinadoMain.UIListener;
 import java.awt.Polygon;
+import main.java.simulation.Simulation;
 import main.java.trees.TreeGUI;
 
 public class GUInterface extends javax.swing.JFrame{
@@ -77,7 +78,7 @@ public class GUInterface extends javax.swing.JFrame{
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSim, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 228, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,11 +99,11 @@ public class GUInterface extends javax.swing.JFrame{
         BG.setLayout(BGLayout);
         BGLayout.setHorizontalGroup(
             BGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 772, Short.MAX_VALUE)
         );
         BGLayout.setVerticalGroup(
             BGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 248, Short.MAX_VALUE)
+            .addGap(0, 408, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -110,9 +111,7 @@ public class GUInterface extends javax.swing.JFrame{
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,8 +212,6 @@ public class GUInterface extends javax.swing.JFrame{
 		bgHeight = BG.getHeight();
 		g.setColor(Color.white);
 		g.fillRect(1, 1, bgWidth - 2, bgHeight - 2);
-		
-		//g.setColor(new Color(140, 140, 140));
 	}
 	
 	private static int printscale = 4;
@@ -242,8 +239,8 @@ public class GUInterface extends javax.swing.JFrame{
 
 	
 	private void drawTerrain(Graphics g){
-		int terrainWidth = 50;
-		int terrainHeight = 50;
+		int terrainWidth = Simulation.forestLength;
+		int terrainHeight = Simulation.forestWidth;
 		int terrainBold = 10;
 		
 		int[] xUp = new int[4];
@@ -330,8 +327,39 @@ public class GUInterface extends javax.swing.JFrame{
 			g.setColor(tree[i].getCrownColor());
 			g.fillPolygon(normToCenter(tree[i].getCrown()));
 		}
-		
-		
-	}
+		printMiniature(g, tree, ntree);
+	}	
 	
+	private void printMiniature(Graphics g, TreeGUI tree[], int ntree){
+		int x = 3;
+		int y = 3;
+		int h = 200;
+		int w = 200;
+		int terrainWidth = Simulation.forestLength;
+		int terrainHeight = Simulation.forestWidth;
+		
+		int treeX;
+		int treeY;
+		
+		int Xr = (w/terrainWidth );
+		int Yr = (h/terrainHeight);
+		int treeXs;
+		int treeYs;
+		
+		double angle;
+		
+		g.setColor(Color.black);
+		g.fillRect(x-1, y-1, w+2, h+2);
+		g.setColor(Color.white);
+		g.fillRect(x, y, w, h);
+		for(int i=0;i<ntree;i++){
+			treeX = (int) (x+( tree[i].x+.5)*Xr+w/2);
+			treeY = (int) (y+(-tree[i].y-.5)*Yr+h/2);
+			treeXs = (int) ((Xr-2)*tree[i].windPower +1);
+			treeYs = (int) ((Yr-2)*tree[i].windPower +1);
+			angle = tree[i].windRotation*Math.PI;
+			g.setColor(tree[i].getCrownColor());			
+			g.drawLine(treeX,treeY,treeX+(int)(treeXs*Math.sin(angle)),treeY+(int)(treeYs*Math.cos(angle)));
+		}
+	}
 }
