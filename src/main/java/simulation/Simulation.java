@@ -65,8 +65,12 @@ public class Simulation {
 		for(int i = 0; i < forestLength; ++i){
             for(int j = 0; j < forestWidth; ++j) {
                 forestList[k] = new TreeGUI(forest[i][j].position.x, forest[i][j].position.y, 0, forest[i][j].height);
-				if(forest[i][j].isFallen) forestList[k].fall();
-				forestList[k].changeWind(1, -forest[i][j].lastWindAngle/Math.PI);
+				if(forest[i][j].isFallen){
+                    forestList[k].fall();
+                    forestList[k].changeWind(1, -forest[i][j].lastWindAngle / Math.PI);
+                }else{
+                    forestList[k].changeWind(0, -forest[i][j].lastWindAngle/Math.PI);
+                }
 				k++;
             }
         }
@@ -142,9 +146,9 @@ public class Simulation {
                 break;
             }
         }
-		getForestList(); //JACEK DAŁ
-		//getForestRandom(); //JACEK DAŁ
-		gui.printFrame(forestList, nforest);  //JACEK DAŁ
+		getForestList(); //JACEK DAL
+		//getForestRandom(); //JACEK DAL
+		gui.printFrame(forestList, nforest);  //JACEK DAL
 		
         System.out.println("Simulation ended");
     }

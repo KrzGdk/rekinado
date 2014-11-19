@@ -214,7 +214,7 @@ public class GUInterface extends javax.swing.JFrame{
 		g.fillRect(1, 1, bgWidth - 2, bgHeight - 2);
 	}
 	
-	private static int printscale = 4;
+	private static int printscale = 2;
 	private static double sin45 = .70710678118654752440084436210484903928483593768847;
 	public static int toIzoX(double x, double y, double z){
 		return (int) Math.round((x+sin45*y)*printscale);
@@ -224,10 +224,10 @@ public class GUInterface extends javax.swing.JFrame{
 	}
 	
 	public static int toIzoX(double tab[]){
-		return (int) Math.round((tab[0]+sin45*tab[1])*printscale);
+		return (int) Math.round((tab[0]*6+sin45*tab[1]*6)*printscale);
 	}
 	public static int toIzoY(double tab[]){
-		return (int)-Math.round((tab[2]+sin45*tab[1])*printscale);
+		return (int)-Math.round((tab[2]+sin45*tab[1]*6)*printscale);
 	}
 	private Polygon normToCenter(Polygon p){ // To center of Word
 		for(int i=0; i<p.npoints;i++){
