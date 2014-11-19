@@ -1,7 +1,7 @@
 package main.java.trees;
 
 
-import rankine.*;
+import main.java.rankine.*;
 
 import javax.vecmath.Vector2d;
 import java.util.LinkedList;

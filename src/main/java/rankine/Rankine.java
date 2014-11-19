@@ -1,7 +1,7 @@
-package rankine;
+package main.java.rankine;
 
 
-import trees.*;
+import main.java.trees.*;
 import java.util.LinkedList;
 
 import java.awt.Point;

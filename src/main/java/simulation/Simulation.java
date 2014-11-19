@@ -1,6 +1,6 @@
 package main.java.simulation;
 
-import rankine.Rankine;
+import main.java.rankine.Rankine;
 import main.java.trees.Hwind;
 import main.java.trees.HwindData;
 import main.java.trees.Tree;
@@ -31,8 +31,8 @@ public class Simulation {
     }
 
     public static void fillForest() {
-        for(int i = 0; i < forestLength; ++i){
-            for(int j = 0; j < forestWidth; ++j) {
+        for(int i = 0; i < forestLength; i+=1){
+            for(int j = 0; j < forestWidth; j+=1) {
                 forest[i][j] = new Tree(new Point(i-forestLength/2, j-forestWidth/2), (int) (Math.random() * 10 + 10));
             }
         }
