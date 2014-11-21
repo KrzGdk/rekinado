@@ -1,8 +1,10 @@
 package main.java.trees;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.Random;
+import static main.java.gui.GUInterface.normToCenter;
 import static main.java.gui.GUInterface.toIzoX;
 import static main.java.gui.GUInterface.toIzoY;
 
@@ -93,6 +95,11 @@ public class TreeGUI {
 		this.crackedColor = new Color(255-rand.nextInt(var*2),0,0);
 	}
 
+	// TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// Funkcja w ktorej drzewo pyta rankine jaka siła na nią działa
+	// Funkcja sprawdzająca czy suma sił wyrwała drzewo
+	
+	
 	/**
 	 * wyrwanie drzewa
 	 */
@@ -118,14 +125,47 @@ public class TreeGUI {
 		this.windRotation = windRotation;
 	}
 	
+	public double distance(TreeGUI tree){
+		double ax = x - tree.x;
+		double ay = y - tree.y;
+		double az = z - tree.z;
+		return Math.sqrt(ax*ax+ay*ay+az*az);
+	}
+	
+	public Boolean collisionTest(TreeGUI tree){
+		if(distance(tree)>height+tree.height) return false;
+		double[] peak1 = {0,0,height};
+		double[] trunk1 = {x,y,z};
+		//double[] side1 = {crownWidth/2,0,height-crownHeight};
+		calcPoint(peak1);
+		//calcPoint(side1);
+		
+		return true;
+	}
+	
 	// Do grafiki
 
+
+	public void draw(Graphics g){
+		Polygon[] crown = new Polygon [4];
+		
+		g.setColor(getTrunkColor());
+		g.fillPolygon(getTrunk());
+		
+		getCrown(crown);
+		g.setColor(getCrownColor());
+		g.fillPolygon(crown[0]);
+		g.fillPolygon(crown[1]);
+		g.fillPolygon(crown[2]);
+		g.fillPolygon(crown[3]);
+	}
+	
 	/**
 	 * Zwraca kolor pnia drzewa
 	 * 
 	 * @return kolor
 	 */
-	public Color getTrunkColor(){
+	private Color getTrunkColor(){
 		if(fallen ) return fallenColor;
 		if(cracked) return crackedColor;
 		return trunkColor;
@@ -147,7 +187,7 @@ public class TreeGUI {
 	 * 
 	 * @param p współrzędne [x][y][z]
 	 */
-	private void moveTree(double p[]){
+	private void calcPoint(double p[]){
 		rotX(p,windPower);
 		rotZ(p,windRotation);
 		addTreeCord(p, x, y, z);
@@ -158,7 +198,7 @@ public class TreeGUI {
 	 * 
 	 * @return współrzędne 2d
 	 */
-	public Polygon getTrunk(){
+	private Polygon getTrunk(){
 		int[] xpoints = new int[4];
 		int[] ypoints = new int[4];
 		int trunkWidth = 1;
@@ -168,10 +208,10 @@ public class TreeGUI {
 		double[] p3 = {+trunkWidth,0,+height-crownHeight};
 		double[] p4 = {+trunkWidth,0,0};
 		
-		moveTree(p1);
-		moveTree(p2);
-		moveTree(p3);
-		moveTree(p4);
+		calcPoint(p1);
+		calcPoint(p2);
+		calcPoint(p3);
+		calcPoint(p4);
 		
 		xpoints[0] = toIzoX(p1);
 		xpoints[1] = toIzoX(p2);
@@ -183,36 +223,44 @@ public class TreeGUI {
 		ypoints[2] = toIzoY(p3);
 		ypoints[3] = toIzoY(p4);
 		
-		return new Polygon(xpoints, ypoints, 4);
+		return normToCenter(new Polygon(xpoints, ypoints, 4));
 	}	
 
 	/**
-	 * Zwraca Polygon rzutowanych na 2d konturów korony drzewa
+	 * Wrzuca do tablicy 4 Polygon'y z trójkątami drzewa
 	 * 
-	 * @return współrzędne 2d
+	 * @param crown tablica Polygon[4]
 	 */
-	public Polygon getCrown(){
+	private void getCrown(Polygon[] crown){
 		int[] xpoints = new int[3];
 		int[] ypoints = new int[3];
 		
-		double[] p1 = {0,0,height};
-		double[] p2 = { crownWidth/2,0,height-crownHeight};
-		double[] p3 = {-crownWidth/2,0,height-crownHeight};
+		double[] peak = {0,0,height};
+		double[][] p = {{ crownWidth/2, 0           ,height-crownHeight},
+			            { 0           , crownWidth/2,height-crownHeight},
+		                {-crownWidth/2, 0           ,height-crownHeight},
+		                { 0           ,-crownWidth/2,height-crownHeight}
+		                };
 		
-		moveTree(p1);
-		moveTree(p2);
-		moveTree(p3);
+		calcPoint(peak);
+		calcPoint(p[0]);
+		calcPoint(p[1]);
+		calcPoint(p[2]);
+		calcPoint(p[3]);
 		
-		xpoints[0] = toIzoX(p1);
-		xpoints[1] = toIzoX(p2);
-		xpoints[2] = toIzoX(p3);
+		for(int i=0; i<4; ++i){
+			xpoints[0] = toIzoX(peak);
+			xpoints[1] = toIzoX(p[i]);
+			xpoints[2] = toIzoX(p[(i+1)%4]);
 		
-		ypoints[0] = toIzoY(p1);
-		ypoints[1] = toIzoY(p2);
-		ypoints[2] = toIzoY(p3);
-		
-		return new Polygon(xpoints, ypoints, 3);
+			ypoints[0] = toIzoY(peak);
+			ypoints[1] = toIzoY(p[i]);
+			ypoints[2] = toIzoY(p[(i+1)%4]);
+			
+			crown[i] = normToCenter(new Polygon(xpoints, ypoints, 3));
+		}
 	}
+	
 	
 	// Przesuń na współrzędne
 	private void addTreeCord(double tab[], double x, double y, double z){

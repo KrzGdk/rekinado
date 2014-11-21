@@ -210,17 +210,9 @@ public class GUInterface extends javax.swing.JFrame{
 
 	/**
 	 * Wyświetla okienko błędu
-	 * "Nie znaleziono pliku"
-	 */
-	public void fileNotFound() {
-		dialog("Nie znaleziono pliku");
-	}
-	
-	/**
-	 * Wyświetla okienko błędu
 	 * @param text tekst do wyświetlenia
 	 */
-	private void dialog(String text){
+	public void dialog(String text){
 		if(infoBox == null) infoBox = new GUIInfo(this, false);
 		infoBox.setVisible(false);
 		infoBox.setLocationRelativeTo(this);
@@ -234,6 +226,9 @@ public class GUInterface extends javax.swing.JFrame{
 	 */
 	private static int printscale = 2;
 	
+	/**
+	 * Wymiary Obszaru Wizualizacji
+	 */
 	private static int bgW, bgH ;	
 	
 	private static BufferedImage canvas = null;	
@@ -298,7 +293,7 @@ public class GUInterface extends javax.swing.JFrame{
 	 * 
 	 * @param g Graphics
 	 */
-	private void drawBG(Graphics g){
+	private void bgDraw(Graphics g){
 		g.setColor(Color.white);
 		g.fillRect(1, 1, bgW - 2, bgH - 2);
 	}
@@ -309,7 +304,7 @@ public class GUInterface extends javax.swing.JFrame{
 	 * @param tree tablica drzew
 	 * @param ntree liczba drzew
 	 */
-	private void drawMiniature(Graphics g, TreeGUI tree[], int ntree){
+	private void miniatureDraw(Graphics g, TreeGUI tree[], int ntree){
 		int x = 3;
 		int y = 3;
 		int h = 200;
@@ -360,23 +355,20 @@ public class GUInterface extends javax.swing.JFrame{
 		canvas = new BufferedImage(bgW,bgH,BufferedImage.TYPE_INT_ARGB);
 		Graphics g = canvas.createGraphics();
 				
-		drawBG(g);
+		bgDraw(g);
 		TerrainGUI.draw(g);
 		
-		sortTrees(tree, ntree);
+		sortTrees(tree, ntree); // To Dać po generacji!
 		for(int i=0; i<ntree;i++){
 			if(!tornadoWasDrawn && tornadoDist<tree[i].x-tree[i].y){
 				tornadoWasDrawn = true;
 				TornadoGUI.draw(canvas,bgW/2,bgH/2);
 				TornadoGUI.moveParticles();
 			}
-			g.setColor(tree[i].getTrunkColor());
-			g.fillPolygon(normToCenter(tree[i].getTrunk()));
-			g.setColor(tree[i].getCrownColor());
-			g.fillPolygon(normToCenter(tree[i].getCrown()));
+			tree[i].draw(g);
 		}
 						
-		drawMiniature(g, tree, ntree);
+		miniatureDraw(g, tree, ntree);
         ((Graphics2D) BG.getGraphics()).drawImage(canvas, null, null);
 	}	
 	

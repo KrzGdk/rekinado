@@ -58,7 +58,7 @@ public class Simulation {
 					rand.nextInt(var)-hvar,
 					rand.nextInt(var)-hvar,
 					0,rand.nextInt(10)+10);
-			//forestList[i].changeWind(rand.nextDouble(), 0);
+			forestList[i].changeWind(rand.nextDouble(), 0);
 		}
 		forestList[5].fall();
 		forestList[6].crack();
