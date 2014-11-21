@@ -11,17 +11,15 @@ import main.java.simulation.Simulation;
 import main.java.trees.TreeGUI;
 
 /**
- *
- * @author Jacek
+ * Klasa Głównego okna GUI
+ * 
+ * @author Jacek Pietras
  */
 public class GUInterface extends javax.swing.JFrame{
 
 	private static boolean started = false;
 	private GUIInfo infoBox = null;
 	
-	/**
-	 *
-	 */
 	public GUInterface() {
 		initComponents();
 		if (!started) {
@@ -159,9 +157,6 @@ public class GUInterface extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSimActionPerformed
 
-	/**
-	 *
-	 */
 	public static void start() {
 		/* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -188,6 +183,7 @@ public class GUInterface extends javax.swing.JFrame{
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				new GUInterface().setVisible(true);
 			}
@@ -204,19 +200,26 @@ public class GUInterface extends javax.swing.JFrame{
 	private static UIListener listener;
 
 	/**
-	 *
-	 * @param l
+	 * Dodaje nasłuchiwacza eventów do gui
+	 * 
+	 * @param l nowy listener
 	 */
 	public void addListener(UIListener l) {
 		listener = l;
 	}
 
 	/**
-	 *
+	 * Wyświetla okienko błędu
+	 * "Nie znaleziono pliku"
 	 */
 	public void fileNotFound() {
 		dialog("Nie znaleziono pliku");
 	}
+	
+	/**
+	 * Wyświetla okienko błędu
+	 * @param text tekst do wyświetlenia
+	 */
 	private void dialog(String text){
 		if(infoBox == null) infoBox = new GUIInfo(this, false);
 		infoBox.setVisible(false);
@@ -226,46 +229,57 @@ public class GUInterface extends javax.swing.JFrame{
 		infoBox.setVisible(true);
 	}
 	
-	private static int bgWidth ;
-	private static int bgHeight ;
-	//private int terrainWidth = Simulation.forestLength;
-	//private int terrainHeight = Simulation.forestWidth;
-	
-	private static BufferedImage canvas = null;
-	
+	/**
+	 * Zoom w grafice
+	 */
 	private static int printscale = 2;
+	
+	private static int bgW, bgH ;	
+	
+	private static BufferedImage canvas = null;	
 	private static double sin45 = Math.sin(Math.PI/4);
 	
 	/**
-	 *
-	 * @param tab
-	 * @return
+	 * Rzutuje tablice [x][y][z] na izometryczny rzut 2d
+	 * 
+	 * @param tab tablica [x][y][z]
+	 * @return współrzędna x
 	 */
 	public static int toIzoX(double tab[]){
 		return (int) Math.round((tab[0]+sin45*tab[1])*printscale);
 	}
 
 	/**
-	 *
-	 * @param tab
-	 * @return
+	 * Rzutuje tablice [x][y][z] na izometryczny rzut 2d
+	 * 
+	 * @param tab tablica [x][y][z]
+	 * @return współrzędna y
 	 */
 	public static int toIzoY(double tab[]){
-		return (int)-Math.round((tab[2]+sin45*tab[1])*printscale*.8); //.8 to magiczna stała piękności
+		//.8 to magiczna stała piękności
+		return (int)-Math.round((tab[2]+sin45*tab[1])*printscale*.8); 
 	}
 
 	/**
-	 *
-	 * @param p
-	 * @return
+	 * Normalizuje punkty Polygon do środka obrazka
+	 * 
+	 * @param p Polygon do znormalizowania
+	 * @return znormalizowany Polygon
 	 */
 	public static Polygon normToCenter(Polygon p){ // To center of Word
 		for(int i=0; i<p.npoints;i++){
-			p.xpoints[i]+=(bgWidth/2 );
-			p.ypoints[i]+=(bgHeight/2);
+			p.xpoints[i]+=(bgW/2 );
+			p.ypoints[i]+=(bgH/2);
 		}
 		return p;
 	}
+	
+	/**
+	 * Sortuje drzewa dystansem od ekranu (Zsort)
+	 * 
+	 * @param tree tablica drzew
+	 * @param ntree liczba drzew
+	 */
 	private void sortTrees(TreeGUI tree[], int ntree){
 		TreeGUI temp;
 		for(int i=0;i<ntree-1;i++){
@@ -279,11 +293,22 @@ public class GUInterface extends javax.swing.JFrame{
 		}
 	}
 
+	/**
+	 * Rysuje białe tło w obszarze wizualizacji
+	 * 
+	 * @param g Graphics
+	 */
 	private void drawBG(Graphics g){
 		g.setColor(Color.white);
-		g.fillRect(1, 1, bgWidth - 2, bgHeight - 2);
+		g.fillRect(1, 1, bgW - 2, bgH - 2);
 	}
 	
+	/**
+	 * Rysuje rzut poziomy lasu
+	 * @param g Graphics
+	 * @param tree tablica drzew
+	 * @param ntree liczba drzew
+	 */
 	private void drawMiniature(Graphics g, TreeGUI tree[], int ntree){
 		int x = 3;
 		int y = 3;
@@ -313,32 +338,36 @@ public class GUInterface extends javax.swing.JFrame{
 			treeYs = (int) ((Yr-2)*tree[i].windPower +1);
 			angle = tree[i].windRotation*Math.PI;
 			g.setColor(tree[i].getCrownColor());			
-			g.drawLine(treeX,treeY,treeX+(int)(treeXs*Math.sin(angle)),treeY+(int)(treeYs*Math.cos(angle)));
+			g.drawLine(
+					treeX,treeY,
+					treeX+(int)(treeXs*Math.sin(angle)),
+					treeY+(int)(treeYs*Math.cos(angle)));
 		}
 	}
 		
 	/**
-	 *
-	 * @param tree
-	 * @param ntree
+	 * Wyświetla ramke wizualizacji
+	 * 
+	 * @param tree tablica drzew
+	 * @param ntree liczba drzew
 	 */
 	public void printFrame(TreeGUI tree[], int ntree) {
-		bgWidth  = BG.getWidth();
-		bgHeight = BG.getHeight();
+		bgW  = BG.getWidth();
+		bgH = BG.getHeight();
 		Boolean tornadoWasDrawn = false;
-		double tornadoDist = TornadoGUI.x+TornadoGUI.radius(0)-TornadoGUI.y-TornadoGUI.radius(0);
+		double tornadoDist = TornadoGUI.x-TornadoGUI.y+TornadoGUI.radius(0);
 		
-		canvas = new BufferedImage(bgWidth, bgHeight, BufferedImage.TYPE_INT_ARGB);
+		canvas = new BufferedImage(bgW,bgH,BufferedImage.TYPE_INT_ARGB);
 		Graphics g = canvas.createGraphics();
 				
 		drawBG(g);
 		TerrainGUI.draw(g);
 		
 		sortTrees(tree, ntree);
-		for(int i=0; i<ntree;i++){//-TornadoGUI.radius(0)
+		for(int i=0; i<ntree;i++){
 			if(!tornadoWasDrawn && tornadoDist<tree[i].x-tree[i].y){
 				tornadoWasDrawn = true;
-				TornadoGUI.draw(canvas,bgWidth/2,bgHeight/2);
+				TornadoGUI.draw(canvas,bgW/2,bgH/2);
 				TornadoGUI.moveParticles();
 			}
 			g.setColor(tree[i].getTrunkColor());
@@ -347,9 +376,6 @@ public class GUInterface extends javax.swing.JFrame{
 			g.fillPolygon(normToCenter(tree[i].getCrown()));
 		}
 						
-		
-		
-		
 		drawMiniature(g, tree, ntree);
         ((Graphics2D) BG.getGraphics()).drawImage(canvas, null, null);
 	}	

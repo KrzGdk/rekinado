@@ -15,15 +15,16 @@ public class RekinadoMain {
 	public static class UIListener {
 
 		/**
-		 *
-		 * @param newui
+		 * Podpina gui
+		 * 
+		 * @param newui nowy wskaźnik na ui
 		 */
 		public void actualizeUI(GUInterface newui){
 			gui = newui;
 		}
 		
 		/**
-		 *
+		 * Wywołanie symulacji
 		 */
 		public void simulate(){
 			Simulation.simMain(gui);
@@ -32,7 +33,7 @@ public class RekinadoMain {
 		}
 
 		/**
-		 *
+		 * Zresetowanie do stanu początkowego
 		 */
 		public void reset(){
 			Simulation.onlyFrame(gui);
@@ -43,7 +44,8 @@ public class RekinadoMain {
 	private static final UIListener uilistener = new UIListener();
 
 	/**
-	 *
+	 * Główna funkcja
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

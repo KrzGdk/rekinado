@@ -242,7 +242,11 @@ public class TreeGUI {
 		
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
-				c[i][j] = p[i][0]*rot[0][j] + p[i][1]*rot[1][j] + p[i][2]*rot[2][j] + p[i][3]*rot[3][j];
+				c[i][j] = 
+						p[i][0]*rot[0][j] + 
+						p[i][1]*rot[1][j] + 
+						p[i][2]*rot[2][j] + 
+						p[i][3]*rot[3][j];
 			}
 		}
 		
@@ -272,7 +276,11 @@ public class TreeGUI {
 		
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
-				c[i][j] = p[i][0]*rot[0][j] + p[i][1]*rot[1][j] + p[i][2]*rot[2][j] + p[i][3]*rot[3][j];
+				c[i][j] = 
+						p[i][0]*rot[0][j] + 
+						p[i][1]*rot[1][j] +
+						p[i][2]*rot[2][j] + 
+						p[i][3]*rot[3][j];
 			}
 		}
 		
