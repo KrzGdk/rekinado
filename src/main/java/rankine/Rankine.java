@@ -37,10 +37,23 @@ public class Rankine {
      */
     private double V_tr = 0.0;
 
-    public Rankine() {
+	/**
+	 *
+	 */
+	public Rankine() {
     }
 
-    public Rankine(int x, int y, double angle, double R_max, double Vfi_max, double Vr_max, double V_tr) {
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param angle
+	 * @param R_max
+	 * @param Vfi_max
+	 * @param Vr_max
+	 * @param V_tr
+	 */
+	public Rankine(int x, int y, double angle, double R_max, double Vfi_max, double Vr_max, double V_tr) {
         this.angle = angle;
         this.R_max = R_max;
         this.Vfi_max = Vfi_max;
@@ -50,28 +63,53 @@ public class Rankine {
         this.V_tr = V_tr;
     }
 
-    public void setOrigin(Point o) {
+	/**
+	 *
+	 * @param o
+	 */
+	public void setOrigin(Point o) {
         origin = o;
     }
 
-    public void setOrigin(int x, int y) {
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 */
+	public void setOrigin(int x, int y) {
         origin.x = x;
         origin.y = y;
     }
 
-    public Point getOrigin() {
+	/**
+	 *
+	 * @return
+	 */
+	public Point getOrigin() {
         return origin;
     }
 
-    public double getAngle() {
+	/**
+	 *
+	 * @return
+	 */
+	public double getAngle() {
         return angle;
     }
 
-    public void setAngle(double angle) {
+	/**
+	 *
+	 * @param angle
+	 */
+	public void setAngle(double angle) {
         this.angle = angle;
     }
 
-    public void calculateNewCenter(int deltaT) {
+	/**
+	 *
+	 * @param deltaT
+	 */
+	public void calculateNewCenter(int deltaT) {
         double s = V_tr * deltaT;
         double deltaY = s * Math.cos(angle);
         double deltaX = s * Math.sin(angle);
@@ -79,7 +117,13 @@ public class Rankine {
         origin.y += deltaY; // mozna zamienic na - w razie czego
     }
 
-    public Vector2d calculateWind(int x, int y) {
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public Vector2d calculateWind(int x, int y) {
         double r = origin.distance(x, y);
         double Vfi, Vr;
         if (r <= R_max) {

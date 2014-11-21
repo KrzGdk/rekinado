@@ -5,14 +5,23 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import main.java.gui.RekinadoMain.UIListener;
 import java.awt.Polygon;
+import java.awt.image.BufferedImage;
+import main.java.rankine.TornadoGUI;
 import main.java.simulation.Simulation;
 import main.java.trees.TreeGUI;
 
+/**
+ *
+ * @author Jacek
+ */
 public class GUInterface extends javax.swing.JFrame{
 
 	private static boolean started = false;
 	private GUIInfo infoBox = null;
 	
+	/**
+	 *
+	 */
 	public GUInterface() {
 		initComponents();
 		if (!started) {
@@ -150,6 +159,9 @@ public class GUInterface extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSimActionPerformed
 
+	/**
+	 *
+	 */
 	public static void start() {
 		/* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -190,9 +202,18 @@ public class GUInterface extends javax.swing.JFrame{
     // End of variables declaration//GEN-END:variables
        
 	private static UIListener listener;
+
+	/**
+	 *
+	 * @param l
+	 */
 	public void addListener(UIListener l) {
 		listener = l;
 	}
+
+	/**
+	 *
+	 */
 	public void fileNotFound() {
 		dialog("Nie znaleziono pliku");
 	}
@@ -205,103 +226,46 @@ public class GUInterface extends javax.swing.JFrame{
 		infoBox.setVisible(true);
 	}
 	
-	private int bgWidth ;
-	private int bgHeight ;
-	public void clearBG(Graphics g){
-		bgWidth  = BG.getWidth();
-		bgHeight = BG.getHeight();
-		g.setColor(Color.white);
-		g.fillRect(1, 1, bgWidth - 2, bgHeight - 2);
-	}
+	private static int bgWidth ;
+	private static int bgHeight ;
+	//private int terrainWidth = Simulation.forestLength;
+	//private int terrainHeight = Simulation.forestWidth;
+	
+	private static BufferedImage canvas = null;
 	
 	private static int printscale = 2;
-	private static double sin45 = .70710678118654752440084436210484903928483593768847;
-	public static int toIzoX(double x, double y, double z){
-		return (int) Math.round((x+sin45*y)*printscale);
-	}
-	public static int toIzoY(double x, double y, double z){
-		return (int)-Math.round((z+sin45*y)*printscale);
-	}
+	private static double sin45 = Math.sin(Math.PI/4);
 	
+	/**
+	 *
+	 * @param tab
+	 * @return
+	 */
 	public static int toIzoX(double tab[]){
-		return (int) Math.round((tab[0]*6+sin45*tab[1]*6)*printscale);
+		return (int) Math.round((tab[0]+sin45*tab[1])*printscale);
 	}
+
+	/**
+	 *
+	 * @param tab
+	 * @return
+	 */
 	public static int toIzoY(double tab[]){
-		return (int)-Math.round((tab[2]+sin45*tab[1]*6)*printscale);
+		return (int)-Math.round((tab[2]+sin45*tab[1])*printscale*.8); //.8 to magiczna stała piękności
 	}
-	private Polygon normToCenter(Polygon p){ // To center of Word
+
+	/**
+	 *
+	 * @param p
+	 * @return
+	 */
+	public static Polygon normToCenter(Polygon p){ // To center of Word
 		for(int i=0; i<p.npoints;i++){
 			p.xpoints[i]+=(bgWidth/2 );
 			p.ypoints[i]+=(bgHeight/2);
 		}
 		return p;
 	}
-
-	
-	private void drawTerrain(Graphics g){
-		int terrainWidth = Simulation.forestLength;
-		int terrainHeight = Simulation.forestWidth;
-		int terrainBold = 10;
-		
-		int[] xUp = new int[4];
-		int[] yUp = new int[4];
-		
-		double[] p1 = {-terrainWidth/2,-terrainHeight/2,0};
-		double[] p2 = { terrainWidth/2,-terrainHeight/2,0};
-		double[] p3 = { terrainWidth/2, terrainHeight/2,0};
-		double[] p4 = {-terrainWidth/2, terrainHeight/2,0};
-		
-		double[] d1 = {-terrainWidth/2,-terrainHeight/2,-terrainBold};
-		double[] d2 = { terrainWidth/2,-terrainHeight/2,-terrainBold};
-		double[] d3 = { terrainWidth/2,-terrainHeight/2,0};
-		double[] d4 = {-terrainWidth/2,-terrainHeight/2,0};
-		
-		double[] l1 = { terrainWidth/2,-terrainHeight/2,-terrainBold};
-		double[] l2 = { terrainWidth/2, terrainHeight/2,-terrainBold};
-		double[] l3 = { terrainWidth/2, terrainHeight/2,0};
-		double[] l4 = { terrainWidth/2,-terrainHeight/2,0};
-		
-		xUp[0] = toIzoX(p1);
-		xUp[1] = toIzoX(p2);
-		xUp[2] = toIzoX(p3);
-		xUp[3] = toIzoX(p4);
-		
-		yUp[0] = toIzoY(p1);
-		yUp[1] = toIzoY(p2);
-		yUp[2] = toIzoY(p3);
-		yUp[3] = toIzoY(p4);
-		
-		g.setColor(new Color(35, 92, 39));
-		g.fillPolygon(normToCenter(new Polygon(xUp, yUp, 4)));
-		
-		
-		xUp[0] = toIzoX(d1);
-		xUp[1] = toIzoX(d2);
-		xUp[2] = toIzoX(d3);
-		xUp[3] = toIzoX(d4);
-		
-		yUp[0] = toIzoY(d1);
-		yUp[1] = toIzoY(d2);
-		yUp[2] = toIzoY(d3);
-		yUp[3] = toIzoY(d4);
-		
-		g.setColor(new Color(150, 100, 55));
-		g.fillPolygon(normToCenter(new Polygon(xUp, yUp, 4)));
-		
-		xUp[0] = toIzoX(l1);
-		xUp[1] = toIzoX(l2);
-		xUp[2] = toIzoX(l3);
-		xUp[3] = toIzoX(l4);
-		
-		yUp[0] = toIzoY(l1);
-		yUp[1] = toIzoY(l2);
-		yUp[2] = toIzoY(l3);
-		yUp[3] = toIzoY(l4);
-		
-		g.setColor(new Color(100, 50, 5));
-		g.fillPolygon(normToCenter(new Polygon(xUp, yUp, 4)));
-	}
-	
 	private void sortTrees(TreeGUI tree[], int ntree){
 		TreeGUI temp;
 		for(int i=0;i<ntree-1;i++){
@@ -314,23 +278,13 @@ public class GUInterface extends javax.swing.JFrame{
 			}			
 		}
 	}
-	public void printFrame(TreeGUI tree[], int ntree) {
-		Graphics g = BG.getGraphics();
-		clearBG(g);
-		drawTerrain(g);
-		
-		sortTrees(tree, ntree);
-		
-		for(int i=0; i<ntree;i++){
-			g.setColor(tree[i].getTrunkColor());
-			g.fillPolygon(normToCenter(tree[i].getTrunk()));
-			g.setColor(tree[i].getCrownColor());
-			g.fillPolygon(normToCenter(tree[i].getCrown()));
-		}
-		printMiniature(g, tree, ntree);
-	}	
+
+	private void drawBG(Graphics g){
+		g.setColor(Color.white);
+		g.fillRect(1, 1, bgWidth - 2, bgHeight - 2);
+	}
 	
-	private void printMiniature(Graphics g, TreeGUI tree[], int ntree){
+	private void drawMiniature(Graphics g, TreeGUI tree[], int ntree){
 		int x = 3;
 		int y = 3;
 		int h = 200;
@@ -362,4 +316,43 @@ public class GUInterface extends javax.swing.JFrame{
 			g.drawLine(treeX,treeY,treeX+(int)(treeXs*Math.sin(angle)),treeY+(int)(treeYs*Math.cos(angle)));
 		}
 	}
+		
+	/**
+	 *
+	 * @param tree
+	 * @param ntree
+	 */
+	public void printFrame(TreeGUI tree[], int ntree) {
+		bgWidth  = BG.getWidth();
+		bgHeight = BG.getHeight();
+		Boolean tornadoWasDrawn = false;
+		double tornadoDist = TornadoGUI.x+TornadoGUI.radius(0)-TornadoGUI.y-TornadoGUI.radius(0);
+		
+		canvas = new BufferedImage(bgWidth, bgHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = canvas.createGraphics();
+				
+		drawBG(g);
+		TerrainGUI.draw(g);
+		
+		sortTrees(tree, ntree);
+		for(int i=0; i<ntree;i++){//-TornadoGUI.radius(0)
+			if(!tornadoWasDrawn && tornadoDist<tree[i].x-tree[i].y){
+				tornadoWasDrawn = true;
+				TornadoGUI.draw(canvas,bgWidth/2,bgHeight/2);
+				TornadoGUI.moveParticles();
+			}
+			g.setColor(tree[i].getTrunkColor());
+			g.fillPolygon(normToCenter(tree[i].getTrunk()));
+			g.setColor(tree[i].getCrownColor());
+			g.fillPolygon(normToCenter(tree[i].getCrown()));
+		}
+						
+		
+		
+		
+		drawMiniature(g, tree, ntree);
+        ((Graphics2D) BG.getGraphics()).drawImage(canvas, null, null);
+	}	
+	
+	
 }

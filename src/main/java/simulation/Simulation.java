@@ -6,7 +6,6 @@ import main.java.trees.HwindData;
 import main.java.trees.Tree;
 
 import java.awt.*;
-import java.util.LinkedList;
 import java.util.Random;
 import main.java.gui.GUInterface;
 import main.java.trees.TreeGUI;
@@ -19,18 +18,32 @@ public class Simulation {
 
     private static Rankine vortex = new Rankine(0,0,Math.PI/4,3,8,7,2);
     private static Hwind hWindModel;
-    public static int forestLength = 20;
-    public static int forestWidth = 20;
+
+	/**
+	 *
+	 */
+	public static int forestLength = 200;
+
+	/**
+	 *
+	 */
+	public static int forestWidth = 200;
     private static Tree[][] forest = new Tree[forestLength][forestWidth];
 
-    public Simulation(){//Rankine vortex, int forestLength, int forestWidth) {
+	/**
+	 *
+	 */
+	public Simulation(){//Rankine vortex, int forestLength, int forestWidth) {
         //this.vortex = vortex;
         //this.forestLength = forestLength;
         //this.forestWidth = forestWidth;
         //this.forest = new Tree[forestLength][forestWidth];
     }
 
-    public static void fillForest() {
+	/**
+	 *
+	 */
+	public static void fillForest() {
         for(int i = 0; i < forestLength; i+=1){
             for(int j = 0; j < forestWidth; j+=1) {
                 forest[i][j] = new Tree(new Point(i-forestLength/2, j-forestWidth/2), (int) (Math.random() * 10 + 10));
@@ -40,18 +53,18 @@ public class Simulation {
 
 	//DO GUI
 	private static TreeGUI[] forestList;
-	private static int nforest = 10;
+	private static int nforest = 0;
 	private static void getForestRandom(){
 		Random rand = new Random();
 		int hvar = forestLength/2;
 		int var = forestLength;
-		nforest = 10;
+		nforest = 100;
 		
 		forestList = new TreeGUI[nforest];
 		
 		for(int i=0; i<nforest;i++){
 			forestList[i] = new TreeGUI(rand.nextInt(var)-hvar,rand.nextInt(var)-hvar,0,rand.nextInt(10)+10);
-			forestList[i].changeWind(rand.nextDouble(), 0);
+			//forestList[i].changeWind(rand.nextDouble(), 0);
 		}
 		forestList[5].fall();
 		forestList[6].crack();
@@ -75,13 +88,18 @@ public class Simulation {
             }
         }
 	}
-	
-	
-    public static void setDefaultHWindModel() {
+
+	/**
+	 *
+	 */
+	public static void setDefaultHWindModel() {
         hWindModel = new Hwind(forest, new HwindData());
     }
 
-    public static void printForest() {
+	/**
+	 *
+	 */
+	public static void printForest() {
         for(int i = 0; i < forestLength; ++i){
             for(int j = 0; j < forestWidth; ++j) {
                 if(vortex.getOrigin().equals(new Point(i,j))) {
@@ -95,27 +113,51 @@ public class Simulation {
         }
     }
 
-    public Rankine getVortex() {
+	/**
+	 *
+	 * @return
+	 */
+	public Rankine getVortex() {
         return vortex;
     }
 
-    public int size() {
+	/**
+	 *
+	 * @return
+	 */
+	public int size() {
         return forestLength * forestWidth;
     }
 
-    public void setVortex(Rankine vortex) {
+	/**
+	 *
+	 * @param vortex
+	 */
+	public void setVortex(Rankine vortex) {
         this.vortex = vortex;
     }
 
-    public Tree[][] getForest() {
+	/**
+	 *
+	 * @return
+	 */
+	public Tree[][] getForest() {
         return forest;
     }
 
-    public void setForest(Tree[][] forest) {
+	/**
+	 *
+	 * @param forest
+	 */
+	public void setForest(Tree[][] forest) {
         this.forest = forest;
     }
 
-    public static void simulate() throws Exception{
+	/**
+	 *
+	 * @throws Exception
+	 */
+	public static void simulate() throws Exception{
         vortex.calculateNewCenter(1);
         if(vortex.getOrigin().x >= forestLength || vortex.getOrigin().y >= forestWidth) {
             throw new Exception("Vortex origin out of bounds: (" + vortex.getOrigin().x + "," + vortex.getOrigin().y + ")");
@@ -127,8 +169,12 @@ public class Simulation {
         }
     }
 
-    public static void simMain(GUInterface gui) {
-        //Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
+	/**
+	 *
+	 * @param gui
+	 */
+	public static void simMain(GUInterface gui) {
+        /*//Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
         int maxTime = 30;
         //Simulation simulation = new Simulation(wir,20,20);
         fillForest();
@@ -145,11 +191,19 @@ public class Simulation {
                 System.out.println(e);
                 break;
             }
-        }
-		getForestList(); //JACEK DAL
-		//getForestRandom(); //JACEK DAL
+        }*/
+		//getForestList(); //JACEK DAL
+		getForestRandom(); //JACEK DAL
 		gui.printFrame(forestList, nforest);  //JACEK DAL
 		
         System.out.println("Simulation ended");
     }
+
+	/**
+	 *
+	 * @param gui
+	 */
+	public static void onlyFrame(GUInterface gui) {
+		gui.printFrame(forestList, nforest); 
+	}
 }

@@ -19,7 +19,12 @@ public class Hwind {
     private HwindData data;
     private Vector2d northVec = new Vector2d(0, 1);
 
-    public Hwind(Tree[][] forest, HwindData data){
+	/**
+	 *
+	 * @param forest
+	 * @param data
+	 */
+	public Hwind(Tree[][] forest, HwindData data){
         this.data = data;
         double heightSum = 0;
 
@@ -33,7 +38,13 @@ public class Hwind {
         meanHeight = heightSum / (forest.length * forest[0].length);
     }
 
-    public double calcTreeForce(Tree tree, Rankine rankine){
+	/**
+	 *
+	 * @param tree
+	 * @param rankine
+	 * @return
+	 */
+	public double calcTreeForce(Tree tree, Rankine rankine){
         double bendingMoment = 0;
 
         for(int i = 0; i < tree.height; ++i) {

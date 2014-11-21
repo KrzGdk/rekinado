@@ -33,6 +33,8 @@ public class GUIInfo extends javax.swing.JDialog {
 
 	/**
 	 * Creates new form GUIInfo
+	 * @param parent
+	 * @param modal
 	 */
 	public GUIInfo(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -134,12 +136,15 @@ public class GUIInfo extends javax.swing.JDialog {
 		dispose();
 	}
 	
+	/**
+	 *
+	 * @param text
+	 */
 	public void setText(String text){
 		info.setText(text);
 	}
 
 	/**
-	 * @param args the command line arguments
 	 */
 	public static void start() {
 		/* Set the Nimbus look and feel */
