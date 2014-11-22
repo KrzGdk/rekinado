@@ -60,8 +60,8 @@ public class Simulation {
 					0,rand.nextInt(10)+10);
 			forestList[i].changeWind(rand.nextDouble(), 0);
 		}
-		forestList[5].fall();
-		forestList[6].crack();
+		//forestList[5].fall();
+		//forestList[6].crack();
 		
 	}
 	private static void getForestList(){

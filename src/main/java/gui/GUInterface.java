@@ -365,6 +365,12 @@ public class GUInterface extends javax.swing.JFrame{
 				TornadoGUI.draw(canvas,bgW/2,bgH/2);
 				TornadoGUI.moveParticles();
 			}
+			for(int j=0; j<ntree;j++){ //Kolicje wywalic z grafiki
+				if(tree[i].collisionTest(tree[j])){
+					tree[i].crack();
+					tree[j].fall();
+				}
+			}
 			tree[i].draw(g);
 		}
 						

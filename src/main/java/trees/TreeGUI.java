@@ -132,16 +132,67 @@ public class TreeGUI {
 		return Math.sqrt(ax*ax+ay*ay+az*az);
 	}
 	
+	/*public Boolean collisionTest2(TreeGUI tree){
+		if(distance(tree)>height+tree.height) return false;
+		if(this == tree) return false;
+		
+		Boolean solve = false;
+		Polygon[] crown1 = new Polygon [4];
+		Polygon[] crown2 = new Polygon [4];
+		     getCrownHorizontal(crown1);
+		tree.getCrownHorizontal(crown2);
+		for(int i=0; i<4; ++i){
+			//peak
+			solve |= pointInPolygon(crown1[0].xpoints[0], crown1[0].ypoints[0], crown2[i]);
+			//sides
+			solve |= pointInPolygon(crown1[0].xpoints[1], crown1[0].ypoints[1], crown2[i]);
+			solve |= pointInPolygon(crown1[1].xpoints[1], crown1[1].ypoints[1], crown2[i]);
+			solve |= pointInPolygon(crown1[2].xpoints[1], crown1[2].ypoints[1], crown2[i]);
+			solve |= pointInPolygon(crown1[3].xpoints[1], crown1[3].ypoints[1], crown2[i]);
+		}
+		return solve;
+	}*/
 	public Boolean collisionTest(TreeGUI tree){
 		if(distance(tree)>height+tree.height) return false;
-		double[] peak1 = {0,0,height};
-		double[] trunk1 = {x,y,z};
-		//double[] side1 = {crownWidth/2,0,height-crownHeight};
-		calcPoint(peak1);
-		//calcPoint(side1);
+		if(this == tree) return false;
 		
-		return true;
+		Boolean solve = false;
+		double[][][] crown1 = new double [4][3][2];//[trojkat][punkt][x|y]
+		double[][][] crown2 = new double [4][3][2];
+		     getCrownHorizontal(crown1);
+		tree.getCrownHorizontal(crown2);
+		for(int i=0; i<4; ++i){
+			//peak
+			solve |= pointInPolygon(crown1[0][0][0], crown1[0][0][1], crown2[i]);
+			//sides
+			solve |= pointInPolygon(crown1[0][1][0], crown1[0][1][1], crown2[i]);
+			solve |= pointInPolygon(crown1[1][1][0], crown1[1][1][1], crown2[i]);
+			solve |= pointInPolygon(crown1[2][1][0], crown1[2][1][1], crown2[i]);
+			solve |= pointInPolygon(crown1[3][1][0], crown1[3][1][1], crown2[i]);
+		}
+		return solve;
 	}
+	
+	//Boolean pointInPolygon(int x, int y, Polygon poly) { 
+	Boolean pointInPolygon(double x, double y, double[][] poly) { 
+		int i, j = 0; 
+		Boolean oddNODES = false; 
+		for (i = 0; i < 3; i++) { 
+			j++; 
+			if (j == 3) j = 0; 
+			if (	poly[i][1] < y && poly[j][1] >= y ||
+					poly[j][1] < y && poly[i][1] >= y) { 
+				if (	poly[i][0] 
+						+ (y - poly[i][1]) / (poly[j][1] 
+						- poly[i][1]) * (poly[j][0] 
+						- poly[i][0]) < x) { 
+					oddNODES = !oddNODES; 
+				} 
+			} 
+		} 
+		return oddNODES; 
+	}
+	
 	
 	// Do grafiki
 
@@ -150,9 +201,9 @@ public class TreeGUI {
 		Polygon[] crown = new Polygon [4];
 		
 		g.setColor(getTrunkColor());
-		g.fillPolygon(getTrunk());
+		g.fillPolygon(getTrunkIzo());
 		
-		getCrown(crown);
+		getCrownIzo(crown);
 		g.setColor(getCrownColor());
 		g.fillPolygon(crown[0]);
 		g.fillPolygon(crown[1]);
@@ -198,7 +249,7 @@ public class TreeGUI {
 	 * 
 	 * @return współrzędne 2d
 	 */
-	private Polygon getTrunk(){
+	private Polygon getTrunkIzo(){
 		int[] xpoints = new int[4];
 		int[] ypoints = new int[4];
 		int trunkWidth = 1;
@@ -226,12 +277,43 @@ public class TreeGUI {
 		return normToCenter(new Polygon(xpoints, ypoints, 4));
 	}	
 
+	
 	/**
-	 * Wrzuca do tablicy 4 Polygon'y z trójkątami drzewa
+	 * Wrzuca do tablicy 4 trójkąty drzewa w rzucie z góry
+	 * 
+	 * @param crown tablica double[4][3][2]
+	 */
+	public void getCrownHorizontal(double[][][] crown){
+		double[] peak = {0,0,height};
+		double[][] p = {{ crownWidth/2, 0           ,height-crownHeight},
+			            { 0           , crownWidth/2,height-crownHeight},
+		                {-crownWidth/2, 0           ,height-crownHeight},
+		                { 0           ,-crownWidth/2,height-crownHeight}
+		                };
+		
+		calcPoint(peak);
+		calcPoint(p[0]);
+		calcPoint(p[1]);
+		calcPoint(p[2]);
+		calcPoint(p[3]);
+		
+		for(int i=0; i<4; ++i){
+			crown[i][0][0] = peak[0];
+			crown[i][1][0] = p[i][0];
+			crown[i][2][0] = p[(i+1)%4][0];
+		
+			crown[i][0][1] = peak[1];
+			crown[i][1][1] = p[i][1];
+			crown[i][2][1] = p[(i+1)%4][1];
+		}
+	}
+	
+	/**
+	 * Wrzuca do tablicy 4 Polygon'y z trójkątami drzewa rzut izomorficzny
 	 * 
 	 * @param crown tablica Polygon[4]
 	 */
-	private void getCrown(Polygon[] crown){
+	private void getCrownIzo(Polygon[] crown){
 		int[] xpoints = new int[3];
 		int[] ypoints = new int[3];
 		
