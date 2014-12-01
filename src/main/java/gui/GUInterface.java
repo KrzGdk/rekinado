@@ -360,6 +360,10 @@ public class GUInterface extends javax.swing.JFrame{
 		
 		sortTrees(tree, ntree); // To Dać po generacji!
 		for(int i=0; i<ntree;i++){
+			tree[i].drawShadow(g);
+		}
+		TornadoGUI.drawShadow(canvas,bgW/2,bgH/2);
+		for(int i=0; i<ntree;i++){
 			if(!tornadoWasDrawn && tornadoDist<tree[i].x-tree[i].y){
 				tornadoWasDrawn = true;
 				TornadoGUI.draw(canvas,bgW/2,bgH/2);

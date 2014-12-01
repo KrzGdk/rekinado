@@ -7,6 +7,7 @@ import java.util.Random;
 import static main.java.gui.GUInterface.normToCenter;
 import static main.java.gui.GUInterface.toIzoX;
 import static main.java.gui.GUInterface.toIzoY;
+import main.java.simulation.Simulation;
 
 /**
  * Klasa drzewa przystosowana do rysowania
@@ -61,6 +62,12 @@ public class TreeGUI {
 	private Color crownColor;
 	private Color fallenColor;
 	private Color crackedColor;
+	private Color ShadowColor = new Color(0,50,0);
+	
+	/**
+	 * Promień podstawy pnia
+	 */
+	private int trunkWidth = 1;
 	
 	/**
 	 * Konstruktor drzewa
@@ -119,6 +126,7 @@ public class TreeGUI {
 	 * 
 	 * @param windPower 0..1, pochylenie w poziomie
 	 * @param windRotation 0..1, kąt pod jakim się pochyla
+	 * @author Jacek Pietras
 	 */
 	public void changeWind(double windPower, double windRotation){
 		this.windPower = windPower;
@@ -132,26 +140,6 @@ public class TreeGUI {
 		return Math.sqrt(ax*ax+ay*ay+az*az);
 	}
 	
-	/*public Boolean collisionTest2(TreeGUI tree){
-		if(distance(tree)>height+tree.height) return false;
-		if(this == tree) return false;
-		
-		Boolean solve = false;
-		Polygon[] crown1 = new Polygon [4];
-		Polygon[] crown2 = new Polygon [4];
-		     getCrownHorizontal(crown1);
-		tree.getCrownHorizontal(crown2);
-		for(int i=0; i<4; ++i){
-			//peak
-			solve |= pointInPolygon(crown1[0].xpoints[0], crown1[0].ypoints[0], crown2[i]);
-			//sides
-			solve |= pointInPolygon(crown1[0].xpoints[1], crown1[0].ypoints[1], crown2[i]);
-			solve |= pointInPolygon(crown1[1].xpoints[1], crown1[1].ypoints[1], crown2[i]);
-			solve |= pointInPolygon(crown1[2].xpoints[1], crown1[2].ypoints[1], crown2[i]);
-			solve |= pointInPolygon(crown1[3].xpoints[1], crown1[3].ypoints[1], crown2[i]);
-		}
-		return solve;
-	}*/
 	public Boolean collisionTest(TreeGUI tree){
 		if(distance(tree)>height+tree.height) return false;
 		if(this == tree) return false;
@@ -173,7 +161,6 @@ public class TreeGUI {
 		return solve;
 	}
 	
-	//Boolean pointInPolygon(int x, int y, Polygon poly) { 
 	Boolean pointInPolygon(double x, double y, double[][] poly) { 
 		int i, j = 0; 
 		Boolean oddNODES = false; 
@@ -211,6 +198,11 @@ public class TreeGUI {
 		g.fillPolygon(crown[3]);
 	}
 	
+	public void drawShadow(Graphics g){
+		
+		g.setColor(ShadowColor);
+		g.fillPolygon(getShadowIzo());
+	}
 	/**
 	 * Zwraca kolor pnia drzewa
 	 * 
@@ -252,7 +244,6 @@ public class TreeGUI {
 	private Polygon getTrunkIzo(){
 		int[] xpoints = new int[4];
 		int[] ypoints = new int[4];
-		int trunkWidth = 1;
 		
 		double[] p1 = {-trunkWidth,0,0};
 		double[] p2 = {-trunkWidth,0,+height-crownHeight};
@@ -343,6 +334,65 @@ public class TreeGUI {
 		}
 	}
 	
+	private Polygon getShadowIzo(){
+		double[][][] crown = new double [4][3][2];//[trojkat][peak,punkt1,punkt2][x,y]
+		getCrownHorizontal(crown);
+		int min = 0;
+		int max = 0;
+		double shadowAngle = 1-windPower;
+		for(int i=1; i<4;++i){
+			if(crown[i][1][0]>crown[max][1][0]) max = i;
+			else
+			if(crown[i][1][0]<crown[min][1][0]) min = i;
+		}
+		
+		
+		double[][] p = {{ crown[0][0][0]  , crown[0][0][1]  , 0},
+			            { crown[max][1][0], crown[max][1][1], 0},
+		                { x+trunkWidth    , crown[max][1][1], 0},
+		                { x+trunkWidth    , y               , 0},
+		                { x-trunkWidth    , y               , 0},
+		                { x-trunkWidth    , crown[min][1][1], 0},
+			            { crown[min][1][0], crown[min][1][1], 0},
+		                };
+		p[0][1]+=Math.abs(shadowAngle*(height));
+		p[1][1]+=Math.abs(shadowAngle*(height-crownHeight));
+		p[2][1]+=Math.abs(shadowAngle*(height-crownHeight));
+		p[5][1]+=Math.abs(shadowAngle*(height-crownHeight));
+		p[6][1]+=Math.abs(shadowAngle*(height-crownHeight));
+		
+		for(int i=0; i<7;++i){
+			if(p[i][0]>+Simulation.forestWidth/2) 
+				p[i][0] =  Simulation.forestWidth/2;
+			if(p[i][0]<-Simulation.forestWidth/2)
+				p[i][0] = -Simulation.forestWidth/2;
+			if(p[i][1]>+Simulation.forestLength/2)
+				p[i][1] =  Simulation.forestLength/2;
+			if(p[i][1]<-Simulation.forestLength/2)
+				p[i][1] = -Simulation.forestLength/2;
+		}
+		
+		int[] xpoints = {
+			toIzoX(p[0]),
+			toIzoX(p[1]),
+			toIzoX(p[2]),
+			toIzoX(p[3]),
+			toIzoX(p[4]),
+			toIzoX(p[5]),
+			toIzoX(p[6])
+		};
+		
+		int[] ypoints = {
+			toIzoY(p[0]),
+			toIzoY(p[1]),
+			toIzoY(p[2]),
+			toIzoY(p[3]),
+			toIzoY(p[4]),
+			toIzoY(p[5]),
+			toIzoY(p[6])
+		};
+		return normToCenter(new Polygon(xpoints, ypoints, 7));
+	}
 	
 	// Przesuń na współrzędne
 	private void addTreeCord(double tab[], double x, double y, double z){
