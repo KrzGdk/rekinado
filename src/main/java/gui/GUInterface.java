@@ -53,7 +53,7 @@ public class GUInterface extends javax.swing.JFrame{
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "kontrola"));
         jPanel3.setName("nowa krzyzowka"); // NOI18N
 
-        btnReset.setText("Reset");
+        btnReset.setText("Parametry");
         btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnResetMouseClicked(evt);
@@ -65,7 +65,7 @@ public class GUInterface extends javax.swing.JFrame{
             }
         });
 
-        btnSim.setText("Symuluj");
+        btnSim.setText("Start");
         btnSim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSimMouseClicked(evt);
@@ -85,7 +85,7 @@ public class GUInterface extends javax.swing.JFrame{
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSim, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 582, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +150,18 @@ public class GUInterface extends javax.swing.JFrame{
 
     private void btnSimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimMouseClicked
         listener.actualizeUI(this);
-		listener.simulate();
+		listener.run = !listener.run;
+		
+		if(listener.run){
+			listener.start();
+			btnSim.setText("Stop");
+		}
+		else{
+			listener.stop();
+			btnSim.setText("Start");
+		}
+		
+		
     }//GEN-LAST:event_btnSimMouseClicked
 
     private void btnSimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimActionPerformed
