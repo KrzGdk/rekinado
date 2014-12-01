@@ -37,7 +37,7 @@ public class Hwind {
 	public void calcTreeForce(TreeGUI tree, Rankine rankine){
         double bendingMoment = 0;
         double windForceSum = 0;
-        Vector2d wind = rankine.calculateWind((int)tree.x, (int)tree.y); // TODO uzgodnic typ i dodać oś 0Z
+        Vector2d wind = rankine.calculateWind((int)tree.x, (int)tree.y);
         tree.windRotation = wind.angle(northVec);
 //        System.out.println(wind.length() + " " + tree.windRotation);
 
@@ -51,7 +51,7 @@ public class Hwind {
 
         tree.changeWind(Math.min(bendingMoment/rootResistance, 1), wind.angle(northVec)/Math.PI);
 
-//       System.out.println("["+tree.x +" " + tree.y + "] : " + (windForceSum + gravityForce()) + " " + treeResistance);
+       System.out.println("["+tree.x +" " + tree.y + "] : " + bendingMoment + " " + treeResistance + " " + rootResistance);
         if(bendingMoment > treeResistance) {
             tree.crack();
             tree.height = tree.height / 2 + 1;  // w celu uproszczenia lamie sie na pol
@@ -130,8 +130,11 @@ public class Hwind {
         double top2midDist = data.crownHeight/2;
 
         double I = Math.PI * Math.pow(data.diameter, 4) / 64;
-        if( seg <= crownMidH)
-            return (windForce * Math.pow(crownMidH, 2)*tree.height * (3 - crownMidH/tree.height - 3*seg2topDist/tree.height)) / (6*data.moe*I);
+        if( seg <= crownMidH) {
+            double val1 = windForce * Math.pow(crownMidH, 2) * tree.height;
+            double val2 = (3 - crownMidH / tree.height - 3 * seg2topDist / tree.height);
+            return (val1 *  val2) / (6 * data.moe * I);
+        }
         else
             return (windForce * Math.pow(crownMidH, 3) * (2 - 3*(seg2topDist - top2midDist)/crownMidH +
                     Math.pow((seg2topDist - top2midDist), 3)/Math.pow(crownMidH, 3))) / (6*data.moe*I);

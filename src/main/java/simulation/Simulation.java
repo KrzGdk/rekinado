@@ -18,10 +18,11 @@ public class Simulation {
 	/**
 	 * Wymiary Rozważanego terenu
 	 */
-	public static int forestLength = 1000, forestWidth = 1000;
-    public static int iDist = 20, jDist = 20;
+	public static int forestLength = 160, forestWidth = 160;
+    public static int iDist = 8, jDist = 8;
 
-    private static Rankine vortex = new Rankine(0,0,Math.PI/8,0.1,0.1,0.1,0.1);
+    private static Rankine vortex = new Rankine(0,0,Math.PI/4,3,8,7,2);
+
     private static Hwind hWindModel;
     private static TreeGUI[][] forest = new TreeGUI[forestLength][forestWidth]; // TODO ogarnąć tą tablicę i listę
 
@@ -101,7 +102,7 @@ public class Simulation {
                    System.out.print("O");
                 }
                 else {
-                   System.out.print(forestList[k].fallen ? "X" : "I");
+                   System.out.print(forestList[k].fallen ? "X" : (forestList[k].cracked ? "/" : "I"));
                 }
                 k++;
             }
@@ -142,7 +143,7 @@ public class Simulation {
 
 	public static void simMain(GUInterface gui) {
 //        Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
-        int maxTime = 1;
+        int maxTime = 40;
         //Simulation simulation = new Simulation(wir,20,20);
         fillForest();
         setDefaultHWindModel();
