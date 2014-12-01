@@ -164,7 +164,6 @@ public class Simulation {
         System.out.println("Simulation ended");
     }
 
-	// SYF DO TESTOW
 	public static void onlyFrame(GUInterface gui) {
 		gui.printFrame(forestList, forestListLen); 
 	}

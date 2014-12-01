@@ -1,5 +1,7 @@
 package main.java.gui;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.java.simulation.Simulation;
 
 /**
@@ -13,7 +15,7 @@ public class RekinadoMain {
 	 * Klasa do której są kierowane eventy programu
 	 */
 	public static class UIListener {
-
+		public static boolean run = false;
 		/**
 		 * Podpina gui
 		 * 
@@ -26,22 +28,48 @@ public class RekinadoMain {
 		/**
 		 * Wywołanie symulacji
 		 */
-		public void simulate(){
+		public void start(){
 			Simulation.simMain(gui);
+			guiLoop = new GUILoop();
+			thread = new Thread(guiLoop);
+			thread.start();
 			//gui.printFrame(forest, nforest);
 			
 		}
 
+		public void stop(){
+			thread.stop();
+		}
 		/**
 		 * Zresetowanie do stanu początkowego
 		 */
 		public void reset(){
-			Simulation.onlyFrame(gui);
+			
 		}
 
+		
 	}
-	private static GUInterface gui = new GUInterface();
-	private static final UIListener uilistener = new UIListener();
+	public static class GUILoop implements Runnable {
+		@Override
+		public void run() {
+			while(true){
+				//System.out.println("Watek");
+				Simulation.onlyFrame(gui);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
+	private static GUInterface gui;
+	private static UIListener uilistener;
+	
+	private static Runnable guiLoop;
+	private static Thread thread;
 
 	/**
 	 * Główna funkcja
@@ -49,6 +77,9 @@ public class RekinadoMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		gui = new GUInterface();
+		uilistener = new UIListener();
+		
 		gui.addListener(uilistener);
 	}
 	
