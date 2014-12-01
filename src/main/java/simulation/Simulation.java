@@ -142,12 +142,12 @@ public class Simulation {
 
 	public static void simMain(GUInterface gui) {
 //        Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
-        int maxTime = 30;
+        int maxTime = 1;
         //Simulation simulation = new Simulation(wir,20,20);
         fillForest();
         setDefaultHWindModel();
 //        printForest();
-//        for(int i = 0; i < maxTime; ++i) {
+        for(int i = 0; i < maxTime; ++i) {
             try {
                 long startTime = System.nanoTime();
                 simulate();
@@ -165,7 +165,7 @@ public class Simulation {
                 System.out.println(e);
 //                break;
             }
-//        }
+        }
         printForest();
 //		getForestList(); //JACEK DAL
 //		getForestRandom(); //JACEK DAL

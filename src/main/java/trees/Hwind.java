@@ -2,6 +2,7 @@ package main.java.trees;
 
 import main.java.rankine.*;
 import main.java.trees.TreeGUI;
+import main.java.simulation.*;
 
 import javax.vecmath.Vector2d;
 import java.util.LinkedList;
@@ -13,8 +14,6 @@ public class Hwind {
 
     private final double g = 9.81;
     private double meanHeight;
-    private double forestMaxX = 0.0;
-    private double forestMaxY = 0.0;
 
     private HwindData data;
     private Vector2d northVec = new Vector2d(0, 1);
@@ -50,10 +49,10 @@ public class Hwind {
         double treeResistance = calcTreeResist();
         double rootResistance = calcRootResist();
 
-        tree.changeWind(Math.min(bendingMoment/rootResistance, 1)*5, wind.angle(northVec)/Math.PI);
+        tree.changeWind(Math.min(bendingMoment/rootResistance, 1), wind.angle(northVec)/Math.PI);
 
 //       System.out.println("["+tree.x +" " + tree.y + "] : " + (windForceSum + gravityForce()) + " " + treeResistance);
-        if((windForceSum + gravityForce()) > treeResistance) {
+        if(bendingMoment > treeResistance) {
             tree.crack();
             tree.height = tree.height / 2 + 1;  // w celu uproszczenia lamie sie na pol
         }
@@ -78,8 +77,8 @@ public class Hwind {
     }
 
     private double calcDistFromForestEdge(TreeGUI tree){
-        double minX = Math.min( Math.abs(tree.x), Math.abs(forestMaxX - tree.x) );
-        double minY = Math.min( Math.abs(tree.y), Math.abs(forestMaxY - tree.y) );
+        double minX = Math.min( Math.abs(tree.x), Math.abs(Simulation.forestLength - tree.x) );
+        double minY = Math.min( Math.abs(tree.y), Math.abs(Simulation.forestWidth - tree.y) );
         return Math.min(minX, minY);
     }
 
