@@ -63,6 +63,10 @@ public class Forest {
 	}
 	private static boolean goodPlace(int nX, int nY, int spacing) {
 		TreeGUI temp = new TreeGUI(nX,nY,0);
+		if(nX> width/2) return false;
+		if(nX<-width/2) return false;
+		if(nY> height/2) return false;
+		if(nY<-height/2) return false;
 		
 		for(int i=0; i<length;i++){
 			if(trees[i].distance(temp)<spacing) return false;
@@ -71,8 +75,30 @@ public class Forest {
 	}
 
 		
-	public static void fillPaths(int spacing, int length){
+	public static void fillPatch(int spacing, int length, int radius){
+		Random rand = new Random();
+		trees = new TreeGUI[length];
 		
+		int nX, nY, k = 0;
+		double mul;
+		int cX = rand.nextInt(width )- width/2;
+		int cY = rand.nextInt(height)-height/2;
+		
+		for(int i=0; i<length;i++){
+			mul = 1-Math.sqrt(rand.nextDouble());
+			if(rand.nextInt(2) == 1) mul*=-1;
+			nX = cX + (int)(radius*mul);
+			
+			mul = 1-Math.sqrt(rand.nextDouble());
+			if(rand.nextInt(2) == 1) mul*=-1;
+			nY = cY + (int)(radius*mul);
+			
+			if(goodPlace(nX,nY,spacing)){
+				trees[k++] = new TreeGUI(nX, nY, 0);
+				Forest.length = k;
+			}
+		}
+		sortTrees();
 	}
 	
 	
