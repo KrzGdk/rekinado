@@ -29,7 +29,7 @@ public class Simulation {
 
 
 	public static void setDefaultHWindModel() {
-        hWindModel = new Hwind(15. /*z dupy*/, new HwindData());
+        hWindModel = new Hwind(15. /*z dupy*/);
     }
 
 	/*public static void printForest() {
