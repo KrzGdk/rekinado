@@ -18,14 +18,20 @@ public class Simulation {
 	/**
 	 * Wymiary Rozważanego terenu
 	 */
-	public static int forestLength = 160, forestWidth = 160;
+	public static int forestLength = 80, forestWidth = 80;
     public static int iDist = 8, jDist = 8;
 
-    private static Rankine vortex = new Rankine(0,0,Math.PI/4,3,8,7,2);
+
+    private static double angle = Math.PI/4;
+    private static double R_max = 10.0;              /** Promien maksymalny */
+    private static double V_traversal_max = 20.0;    /** Predkosc trawersalna maksymalna */
+    private static double V_radial_max = 2.;       /** Predkosc radialna maksymalna */
+    private static double V_translation = 10.0;      /** Predkosc translacji */
+
+    private static Rankine vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
 
     private static Hwind hWindModel;
     private static TreeGUI[][] forest = new TreeGUI[forestLength][forestWidth]; // TODO ogarnąć tą tablicę i listę
-
 
 	public Simulation(){//Rankine vortex, int forestLength, int forestWidth) {
         //this.vortex = vortex;
@@ -143,7 +149,7 @@ public class Simulation {
 
 	public static void simMain(GUInterface gui) {
 //        Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
-        int maxTime = 40;
+        int maxTime = 1;
         //Simulation simulation = new Simulation(wir,20,20);
         fillForest();
         setDefaultHWindModel();

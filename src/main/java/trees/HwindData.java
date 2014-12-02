@@ -11,9 +11,9 @@ package main.java.trees;
 public class HwindData {
 	//12m ? pień? really?
 
-    public double diameter = 12;     /** srednica drzewa na wysokosci piersi czlowieka (1.3m) */
-    public double mor = 39.1;          /** wspolczynnik pekania drewna */
-    public double moe = 7000;          /** wspolczynnik elastycznosci */
+    public double diameter = 0.12;     /** srednica drzewa na wysokosci piersi czlowieka (1.3m) */
+    public double mor = 39.1 * 1000. * 1000.;          /** wspolczynnik pekania drewna */
+    public double moe = 7000. * 1000. * 1000.;          /** wspolczynnik elastycznosci */
     public double friction = 0.29;     /** wspolczynnik tarcia */
     public double crownMass = 18;
 //    public double stemMass;
