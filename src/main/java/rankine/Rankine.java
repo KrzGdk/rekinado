@@ -56,6 +56,7 @@ public class Rankine {
 	public Rankine(int x, int y, double angle, double R_max, double Vfi_max, double Vr_max, double V_tr) {
         this.angle = angle;
         this.R_max = R_max;
+        TornadoGUI.setR_max(R_max);
         this.Vfi_max = Vfi_max;
         this.Vr_max = Vr_max;
         this.origin.x = x;
@@ -133,7 +134,9 @@ public class Rankine {
             Vfi = Vfi_max * R_max / r;
             Vr = Vr_max * Math.pow(R_max / r, 0.6);
         }
-        return new Vector2d(Vfi + V_tr, Vr);
+        double V_trY = V_tr * Math.cos(angle);
+        double V_trX = V_tr * Math.sin(angle);
+        return new Vector2d(Vfi + V_trX, Vr + V_trY);
     }
 
 }

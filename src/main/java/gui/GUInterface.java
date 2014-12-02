@@ -7,7 +7,6 @@ import main.java.gui.RekinadoMain.UIListener;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import main.java.rankine.TornadoGUI;
-import main.java.simulation.Simulation;
 import main.java.trees.Forest;
 import main.java.trees.TreeGUI;
 
@@ -134,7 +133,6 @@ public class GUInterface extends javax.swing.JFrame{
 
     private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
 		listener.actualizeUI(this);
-		listener.reset();
     }//GEN-LAST:event_btnResetMouseClicked
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
@@ -345,9 +343,6 @@ public class GUInterface extends javax.swing.JFrame{
 		
 	/**
 	 * Wyświetla ramke wizualizacji
-	 * 
-	 * @param tree tablica drzew
-	 * @param ntree liczba drzew
 	 */
 	public void printFrame() {
 		TreeGUI tree[] = Forest.getList();
@@ -375,8 +370,8 @@ public class GUInterface extends javax.swing.JFrame{
 			}
 			for(int j=0; j<ntree;j++){ //Kolicje wywalic z grafiki
 				if(tree[i].collisionTest(tree[j])){
-					tree[i].crack();
-					tree[j].crack();
+					//tree[i].crack();
+					//tree[j].crack();
 					System.out.println("Kolizja ["+i+"] i ["+j+"]");
 				}
 			}
