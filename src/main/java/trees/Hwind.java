@@ -1,7 +1,8 @@
 package main.java.trees;
 
-
 import main.java.rankine.*;
+import main.java.trees.TreeGUI;
+import main.java.simulation.*;
 
 import javax.vecmath.Vector2d;
 import java.util.LinkedList;
@@ -13,29 +14,18 @@ public class Hwind {
 
     private final double g = 9.81;
     private double meanHeight;
-    private double forestMaxX = 0.0;
-    private double forestMaxY = 0.0;
 
     private HwindData data;
     private Vector2d northVec = new Vector2d(0, 1);
 
 	/**
 	 *
-	 * @param forest
+	 * @param meanHeight
 	 * @param data
 	 */
-	public Hwind(Tree[][] forest, HwindData data){
+	public Hwind(double meanHeight, HwindData data){
         this.data = data;
-        double heightSum = 0;
-
-        for(Tree[] treeRow : forest) {
-            for(Tree t : treeRow) {
-                heightSum += t.height;
-                forestMaxX = Math.max(forestMaxX, t.position.getX());
-                forestMaxY = Math.max(forestMaxY, t.position.getY());
-            }
-        }
-        meanHeight = heightSum / (forest.length * forest[0].length);
+        this.meanHeight = meanHeight;
     }
 
 	/**
@@ -44,49 +34,51 @@ public class Hwind {
 	 * @param rankine
 	 * @return
 	 */
-	public double calcTreeForce(Tree tree, Rankine rankine){
+	public void calcTreeForce(TreeGUI tree, Rankine rankine){
         double bendingMoment = 0;
+        double windForceSum = 0;
+        Vector2d wind = rankine.calculateWind((int)tree.x, (int)tree.y);
+        tree.windRotation = wind.angle(northVec);
+//        System.out.println(wind.length() + " " + tree.windRotation);
 
         for(int i = 0; i < tree.height; ++i) {
-            bendingMoment += calcMaxBendingMoment(tree, rankine, i);
+            double windForce = calcWindForce(tree, wind.length(), i);
+            bendingMoment += calcMaxBendingMoment(tree, windForce, i);
+            windForceSum += windForce;
         }
-        double treeResitance = calcTreeResist();
+        double treeResistance = calcTreeResist();
         double rootResistance = calcRootResist();
 
-//        System.out.println("Result:");
-//        System.out.println("wind speed: " + rankine.calculateWind(tree.position.x, tree.position.y).length());
-//        System.out.println("bending moment: " + bendingMoment);
-//        System.out.println("tree resistance: " + treeResitance);
-//        System.out.println("root resistance: " + rootResistance);
+        tree.changeWind(Math.min(bendingMoment/rootResistance, 1), wind.angle(northVec)/Math.PI);
 
-        if(bendingMoment > treeResitance || bendingMoment > rootResistance)
-            tree.isFallen = true;
-
-        return Math.min(bendingMoment - treeResitance, bendingMoment - rootResistance); // for testing
+       System.out.println("["+tree.x +" " + tree.y + "] : " + bendingMoment + " " + treeResistance + " " + rootResistance);
+        if(bendingMoment > treeResistance) {
+            tree.crack();
+            tree.height = tree.height / 2 + 1;  // w celu uproszczenia lamie sie na pol
+        }
+        if(bendingMoment > rootResistance)
+            tree.fall();
     }
 
-    private double calcWindForce(Tree tree, Rankine rankine, int seg){
-        Vector2d wind = rankine.calculateWind(tree.position.x, tree.position.y);
-        tree.lastWindAngle = wind.angle(northVec);
-        double v = wind.length();
+    private double calcWindForce(TreeGUI tree, double windVecLength, int seg) {
         int stemHeight = tree.height - data.crownHeight;
 
         double windFlowFactor;
-        if( v <= 11.) windFlowFactor = 0.2;
-        else if( v > 20.) windFlowFactor = 0.6;
-        else windFlowFactor = 0.044444 * v - 0.28889;
+        if(windVecLength <= 11.0) windFlowFactor = 0.2;
+        else if(windVecLength > 20.0) windFlowFactor = 0.6;
+        else windFlowFactor = 0.044444 * windVecLength - 0.28889;
 
         double res;
         if(seg >= stemHeight)
-            res = 0.5 * data.friction * data.airDensity * Math.pow(v, 2) * triangleSectorArea(seg - stemHeight) * windFlowFactor;
+            res = 0.5 * data.friction * data.airDensity * Math.pow(windVecLength, 2) * triangleSectorArea(seg - stemHeight) * windFlowFactor;
         else
-            res = 0.5 * data.friction * data.airDensity * Math.pow(v, 2) * data.diameter * windFlowFactor; // steam area as rectangle 1 x diameter
+            res = 0.5 * data.friction * data.airDensity * Math.pow(windVecLength, 2) * data.diameter * windFlowFactor; // steam area as rectangle 1 x diameter
         return res;
     }
 
-    private double calcDistFromForestEdge(Tree tree){
-        double minX = Math.min(tree.position.getX(), forestMaxX - tree.position.getX());
-        double minY = Math.min(tree.position.getY(), forestMaxY - tree.position.getY());
+    private double calcDistFromForestEdge(TreeGUI tree){
+        double minX = Math.min( Math.abs(tree.x), Math.abs(Simulation.forestLength - tree.x) );
+        double minY = Math.min( Math.abs(tree.y), Math.abs(Simulation.forestWidth - tree.y) );
         return Math.min(minX, minY);
     }
 
@@ -98,38 +90,24 @@ public class Hwind {
         return (g * data.rootMass * data.rootDepth) / data.f_RW;
     }
 
-    private double triangleSectorArea(int seg){
-        double dx = 0.5 * data.crownWidth / data.crownHeight;
-        double xLeft = 0.;
-        double xRight = data.crownWidth;
-
-        double xLeftBase = xLeft + seg * dx;
-        double xLeftTop = xLeft + (seg+1) * dx;
-        double xRightBase = xRight - seg * dx;
-        double xRightTop = xRight - (seg+1) * dx;
-
-        double a = xRightBase - xLeftBase;
-        double b = xRightTop - xLeftTop;
-        return (a+b)*0.5;
-    }
-
-    private double calcMaxBendingMoment(Tree tree,Rankine rankine, int seg) {
+    private double calcMaxBendingMoment(TreeGUI tree, double windForce, int seg) {
         double maxMeanDist = maxMeanDistProportion();
         double maxBendMom = maxMeanBendMomentPropotion(tree);
-        double wind = calcWindForce(tree, rankine, seg);
-        double crownDev = crownDeviation(tree, rankine, seg);
+//        double wind = calcWindForce(tree, rankine, seg);
+        double crownDev = crownDeviation(tree, windForce, seg);
 
         return maxMeanDist * maxBendMom *
-                (wind + gravityForce() * crownDev);
+                (windForce + gravityForce() * crownDev);
     }
 
     private double gravityForce() {
         return data.crownMass * g;
     }
 
-    private double maxMeanBendMomentPropotion(Tree tree) {
+    private double maxMeanBendMomentPropotion(TreeGUI tree) {
         double div = data.spacing / meanHeight;
         double dist = calcDistFromForestEdge(tree);
+
 
         double Gust_mean = (0.68*div - 0.0385) + (-0.68*div + 0.4875) *
                 Math.pow(1.7239*div + 0.0316, dist/meanHeight);
@@ -146,20 +124,34 @@ public class Hwind {
         return Gap_max / Gap_mean;
     }
 
-    private double crownDeviation(Tree tree, Rankine rankine, int seg) {
-        double a = tree.height - data.crownHeight/2;
-        double l = tree.height - seg;
-        double b = data.crownHeight/2;
-
-        double Fw = 0;
-        for(int i = 0; i < tree.height; i++) {
-            Fw += calcWindForce(tree, rankine, i);
-        }
+    private double crownDeviation(TreeGUI tree, double windForce, int seg) {
+        double crownMidH = tree.height - data.crownHeight/2;
+        double seg2topDist = tree.height - seg;
+        double top2midDist = data.crownHeight/2;
 
         double I = Math.PI * Math.pow(data.diameter, 4) / 64;
-        if( seg <= a)
-            return (Fw * a*a*tree.height *( 3- a/tree.height - 3*l/tree.height)) / (6 * data.moe * I);
+        if( seg <= crownMidH) {
+            double val1 = windForce * Math.pow(crownMidH, 2) * tree.height;
+            double val2 = (3 - crownMidH / tree.height - 3 * seg2topDist / tree.height);
+            return (val1 *  val2) / (6 * data.moe * I);
+        }
         else
-            return (Fw * Math.pow(a,3) *(2-3*(l-b)/a+Math.pow((l-b),3)/Math.pow(a,3))) / (6 * data.moe * I);
+            return (windForce * Math.pow(crownMidH, 3) * (2 - 3*(seg2topDist - top2midDist)/crownMidH +
+                    Math.pow((seg2topDist - top2midDist), 3)/Math.pow(crownMidH, 3))) / (6*data.moe*I);
+    }
+
+    private double triangleSectorArea(int seg){
+        double dx = 0.5 * data.crownWidth / data.crownHeight;
+        double xLeft = 0.;
+        double xRight = data.crownWidth;
+
+        double xLeftBase = xLeft + seg * dx;
+        double xLeftTop = xLeft + (seg+1) * dx;
+        double xRightBase = xRight - seg * dx;
+        double xRightTop = xRight - (seg+1) * dx;
+
+        double a = xRightBase - xLeftBase;
+        double b = xRightTop - xLeftTop;
+        return (a+b)*0.5;
     }
 }

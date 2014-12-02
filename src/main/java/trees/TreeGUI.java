@@ -16,25 +16,10 @@ import main.java.simulation.Simulation;
  */
 public class TreeGUI {
 
-	/**
-	 * współrzędne drzewa
-	 */
-	public double x, y, z;
-
-	/**
-	 * wysokość drzewa w metrach
-	 */
-	public int height;
-
-	/**
-	 * wysokość korony drzewa w metrach
-	 */
-	public double crownHeight;
-
-	/**
-	 * szerokość korony drzewa w metrach
-	 */
-	public double crownWidth;
+	public double x, y, z; 	/** współrzędne drzewa */
+	public int height;	/** wysokość drzewa w metrach */
+	public double crownHeight;	/** wysokość korony drzewa w metrach */
+	public double crownWidth; 	/** szerokość korony drzewa w metrach */
 	
 	/**
 	 * 0..1, kąt pod jakim drzewo się przechyla
@@ -47,16 +32,8 @@ public class TreeGUI {
 	 * 0-pion, 1-poziom
 	 */
 	public double windPower = 0; //0..1
-	
-	/**
-	 * czy drzewo jest wyrwane
-	 */
-	public boolean fallen = false;
-
-	/**
-	 * czy drzewo jest złamane
-	 */
-	public boolean cracked = false;
+	public boolean fallen = false;	/** czy drzewo jest wyrwane */
+	public boolean cracked = false; /** czy drzewo jest złamane */
 	
 	private Color trunkColor;
 	private Color crownColor;

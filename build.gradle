@@ -1,8 +1,8 @@
 apply plugin: 'java'
 apply plugin:'application'
 
-mainClassName = "simulation.Simulation"
-sourceCompatibility = 1.7
+mainClassName = "main.java.gui.RekinadoMain"
+sourceCompatibility = 1.8
 version = '1.0'
 
 repositories {
