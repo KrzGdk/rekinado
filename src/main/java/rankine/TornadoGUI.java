@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import main.java.gui.GUInterface;
-import main.java.gui.TerrainGUI;
 import main.java.simulation.Simulation;
 
 /**
@@ -145,14 +144,14 @@ public class TornadoGUI {
 			p[1] = r*Math.cos(angle[i]*Math.PI*2)+y +Math.abs(particlesZ[i]+z);
 			p[2] = 0;
 			
-			/*if(p[0]>+TerrainGUI.width/2) 
-				p[0] =  TerrainGUI.width/2;
-			if(p[0]<-TerrainGUI.width/2)
-				p[0] = -TerrainGUI.width/2;
-			if(p[1]>+TerrainGUI.height/2)
-				p[1] =  TerrainGUI.height/2;
-			if(p[1]<-TerrainGUI.height/2)
-				p[1] = -TerrainGUI.height/2;*/
+			if(p[0]>+Simulation.forestWidth/2) 
+				p[0] =  Simulation.forestWidth/2;
+			if(p[0]<-Simulation.forestWidth/2)
+				p[0] = -Simulation.forestWidth/2;
+			if(p[1]>+Simulation.forestLength/2)
+				p[1] =  Simulation.forestLength/2;
+			if(p[1]<-Simulation.forestLength/2)
+				p[1] = -Simulation.forestLength/2;
 			
 			
 			X[i] = GUInterface.toIzoX(p);
@@ -189,26 +188,18 @@ public class TornadoGUI {
 	public static void drawShadow(BufferedImage canvas, int shiftx, int shifty){
 		int[] X = new int[density];
 		int[] Y = new int[density];
+		int color = (new Color(0,50,0)).getRGB();
 		
 		setShadowParticles(X,Y);
 		
 		for(int i=0; i<TornadoGUI.density;i++){
 
-			addShadow(canvas,X[i]+shiftx  , Y[i]+shifty  );
-			addShadow(canvas,X[i]+shiftx+1, Y[i]+shifty  );
-			addShadow(canvas,X[i]+shiftx  , Y[i]+shifty+1);
-			addShadow(canvas,X[i]+shiftx+1, Y[i]+shifty+1);
 			
-			//canvas.setRGB(X[i]+shiftx, Y[i]+shifty, color);
-		//	canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, color);
-			//canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty, color);
-			//canvas.setRGB(X[i]+shiftx, Y[i]+shifty+1, color);
+			
+			canvas.setRGB(X[i]+shiftx, Y[i]+shifty, color);
+			canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, color);
+			canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty, color);
+			canvas.setRGB(X[i]+shiftx, Y[i]+shifty+1, color);
 		}
-	}
-	private static void addShadow(BufferedImage canvas, int x, int y){
-		int color = canvas.getRGB(x,y) ;
-		if(color == Color.WHITE.getRGB()) return;
-		canvas.setRGB(x,y,(new Color(color)).darker().getRGB());
-		
 	}
 }

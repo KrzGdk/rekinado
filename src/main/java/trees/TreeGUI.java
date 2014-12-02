@@ -7,7 +7,6 @@ import java.util.Random;
 import static main.java.gui.GUInterface.normToCenter;
 import static main.java.gui.GUInterface.toIzoX;
 import static main.java.gui.GUInterface.toIzoY;
-import main.java.gui.TerrainGUI;
 import main.java.simulation.Simulation;
 
 /**
@@ -68,7 +67,7 @@ public class TreeGUI {
 	/**
 	 * Promień podstawy pnia
 	 */
-	private int trunkWidth;
+	private int trunkWidth = 1;
 	
 	/**
 	 * Konstruktor drzewa
@@ -78,20 +77,17 @@ public class TreeGUI {
 	 * @param z współrzędna
 	 * @param height wysokość
 	 */
-	public TreeGUI(double x, double y, double z){
+	public TreeGUI(double x, double y, double z, int height){
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.height = height;
 		
-		
-		Random rand = new Random();
-		
-		//Z DUPY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		this.height = rand.nextInt(10)+10;
+		// To dac z konstruktora;
 		this.crownHeight = height*.7;//HwindData.crownHeight; 
 		this.crownWidth = height*.5;//HwindData.crownWidth;
-		this.trunkWidth = 1;
 		
+		Random rand = new Random();
 		int hvar = 30; //amplituda losowania koloru
 		int var = hvar*2;
 		this.trunkColor = new Color(
@@ -138,9 +134,9 @@ public class TreeGUI {
 	}
 	
 	public double distance(TreeGUI tree){
-		double ax = this.x - tree.x;
-		double ay = this.y - tree.y;
-		double az = this.z - tree.z;
+		double ax = x - tree.x;
+		double ay = y - tree.y;
+		double az = z - tree.z;
 		return Math.sqrt(ax*ax+ay*ay+az*az);
 	}
 	
@@ -366,14 +362,14 @@ public class TreeGUI {
 		p[6][1]+=Math.abs(shadowAngle*(height-crownHeight));
 		
 		for(int i=0; i<7;++i){
-			if(p[i][0]>+TerrainGUI.width/2) 
-				p[i][0] =  TerrainGUI.width/2;
-			if(p[i][0]<-TerrainGUI.width/2)
-				p[i][0] = -TerrainGUI.width/2;
-			if(p[i][1]>+TerrainGUI.height/2)
-				p[i][1] =  TerrainGUI.height/2;
-			if(p[i][1]<-TerrainGUI.height/2)
-				p[i][1] = -TerrainGUI.height/2;
+			if(p[i][0]>+Simulation.forestWidth/2) 
+				p[i][0] =  Simulation.forestWidth/2;
+			if(p[i][0]<-Simulation.forestWidth/2)
+				p[i][0] = -Simulation.forestWidth/2;
+			if(p[i][1]>+Simulation.forestLength/2)
+				p[i][1] =  Simulation.forestLength/2;
+			if(p[i][1]<-Simulation.forestLength/2)
+				p[i][1] = -Simulation.forestLength/2;
 		}
 		
 		int[] xpoints = {
