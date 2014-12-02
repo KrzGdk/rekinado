@@ -48,7 +48,16 @@ public class TornadoGUI {
 	 * Kolor naświetlonych cząsteczek w tornadzie
 	*/
 	private static int tornadoColor = Color.BLACK.getRGB()+0xbfa186;
-	
+
+	/**
+	 * Promien maksymalny tornada (z modelu Rankine)
+	 */
+	private static double R_max = 1.0;
+
+	public static void setR_max(double r_max) {
+		R_max = r_max;
+	}
+
 	/**
 	* Wyświetla teren na obiekcie Graphics
 	* 
@@ -97,7 +106,7 @@ public class TornadoGUI {
 	 * @return promień
 	 */
 	public static double radius(double z){
-		return -0.000000085637 * Math.pow(z,.3) + 0.00018695 * z * z + 0.0078765 * z + 0.94933;
+		return (-0.000000085637 * Math.pow(z,.3) + 0.00018695 * z * z + 0.0078765 * z + 0.94933) * R_max;
 	}
 	
 	/**
