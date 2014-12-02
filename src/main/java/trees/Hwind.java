@@ -46,6 +46,15 @@ public class Hwind {
             bendingMoment += calcMaxBendingMoment(tree, windForce, i);
             windForceSum += windForce;
         }
+        for(int j=0; j< Forest.getLength();j++){
+            if(tree.collisionTest(Forest.getList()[j])){
+                double d = tree.distance(Forest.getList()[j]);
+                double collisionPointHeight = Math.sqrt(Forest.getList()[j].height * Forest.getList()[j].height - d * d);
+                double force = (gravityForce() * d) / collisionPointHeight;
+                bendingMoment += calcMaxBendingMoment(tree, force, (int)collisionPointHeight);
+            }
+        }
+
         double treeResistance = calcTreeResist();
         double rootResistance = calcRootResist();
 
@@ -100,7 +109,7 @@ public class Hwind {
                 (windForce + gravityForce() * crownDev);
     }
 
-    private double gravityForce() {
+    public double gravityForce() {
         return data.crownMass * g;
     }
 
