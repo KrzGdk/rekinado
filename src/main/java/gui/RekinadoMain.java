@@ -3,12 +3,14 @@ package main.java.gui;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.java.simulation.Simulation;
+import main.java.trees.Forest;
 
 /**
  * Plik główny projektu
  * 
  * @author Jacek Pietras
  */
+
 public class RekinadoMain {
 	
 	/**
@@ -79,6 +81,10 @@ public class RekinadoMain {
 	public static void main(String[] args) {
 		gui = new GUInterface();
 		uilistener = new UIListener();
+		
+		Forest.setSize(100, 100);
+		//Forest.fillRegular(12);
+		Forest.fillRandom(8, 100);
 		
 		gui.addListener(uilistener);
 	}

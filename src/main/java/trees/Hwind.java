@@ -38,8 +38,8 @@ public class Hwind {
         double bendingMoment = 0;
         double windForceSum = 0;
         Vector2d wind = rankine.calculateWind((int)tree.x, (int)tree.y);
-        tree.windRotation = wind.angle(northVec);
-        System.out.println(wind.length() + " " + tree.windRotation);
+        tree.windRotation = northVec.angle(wind);
+        System.out.println(wind.length() + "\t" + tree.windRotation + "\t" + rankine.getAngle());
 
         for(int i = 0; i < tree.height; ++i) {
             double windForce = calcWindForce(tree, wind.length(), i);
@@ -51,7 +51,7 @@ public class Hwind {
 
 //        tree.changeWind(Math.min(bendingMoment/rootResistance, 1), wind.angle(northVec)/Math.PI);
 
-       System.out.println("["+tree.x +" " + tree.y + "] : " + bendingMoment + " " + treeResistance + " " + rootResistance);
+//       System.out.println("["+tree.x +" " + tree.y + "] : " + bendingMoment + " " + treeResistance + " " + rootResistance);
         if(bendingMoment > treeResistance) {
             tree.crack();
             tree.height = tree.height / 2 + 1;  // w celu uproszczenia lamie sie na pol

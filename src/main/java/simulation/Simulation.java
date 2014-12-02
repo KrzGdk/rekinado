@@ -25,8 +25,8 @@ public class Simulation {
     private static double angle = Math.PI/4;
     private static double R_max = 10.0;              /** Promien maksymalny */
     private static double V_traversal_max = 20.0;    /** Predkosc trawersalna maksymalna */
-    private static double V_radial_max = 2.;       /** Predkosc radialna maksymalna */
-    private static double V_translation = 10.0;      /** Predkosc translacji */
+    private static double V_radial_max = 5.;       /** Predkosc radialna maksymalna */
+    private static double V_translation = 3.0;      /** Predkosc translacji */
 
     private static Rankine vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
 
@@ -46,7 +46,7 @@ public class Simulation {
         forestList = new TreeGUI[forestListLen];
         for(int i = 0; i < forestLength; i+= iDist){
             for(int j = 0; j < forestWidth; j+= jDist) {
-                forestList[k] = new TreeGUI(i-forestLength/2, j-forestWidth/2, 0, (int) (Math.random() * 10 + 10));
+                forestList[k] = new TreeGUI(i-forestLength/2, j-forestWidth/2, 0);
                 k++;
             }
         }
@@ -68,7 +68,7 @@ public class Simulation {
 			forestList[i] = new TreeGUI(
 					rand.nextInt(var)-hvar,
 					rand.nextInt(var)-hvar,
-					0,rand.nextInt(10)+10);
+					0);
 			forestList[i].changeWind(rand.nextDouble(), 0);
 		}
 		//forestList[5].fall();
@@ -176,12 +176,12 @@ public class Simulation {
         printForest();
 //		getForestList(); //JACEK DAL
 //		getForestRandom(); //JACEK DAL
-		gui.printFrame(forestList, forestListLen);  //JACEK DAL
+		gui.printFrame();  //JACEK DAL
 		
         System.out.println("Simulation ended");
     }
 
 	public static void onlyFrame(GUInterface gui) {
-		gui.printFrame(forestList, forestListLen); 
+		gui.printFrame();
 	}
 }

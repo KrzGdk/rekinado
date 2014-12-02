@@ -13,35 +13,46 @@ import main.java.simulation.Simulation;
  * 
  * @author Jacek Pietras
  */
-class TerrainGUI {
+public class TerrainGUI {
 	/**
 	* Wyświetla teren na obiekcie Graphics
 	* 
 	* @param g obiekt Graphics na który zostanie wstawiony
 	* @see Graphics
 	*/
+	
+	private static int widthD2;
+	private static int heightD2;
+	public static int width;
+	public static int height;
+	
+	public static void setSize(int width, int height){
+		widthD2 = width/2;
+		heightD2 = height/2;
+		TerrainGUI.width = width;
+		TerrainGUI.height = height;
+	}
+	
 	public static void draw(Graphics g){
 		int terrainBold = 10;
-		int terrainWidthD2 = Simulation.forestLength/2;
-		int terrainHeightD2 = Simulation.forestWidth/2;
 		
 		int[] xUp = new int[4];
 		int[] yUp = new int[4];
 		
-		double[] p1 = {-terrainWidthD2,-terrainHeightD2,0};
-		double[] p2 = { terrainWidthD2,-terrainHeightD2,0};
-		double[] p3 = { terrainWidthD2, terrainHeightD2,0};
-		double[] p4 = {-terrainWidthD2, terrainHeightD2,0};
+		double[] p1 = {-widthD2,-heightD2,0};
+		double[] p2 = { widthD2,-heightD2,0};
+		double[] p3 = { widthD2, heightD2,0};
+		double[] p4 = {-widthD2, heightD2,0};
 		
-		double[] d1 = {-terrainWidthD2,-terrainHeightD2,-terrainBold};
-		double[] d2 = { terrainWidthD2,-terrainHeightD2,-terrainBold};
-		double[] d3 = { terrainWidthD2,-terrainHeightD2,0};
-		double[] d4 = {-terrainWidthD2,-terrainHeightD2,0};
+		double[] d1 = {-widthD2,-heightD2,-terrainBold};
+		double[] d2 = { widthD2,-heightD2,-terrainBold};
+		double[] d3 = { widthD2,-heightD2,0};
+		double[] d4 = {-widthD2,-heightD2,0};
 		
-		double[] l1 = { terrainWidthD2,-terrainHeightD2,-terrainBold};
-		double[] l2 = { terrainWidthD2, terrainHeightD2,-terrainBold};
-		double[] l3 = { terrainWidthD2, terrainHeightD2,0};
-		double[] l4 = { terrainWidthD2,-terrainHeightD2,0};
+		double[] l1 = { widthD2,-heightD2,-terrainBold};
+		double[] l2 = { widthD2, heightD2,-terrainBold};
+		double[] l3 = { widthD2, heightD2,0};
+		double[] l4 = { widthD2,-heightD2,0};
 		
 		xUp[0] = toIzoX(p1);
 		xUp[1] = toIzoX(p2);
