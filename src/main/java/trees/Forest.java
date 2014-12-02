@@ -10,8 +10,8 @@ import main.java.gui.TerrainGUI;
 public class Forest {
 	private static TreeGUI[] trees;
 	private static int length = 0;
-	private static int width;
-	private static int height;
+	public static int width;
+	public static int height;
 	
 	public static void setSize(int width, int height){
 		Forest.width = width;

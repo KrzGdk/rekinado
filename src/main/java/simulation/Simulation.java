@@ -8,18 +8,13 @@ import main.java.trees.Tree;
 import java.awt.*;
 import java.util.Random;
 import main.java.gui.GUInterface;
+import main.java.trees.Forest;
 import main.java.trees.TreeGUI;
 
 /**
  * Created by Krzysiek on 17/11/2014.
  */
 public class Simulation {
-
-	/**
-	 * Wymiary Rozważanego terenu
-	 */
-	public static int forestLength = 80, forestWidth = 80;
-    public static int iDist = 8, jDist = 8;
 
 
     private static double angle = Math.PI/4;
@@ -31,76 +26,13 @@ public class Simulation {
     private static Rankine vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
 
     private static Hwind hWindModel;
-    private static TreeGUI[][] forest = new TreeGUI[forestLength][forestWidth]; // TODO ogarnąć tą tablicę i listę
 
-	public Simulation(){//Rankine vortex, int forestLength, int forestWidth) {
-        //this.vortex = vortex;
-        //this.forestLength = forestLength;
-        //this.forestWidth = forestWidth;
-        //this.forest = new Tree[forestLength][forestWidth];
-    }
-
-	public static void fillForest() {
-        int k = 0;
-        forestListLen = forestLength * forestWidth / (iDist*jDist);
-        forestList = new TreeGUI[forestListLen];
-        for(int i = 0; i < forestLength; i+= iDist){
-            for(int j = 0; j < forestWidth; j+= jDist) {
-                forestList[k] = new TreeGUI(i-forestLength/2, j-forestWidth/2, 0);
-                k++;
-            }
-        }
-    }
-
-	//DO GUI
-	private static TreeGUI[] forestList;
-	private static int forestListLen = 0;
-	
-	private static void getForestRandom(){
-		Random rand = new Random();
-		int hvar = forestLength/2;
-		int var = forestLength;
-		forestListLen = 100;
-		
-		forestList = new TreeGUI[forestListLen];
-		
-		for(int i=0; i<forestListLen;i++){
-			forestList[i] = new TreeGUI(
-					rand.nextInt(var)-hvar,
-					rand.nextInt(var)-hvar,
-					0);
-			forestList[i].changeWind(rand.nextDouble(), 0);
-		}
-		//forestList[5].fall();
-		//forestList[6].crack();
-		
-	}
-	private static void getForestList(){
-		int k = 0;
-		forestListLen = forestLength*forestWidth;
-		forestList = new TreeGUI[forestListLen];
-		
-		for(int i = 0; i < forestLength; ++i){
-            for(int j = 0; j < forestWidth; ++j) {
-                forestList[k] = forest[i][j];
-				if(forest[i][j].fallen){
-                    forestList[k].fall();
-                    forestList[k].changeWind(
-							1, -forest[i][j].windRotation / Math.PI);
-                }else{
-                    forestList[k].changeWind(
-							0, -forest[i][j].windRotation/Math.PI);
-                }
-				k++;
-            }
-        }
-	}
 
 	public static void setDefaultHWindModel() {
         hWindModel = new Hwind(15. /*z dupy*/, new HwindData());
     }
 
-	public static void printForest() {
+	/*public static void printForest() {
         int k = 0;
         for(int i = 0; i < forestLength; i += iDist){
             for(int j = 0; j < forestWidth; j+= jDist) {
@@ -114,35 +46,28 @@ public class Simulation {
             }
             System.out.println();
         }
-    }
+    }*/
 
 	public Rankine getVortex() {
         return vortex;
     }
 
-	public int size() {
-        return forestLength * forestWidth;
-    }
 
 	public void setVortex(Rankine vortex) {
         this.vortex = vortex;
     }
 
-	public TreeGUI[][] getForest() {
-        return forest;
-    }
 	
-	public void setForest(TreeGUI[][] forest) {
-        this.forest = forest;
-    }
 
 	public static void simulate() throws Exception{
+		TreeGUI [] forestList = Forest.getList();
+		
         vortex.calculateNewCenter(1);
-        if(vortex.getOrigin().x >= forestLength || vortex.getOrigin().y >= forestWidth) {
+        if(vortex.getOrigin().x >= Forest.width || vortex.getOrigin().y >=  Forest.height) {
             throw new Exception("Vortex origin out of bounds: (" + vortex.getOrigin().x + "," + vortex.getOrigin().y + ")");
         }
 
-        for(int i = 0; i < forestListLen; ++i)
+        for(int i = 0; i <  Forest.getLength() ; ++i)
             if( !forestList[i].fallen )
                 hWindModel.calcTreeForce(forestList[i], vortex);
     }
@@ -151,7 +76,7 @@ public class Simulation {
 //        Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
         int maxTime = 1;
         //Simulation simulation = new Simulation(wir,20,20);
-        fillForest();
+        
         setDefaultHWindModel();
 //        printForest();
         for(int i = 0; i < maxTime; ++i) {
@@ -173,10 +98,7 @@ public class Simulation {
 //                break;
             }
         }
-        printForest();
-//		getForestList(); //JACEK DAL
-//		getForestRandom(); //JACEK DAL
-		gui.printFrame();  //JACEK DAL
+        //printForest();
 		
         System.out.println("Simulation ended");
     }

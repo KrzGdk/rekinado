@@ -77,8 +77,8 @@ public class Hwind {
     }
 
     private double calcDistFromForestEdge(TreeGUI tree){
-        double minX = Math.min( Math.abs(tree.x), Math.abs(Simulation.forestLength - tree.x) );
-        double minY = Math.min( Math.abs(tree.y), Math.abs(Simulation.forestWidth - tree.y) );
+        double minX = Math.min( Math.abs(tree.x), Math.abs(Forest.width - tree.x) );
+        double minY = Math.min( Math.abs(tree.y), Math.abs(Forest.height - tree.y) );
         return Math.min(minX, minY);
     }
 
