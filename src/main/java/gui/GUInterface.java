@@ -8,6 +8,7 @@ import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import main.java.rankine.TornadoGUI;
 import main.java.simulation.Simulation;
+import main.java.trees.Forest;
 import main.java.trees.TreeGUI;
 
 /**
@@ -262,8 +263,8 @@ public class GUInterface extends javax.swing.JFrame{
 	 * @return współrzędna y
 	 */
 	public static int toIzoY(double tab[]){
-		//.8 to magiczna stała piękności
-		return (int)-Math.round((tab[2]+sin45*tab[1])*printscale*.8); 
+		//.7 to magiczna stała piękności
+		return (int)-Math.round((tab[2]+sin45*tab[1])*printscale*.7); 
 	}
 
 	/**
@@ -280,24 +281,7 @@ public class GUInterface extends javax.swing.JFrame{
 		return p;
 	}
 	
-	/**
-	 * Sortuje drzewa dystansem od ekranu (Zsort)
-	 * 
-	 * @param tree tablica drzew
-	 * @param ntree liczba drzew
-	 */
-	private void sortTrees(TreeGUI tree[], int ntree){
-		TreeGUI temp;
-		for(int i=0;i<ntree-1;i++){
-			for(int j=0;j<ntree-i-1;j++){
-				if(tree[j].x-tree[j].y>tree[j+1].x-tree[j+1].y){
-					temp = tree[j];
-					tree[j] = tree[j+1];
-					tree[j+1]= temp;
-				}
-			}			
-		}
-	}
+
 
 	/**
 	 * Rysuje białe tło w obszarze wizualizacji
@@ -316,39 +300,47 @@ public class GUInterface extends javax.swing.JFrame{
 	 * @param ntree liczba drzew
 	 */
 	private void miniatureDraw(Graphics g, TreeGUI tree[], int ntree){
-		int x = 3;
-		int y = 3;
+		int x = 5;
+		int y = 5;
 		int h = 200;
 		int w = 200;
-		int terrainWidth = Simulation.forestLength;
-		int terrainHeight = Simulation.forestWidth;
+		int terrainWidth = TerrainGUI.height;
+		int terrainHeight = TerrainGUI.width;
 		
 		int treeX;
 		int treeY;
 		
-		int Xr = (w/terrainWidth );
-		int Yr = (h/terrainHeight);
+		double Xr = (w/terrainWidth )*2;
+		double Yr = (h/terrainHeight)*2;
 		int treeXs;
 		int treeYs;
 		
 		double angle;
 		
 		g.setColor(Color.black);
-		g.fillRect(x-1, y-1, w+2, h+2);
+		g.fillRect(x-2, y-2, w+4, h+4);
 		g.setColor(Color.white);
-		g.fillRect(x, y, w, h);
+		g.fillRect(x-1, y-1, w+2, h+2);
+		
 		for(int i=0;i<ntree;i++){
-			treeX = (int) (x+( tree[i].x+.5)*Xr+w/2);
-			treeY = (int) (y+(-tree[i].y-.5)*Yr+h/2);
-			treeXs = (int) ((Xr-2)*tree[i].windPower +1);
-			treeYs = (int) ((Yr-2)*tree[i].windPower +1);
+			treeX = (int) ( x+( tree[i].x)*Xr+w/2);
+			treeY = (int) ( y+(-tree[i].y)*Yr+h/2);
+			treeXs = (int) ((Xr)*tree[i].windPower +1);
+			treeYs = (int) ((Yr)*tree[i].windPower +1);
+			
 			angle = tree[i].windRotation*Math.PI;
 			g.setColor(tree[i].getCrownColor());			
-			g.drawLine(
+			drawBoldLine(g,
 					treeX,treeY,
 					treeX+(int)(treeXs*Math.sin(angle)),
 					treeY+(int)(treeYs*Math.cos(angle)));
 		}
+	}
+	private void drawBoldLine(Graphics g, int x1, int y1, int x2, int y2){
+		g.drawLine(x1, y1, x2, y2);
+		g.drawLine(x1+1, y1, x2+1, y2);
+		g.drawLine(x1, y1+1, x2, y2+1);
+		g.drawLine(x1+1, y1+1, x2+1, y2+1);
 	}
 		
 	/**
@@ -357,7 +349,9 @@ public class GUInterface extends javax.swing.JFrame{
 	 * @param tree tablica drzew
 	 * @param ntree liczba drzew
 	 */
-	public void printFrame(TreeGUI tree[], int ntree) {
+	public void printFrame() {
+		TreeGUI tree[] = Forest.getList();
+		int ntree = Forest.getLength();
 		bgW  = BG.getWidth();
 		bgH = BG.getHeight();
 		Boolean tornadoWasDrawn = false;
@@ -369,14 +363,13 @@ public class GUInterface extends javax.swing.JFrame{
 		bgDraw(g);
 		TerrainGUI.draw(g);
 		
-		sortTrees(tree, ntree); // To Dać po generacji!
 		for(int i=0; i<ntree;i++){
 			tree[i].drawShadow(g);
 		}
-		TornadoGUI.drawShadow(canvas,bgW/2,bgH/2);
 		for(int i=0; i<ntree;i++){
 			if(!tornadoWasDrawn && tornadoDist<tree[i].x-tree[i].y){
 				tornadoWasDrawn = true;
+				TornadoGUI.drawShadow(canvas,bgW/2,bgH/2);
 				TornadoGUI.draw(canvas,bgW/2,bgH/2);
 				TornadoGUI.moveParticles();
 			}
