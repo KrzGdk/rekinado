@@ -50,13 +50,10 @@ public class Hwind {
             if(tree.collisionTest(Forest.getList()[j])){
                 double d = tree.distance(Forest.getList()[j]);
                 double collisionPointHeight = Math.sqrt(Forest.getList()[j].height * Forest.getList()[j].height - d * d);
-                double force = (gravityForce() * d) / collisionPointHeight;
+                double force = (gravityForce(tree) * d) / collisionPointHeight;
                 bendingMoment += calcMaxBendingMoment(tree, force, (int)collisionPointHeight);
             }
         }
-
-        double treeResistance = calcTreeResist();
-        double rootResistance = calcRootResist();
 
 //        tree.changeWind(Math.min(bendingMoment/rootResistance, 1), wind.angle(northVec)/Math.PI);
 
