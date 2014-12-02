@@ -97,7 +97,7 @@ public class TornadoGUI {
 	 * @return promień
 	 */
 	public static double radius(double z){
-		return 4+z/4;
+		return -0.000000085637 * Math.pow(z,.3) + 0.00018695 * z * z + 0.0078765 * z + 0.94933;
 	}
 	
 	/**
