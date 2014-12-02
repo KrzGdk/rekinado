@@ -9,6 +9,8 @@ import static main.java.gui.GUInterface.toIzoX;
 import static main.java.gui.GUInterface.toIzoY;
 import main.java.gui.TerrainGUI;
 import main.java.simulation.Simulation;
+import main.java.trees.HwindData;
+import main.java.trees.TreeDataSet;
 
 /**
  * Klasa drzewa przystosowana do rysowania
@@ -18,10 +20,15 @@ import main.java.simulation.Simulation;
 public class TreeGUI {
 
 	public double x, y, z; 	/** współrzędne drzewa */
-	public int height;	/** wysokość drzewa w metrach */
-	public double crownHeight;	/** wysokość korony drzewa w metrach */
-	public double crownWidth; 	/** szerokość korony drzewa w metrach */
-	
+	public int height;
+	public double diameter;
+	public double crownMass;
+
+	public double rootMass;
+	public double rootDepth;
+	public int crownHeight;
+	public double crownWidth;
+
 	/**
 	 * 0..1, kąt pod jakim drzewo się przechyla
 	 * 0-up, .25-right, .5-down, .75-left
@@ -53,22 +60,23 @@ public class TreeGUI {
 	 * @param x współrzędna
 	 * @param y współrzędna
 	 * @param z współrzędna
-	 * @param height wysokość
 	 */
 	public TreeGUI(double x, double y, double z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		
-		
-		Random rand = new Random();
-		
-		//Z DUPY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		this.height = rand.nextInt(10)+10;
-		this.crownHeight = height*.7;//HwindData.crownHeight; 
-		this.crownWidth = height*.5;//HwindData.crownWidth;
+		TreeDataSet data = HwindData.randData(HwindData.getRandomTreeSetId());
+		this.height = data.height;
+		this.diameter = data.diameter;
+		this.crownMass = data.crownMass;
+		this.rootMass = data.rootMass;
+		this.rootDepth = data.rootDepth;
+		this.crownHeight = data.crownHeight;
+		this.crownWidth = data.crownWidth;
+
 		this.trunkWidth = 1;
-		
+
+		Random rand = new Random();
 		int hvar = 30; //amplituda losowania koloru
 		int var = hvar*2;
 		this.trunkColor = new Color(
