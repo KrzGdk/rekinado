@@ -370,8 +370,8 @@ public class GUInterface extends javax.swing.JFrame{
 			}
 			for(int j=0; j<ntree;j++){ //Kolicje wywalic z grafiki
 				if(tree[i].collisionTest(tree[j])){
-					tree[i].crack();
-					tree[j].crack();
+					//tree[i].crack();
+					//tree[j].crack();
 					System.out.println("Kolizja ["+i+"] i ["+j+"]");
 				}
 			}
