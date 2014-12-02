@@ -133,7 +133,9 @@ public class Rankine {
             Vfi = Vfi_max * R_max / r;
             Vr = Vr_max * Math.pow(R_max / r, 0.6);
         }
-        return new Vector2d(Vfi + V_tr, Vr);
+        double V_trY = V_tr * Math.cos(angle);
+        double V_trX = V_tr * Math.sin(angle);
+        return new Vector2d(Vfi + V_trX, Vr + V_trY);
     }
 
 }
