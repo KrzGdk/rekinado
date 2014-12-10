@@ -39,8 +39,9 @@ public class GUInterface extends javax.swing.JFrame{
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        btnReset = new javax.swing.JButton();
+        btnParam = new javax.swing.JButton();
         btnSim = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
         BG = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,15 +54,15 @@ public class GUInterface extends javax.swing.JFrame{
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "kontrola"));
         jPanel3.setName("nowa krzyzowka"); // NOI18N
 
-        btnReset.setText("Parametry");
-        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnParam.setText("Parametry");
+        btnParam.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnResetMouseClicked(evt);
+                btnParamMouseClicked(evt);
             }
         });
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
+        btnParam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
+                btnParamActionPerformed(evt);
             }
         });
 
@@ -77,21 +78,36 @@ public class GUInterface extends javax.swing.JFrame{
             }
         });
 
+        btnReset.setText("Reset");
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetMouseClicked(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnParam, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSim, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 582, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(btnReset)
-                .addComponent(btnSim))
+                .addComponent(btnParam)
+                .addComponent(btnSim)
+                .addComponent(btnReset))
         );
 
         BG.setBackground(new java.awt.Color(255, 255, 255));
@@ -131,9 +147,10 @@ public class GUInterface extends javax.swing.JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
+    private void btnParamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnParamMouseClicked
 		listener.actualizeUI(this);
-    }//GEN-LAST:event_btnResetMouseClicked
+		dialog("Dajcie mi liste");
+    }//GEN-LAST:event_btnParamMouseClicked
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
        //print(lab);
@@ -143,12 +160,17 @@ public class GUInterface extends javax.swing.JFrame{
        //print();
     }//GEN-LAST:event_BGComponentResized
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+    private void btnParamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParamActionPerformed
         
-    }//GEN-LAST:event_btnResetActionPerformed
+    }//GEN-LAST:event_btnParamActionPerformed
 
     private void btnSimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimMouseClicked
-        listener.actualizeUI(this);
+		btnSimAction();
+		
+    }//GEN-LAST:event_btnSimMouseClicked
+
+	public void btnSimAction(){
+		listener.actualizeUI(this);
 		listener.run = !listener.run;
 		
 		if(listener.run){
@@ -159,13 +181,19 @@ public class GUInterface extends javax.swing.JFrame{
 			listener.stop();
 			btnSim.setText("Start");
 		}
-		
-		
-    }//GEN-LAST:event_btnSimMouseClicked
-
+	}
     private void btnSimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSimActionPerformed
+
+    private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
+		listener.actualizeUI(this);
+		listener.reset();
+    }//GEN-LAST:event_btnResetMouseClicked
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetActionPerformed
 
 	public static void start() {
 		/* Set the Nimbus look and feel */
@@ -202,6 +230,7 @@ public class GUInterface extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
+    private javax.swing.JButton btnParam;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSim;
     private javax.swing.JPanel jPanel3;
@@ -216,6 +245,7 @@ public class GUInterface extends javax.swing.JFrame{
 	 */
 	public void addListener(UIListener l) {
 		listener = l;
+		listener.actualizeUI(this);
 	}
 
 	/**

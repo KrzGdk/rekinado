@@ -72,7 +72,7 @@ public class Simulation {
                 hWindModel.calcTreeForce(forestList[i], vortex);
     }
 
-	public static void simMain(GUInterface gui) {
+	public static void simMain() {
 //        Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
         int maxTime = 1;
         //Simulation simulation = new Simulation(wir,20,20);
@@ -98,12 +98,40 @@ public class Simulation {
 //                break;
             }
         }
-        //printForest();
 		
         System.out.println("Simulation ended");
     }
 
-	public static void onlyFrame(GUInterface gui) {
-		gui.printFrame();
+	
+	
+	// SIM THREAD
+	
+	
+	public static void start(){
+		simLoop = new SIMLoop();
+		thread = new Thread(simLoop);
+		thread.start();
 	}
+	public static void stop(){
+		thread.stop();
+	}
+	
+	public static class SIMLoop implements Runnable {
+		@Override
+		public void run() {
+			while(true){
+				simMain();
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {e.printStackTrace();}
+			}
+		}
+	}
+	
+	private static Runnable simLoop;
+	private static Thread thread;
+	
+	
+
 }

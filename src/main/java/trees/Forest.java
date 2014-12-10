@@ -27,7 +27,8 @@ public class Forest {
 		return length;
 	}
 		
-	public static void fillRegular(int spacing){
+	public static void fillRegular(int spacing){		
+		Forest.length = 0;
 		trees = new TreeGUI[(int)(width/spacing+1)*(int)(height/spacing+1)];
 		int k = 0;
 		
@@ -41,13 +42,14 @@ public class Forest {
 	}
 	
 	public static void fillRandom(int spacing, int length){
+		Forest.length = 0;
 		Random rand = new Random();
 		trees = new TreeGUI[length];
 		
 		int nX, nY, fails = 0, k = 0;
 		
 		for(int i=0; i<length;i++){
-			while (fails<100){
+			while (fails<100 && k<length){
 				nX = rand.nextInt(width )- width/2;
 				nY = rand.nextInt(height)-height/2;
 				if(goodPlace(nX,nY,spacing)){
@@ -76,6 +78,7 @@ public class Forest {
 
 		
 	public static void fillPatch(int spacing, int length, int radius){
+		Forest.length = 0;
 		Random rand = new Random();
 		trees = new TreeGUI[length];
 		

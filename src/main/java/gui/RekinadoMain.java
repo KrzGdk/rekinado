@@ -29,21 +29,34 @@ public class RekinadoMain {
 		 * Wywołanie symulacji
 		 */
 		public void start(){
-			Simulation.simMain(gui);
 			guiLoop = new GUILoop();
 			thread = new Thread(guiLoop);
 			thread.start();			
+			Simulation.start();
 		}
 
 		public void stop(){
 			thread.stop();
+			Simulation.stop();
 		}	
+		public void reset(){
+			if(run){
+				gui.btnSimAction();
+			}
+				
+			Forest.setSize(100, 100);
+			//Forest.fillRegular(12);
+			Forest.fillRandom(8, 100);
+			//Forest.fillPatch(8, 200, 50);
+			
+			gui.printFrame();
+		}
 	}
 	public static class GUILoop implements Runnable {
 		@Override
 		public void run() {
 			while(true){
-				Simulation.onlyFrame(gui);
+				gui.printFrame();
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -68,13 +81,8 @@ public class RekinadoMain {
 	public static void main(String[] args) {
 		gui = new GUInterface();
 		uilistener = new UIListener();
-		
-		Forest.setSize(100, 100);
-		//Forest.fillRegular(12);
-		//Forest.fillRandom(8, 100);
-		Forest.fillPatch(8, 200, 50);
-		
 		gui.addListener(uilistener);
+		uilistener.reset();
 	}
 	
 }
