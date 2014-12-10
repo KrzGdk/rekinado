@@ -54,6 +54,16 @@ public class TreeGUI {
 	 */
 	private int trunkWidth;
 	
+	//funkcja wywoływana w wątku
+	private void lookToEnv(){
+		//?collision test
+		//?pobierz siłe z wiru
+		//?pochyl
+		//?sprawdz wyrwanie
+	}
+	
+	
+	
 	/**
 	 * Konstruktor drzewa
 	 * 
@@ -91,37 +101,6 @@ public class TreeGUI {
 		this.crackedColor = new Color(255-rand.nextInt(var*2),0,0);
 	}
 
-	// TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// Funkcja w ktorej drzewo pyta rankine jaka siła na nią działa
-	// Funkcja sprawdzająca czy suma sił wyrwała drzewo
-	
-	
-	/**
-	 * wyrwanie drzewa
-	 */
-	public void fall(){
-		this.fallen = true;
-	}
-
-	/**
-	 * złamanie drzewa
-	 */
-	public void crack(){
-		this.cracked = true;
-	}
-
-	/**
-	 * Zmiana przechylenia drzewa
-	 * 
-	 * @param windPower 0..1, pochylenie w poziomie
-	 * @param windRotation 0..1, kąt pod jakim się pochyla
-	 * @author Jacek Pietras
-	 */
-	public void changeWind(double windPower, double windRotation){
-		this.windPower = windPower;
-		this.windRotation = windRotation;
-	}
-	
 	public double distance(TreeGUI tree){
 		double ax = this.x - tree.x;
 		double ay = this.y - tree.y;
@@ -129,6 +108,7 @@ public class TreeGUI {
 		return Math.sqrt(ax*ax+ay*ay+az*az);
 	}
 	
+	// Wykrywa kolizje pomiędzy tym drzewem a innym
 	public Boolean collisionTest(TreeGUI tree){
 		if(distance(tree)>height+tree.height) return false;
 		if(this == tree) return false;
@@ -150,7 +130,8 @@ public class TreeGUI {
 		return solve;
 	}
 	
-	Boolean pointInPolygon(double x, double y, double[][] poly) { 
+	// Wykrywa kolizje punktu z poligonem
+	private Boolean pointInPolygon(double x, double y, double[][] poly) { 
 		int i, j = 0; 
 		Boolean oddNODES = false; 
 		for (i = 0; i < 3; i++) { 

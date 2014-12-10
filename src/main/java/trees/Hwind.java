@@ -59,11 +59,11 @@ public class Hwind {
 
 //       System.out.println("["+tree.x +" " + tree.y + "] : " + bendingMoment + " " + treeResistance + " " + rootResistance);
         if(bendingMoment > treeResistance) {
-            tree.crack();
+            tree.cracked = true;
 //            tree.height = tree.height / 2 + 1;  // w celu uproszczenia lamie sie na pol
         }
         if(bendingMoment > rootResistance)
-            tree.fall();
+            tree.fallen = true;
     }
 
     private double calcWindForce(TreeGUI tree, double windVecLength, int seg) {
