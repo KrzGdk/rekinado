@@ -8,9 +8,6 @@ import static main.java.gui.GUInterface.normToCenter;
 import static main.java.gui.GUInterface.toIzoX;
 import static main.java.gui.GUInterface.toIzoY;
 import main.java.gui.TerrainGUI;
-import main.java.simulation.Simulation;
-import main.java.trees.HwindData;
-import main.java.trees.TreeDataSet;
 
 /**
  * Klasa drzewa przystosowana do rysowania
@@ -34,12 +31,15 @@ public class TreeGUI {
 	 * 0-up, .25-right, .5-down, .75-left
 	 */
 	public double windRotation = 0;
+	private double currentwindRotation = 0;
 
 	/** 
 	 * 0..1, kąt o jaki drzewo się przechyla
 	 * 0-pion, 1-poziom
 	 */
-	public double windPower = 0; //0..1
+	public double windPower = 0;
+	private double currentwindPower = 0;
+	
 	public boolean fallen = false;	/** czy drzewo jest wyrwane */
 	public boolean cracked = false; /** czy drzewo jest złamane */
 	
@@ -174,6 +174,22 @@ public class TreeGUI {
 
 
 	public void draw(Graphics g){
+		currentwindPower = (currentwindPower + windPower)/2;
+
+		if(Math.abs(currentwindRotation - windRotation)> .5){
+			double temp = windRotation;
+			if(currentwindRotation < temp)
+				currentwindRotation += 1;
+			else
+				temp += 1;
+			currentwindRotation = (currentwindRotation + temp)/2;
+			if(currentwindRotation >= 1) currentwindRotation -= 1;
+		}else{
+			currentwindRotation = (currentwindRotation + windRotation)/2;
+		}
+		   
+		
+		
 		Polygon[] crown = new Polygon [4];
 		
 		g.setColor(getTrunkColor());
@@ -220,8 +236,8 @@ public class TreeGUI {
 	 * @param p współrzędne [x][y][z]
 	 */
 	private void calcPoint(double p[]){
-		rotX(p,windPower);
-		rotZ(p,windRotation);
+		rotX(p,currentwindPower);
+		rotZ(p,currentwindRotation);
 		addTreeCord(p, x, y, z);
 	}
 
@@ -328,7 +344,7 @@ public class TreeGUI {
 		getCrownHorizontal(crown);
 		int min = 0;
 		int max = 0;
-		double shadowAngle = 1-windPower;
+		double shadowAngle = 1-currentwindPower;
 		for(int i=1; i<4;++i){
 			if(crown[i][1][0]>crown[max][1][0]) max = i;
 			else
