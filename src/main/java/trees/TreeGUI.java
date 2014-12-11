@@ -14,7 +14,7 @@ import main.java.gui.TerrainGUI;
  * 
  * @author Jacek Pietras
  */
-public class TreeGUI {
+public class TreeGUI implements Runnable {
 
 	public double x, y, z; 	/** współrzędne drzewa */
 	public int height;
@@ -54,12 +54,27 @@ public class TreeGUI {
 	 */
 	private int trunkWidth;
 	
+	private static Thread thread;
+	
 	//funkcja wywoływana w wątku
 	private void lookToEnv(){
 		//?collision test
 		//?pobierz siłe z wiru
 		//?pochyl
 		//?sprawdz wyrwanie
+		
+		
+		
+	}
+	@Override
+	public void run() {
+		while(true){
+			lookToEnv();
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {e.printStackTrace();}
+		}
 	}
 	
 	
@@ -99,6 +114,8 @@ public class TreeGUI {
 				63 +rand.nextInt(var)-hvar);
 		this.fallenColor = new Color(0,0,255-rand.nextInt(var*2));
 		this.crackedColor = new Color(255-rand.nextInt(var*2),0,0);
+		
+		thread.start();
 	}
 
 	public double distance(TreeGUI tree){

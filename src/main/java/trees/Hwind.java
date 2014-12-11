@@ -8,7 +8,7 @@ import javax.vecmath.Vector2d;
 import java.util.LinkedList;
 
 /**
- * Created by Mariusz on 2014-11-15.
+ * Created by Mariusz Gej on 2014-11-15.
  */
 public class Hwind {
 

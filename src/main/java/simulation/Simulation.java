@@ -2,12 +2,6 @@ package main.java.simulation;
 
 import main.java.rankine.Rankine;
 import main.java.trees.Hwind;
-import main.java.trees.HwindData;
-import main.java.trees.Tree;
-
-import java.awt.*;
-import java.util.Random;
-import main.java.gui.GUInterface;
 import main.java.trees.Forest;
 import main.java.trees.TreeGUI;
 
