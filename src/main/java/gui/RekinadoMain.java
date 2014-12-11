@@ -46,7 +46,7 @@ public class RekinadoMain {
 				
 			Forest.setSize(100, 100);
 			//Forest.fillRegular(12);
-			Forest.fillRandom(8, 100);
+			Forest.fillRandom(4, 100);
 			//Forest.fillPatch(8, 200, 50);
 			
 			gui.printFrame();

@@ -38,7 +38,7 @@ public class TreeGUI implements Runnable {
 	 * 0-pion, 1-poziom
 	 */
 	public double windPower = 0;
-	private double currentwindPower = 0;
+	public double currentwindPower = 0;
 	
 	public boolean fallen = false;	/** czy drzewo jest wyrwane */
 	public boolean cracked = false; /** czy drzewo jest złamane */
@@ -54,7 +54,7 @@ public class TreeGUI implements Runnable {
 	 */
 	private int trunkWidth;
 	
-	private static Thread thread;
+	private Thread thread;
 	
 	//funkcja wywoływana w wątku
 	private void lookToEnv(){
@@ -66,6 +66,7 @@ public class TreeGUI implements Runnable {
 		
 		
 	}
+	
 	@Override
 	public void run() {
 		while(true){
@@ -115,7 +116,7 @@ public class TreeGUI implements Runnable {
 		this.fallenColor = new Color(0,0,255-rand.nextInt(var*2));
 		this.crackedColor = new Color(255-rand.nextInt(var*2),0,0);
 		
-		thread.start();
+		//thread.start();
 	}
 
 	public double distance(TreeGUI tree){

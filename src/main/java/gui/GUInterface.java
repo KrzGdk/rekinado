@@ -353,8 +353,8 @@ public class GUInterface extends javax.swing.JFrame{
 		for(int i=0;i<ntree;i++){
 			treeX = (int) ( x+( tree[i].x)*Xr+w/2);
 			treeY = (int) ( y+(-tree[i].y)*Yr+h/2);
-			treeXs = (int) ((Xr)*(tree[i].windPower) +1);
-			treeYs = (int) ((Yr)*(tree[i].windPower) +1);
+			treeXs = (int) ((Xr)*(tree[i].currentwindPower)*5 +1);
+			treeYs = (int) ((Yr)*(tree[i].currentwindPower)*5 +1);
 			
 			angle = tree[i].windRotation*Math.PI;
 			g.setColor(tree[i].getCrownColor());			
