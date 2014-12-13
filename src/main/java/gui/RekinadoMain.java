@@ -44,11 +44,13 @@ public class RekinadoMain {
 				gui.btnSimAction();
 			}
 				
-			Forest.setSize(100, 100);
-			//Forest.fillRegular(12);
-			Forest.fillRandom(4, 100);
+			Forest.setSize(300, 300);
+			Forest.fillRegular(12);
+			//Forest.fillRandom(4, 100);
 			//Forest.fillPatch(8, 200, 50);
-			
+
+			Simulation.vortex.resetOrigin();
+
 			gui.printFrame();
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.Random;
 import main.java.gui.GUInterface;
 import main.java.gui.TerrainGUI;
 import main.java.simulation.Simulation;
+import main.java.trees.Forest;
 
 /**
  * Klasa statycznego obiektu tornada
@@ -56,6 +57,18 @@ public class TornadoGUI {
 
 	public static void setR_max(double r_max) {
 		R_max = r_max;
+	}
+
+
+	/**
+	 * Wyświetla teren na obiekcie Graphics
+	 *
+	 * @param _x nowa współrzędna tornada
+	 * @param _y nowa współrzędna tornada
+	 */
+	public static void move(double _x, double _y){
+		x = _x;
+		y = _y;
 	}
 
 	/**
@@ -215,9 +228,11 @@ public class TornadoGUI {
 		}
 	}
 	private static void addShadow(BufferedImage canvas, int x, int y){
-		int color = canvas.getRGB(x,y) ;
-		if(color == Color.WHITE.getRGB()) return;
-		canvas.setRGB(x,y,(new Color(color)).darker().getRGB());
+		if(x > Forest.width && y > Forest.height) {
+			int color = canvas.getRGB(x, y);
+			if (color == Color.WHITE.getRGB()) return;
+			canvas.setRGB(x, y, (new Color(color)).darker().getRGB());
+		}
 		
 	}
 }

@@ -17,7 +17,7 @@ public class Simulation {
     private static double V_radial_max = 5.;       /** Predkosc radialna maksymalna */
     private static double V_translation = 3.0;      /** Predkosc translacji */
 
-    private static Rankine vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
+    public static Rankine vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
 
     private static Hwind hWindModel;
 
@@ -68,7 +68,7 @@ public class Simulation {
 
 	public static void simMain() {
 //        Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
-        int maxTime = 1;
+        int maxTime = 2000;
         //Simulation simulation = new Simulation(wir,20,20);
         
         setDefaultHWindModel();
@@ -113,13 +113,13 @@ public class Simulation {
 	public static class SIMLoop implements Runnable {
 		@Override
 		public void run() {
-			while(true){
+			//while(true){
 				simMain();
 				
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {e.printStackTrace();}
-			}
+			//}
 		}
 	}
 	

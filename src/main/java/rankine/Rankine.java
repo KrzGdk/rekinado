@@ -13,6 +13,10 @@ import javax.vecmath.Vector2d;
 public class Rankine {
 
     /**
+     * Poczatkowy punkt srodka tornada
+     */
+    private Point initialOrigin = new Point(0, 0);
+    /**
      * Punkt srodka tornada
      */
     private Point origin = new Point(0, 0);
@@ -62,6 +66,8 @@ public class Rankine {
         this.origin.x = x;
         this.origin.y = y;
         this.V_tr = V_tr;
+        this.initialOrigin.x = x;
+        this.initialOrigin.y = y;
     }
 
 	/**
@@ -80,6 +86,12 @@ public class Rankine {
 	public void setOrigin(int x, int y) {
         origin.x = x;
         origin.y = y;
+    }
+
+    public void resetOrigin() {
+        origin.x = initialOrigin.x;
+        origin.y = initialOrigin.y;
+        TornadoGUI.move(origin.x,origin.y);
     }
 
 	/**
@@ -116,6 +128,7 @@ public class Rankine {
         double deltaX = s * Math.sin(angle);
         origin.x += deltaX;
         origin.y += deltaY; // mozna zamienic na - w razie czego
+        TornadoGUI.move(origin.x,origin.y);
     }
 
 	/**
