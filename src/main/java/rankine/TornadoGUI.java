@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import main.java.gui.GUInterface;
-import main.java.gui.TerrainGUI;
-import main.java.simulation.Simulation;
 import main.java.trees.Forest;
 
 /**
@@ -201,7 +199,14 @@ public class TornadoGUI {
 		//}
 		
 		//For particle 2x2
-		for(int i=0; i<TornadoGUI.density;i++){
+		for(int i=0; i<TornadoGUI.density;i++){			
+			if(X[i]+shiftx<1 || Y[i]+shifty<1 || 
+					X[i]+shiftx+2>canvas.getWidth() || 
+					Y[i]+shifty+2>canvas.getHeight()) 
+				continue;
+			
+			System.out.printf((X[i]+shiftx) + " "+ (Y[i]+shifty) +"\n");
+			
 			canvas.setRGB(X[i]+shiftx, Y[i]+shifty, Color[i]);
 			canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, Color[i]);
 			canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty, Color[i]);
