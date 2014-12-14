@@ -13,30 +13,11 @@ import java.util.LinkedList;
 public class Hwind {
 
     private final double g = 9.81;
-    private double meanHeight;
-
     private Vector2d northVec = new Vector2d(0, 1);
 
-	/**
-	 *
-	 * @param meanHeight
-	 * @param data
-	 */
-	public Hwind(double meanHeight){
-        this.meanHeight = meanHeight;
-    }
-
-	/**
-	 *
-	 * @param tree
-	 * @param rankine
-	 * @return
-	 */
 	public void calcTreeForce(TreeGUI tree, Rankine rankine){
         double bendingMoment = 0;
         Vector2d wind = rankine.calculateWind((int)tree.x, (int)tree.y);
-        //tree.windRotation = northVec.angle(wind);
-        //System.out.println(wind.length() + "\t" + tree.windRotation + "\t" + rankine.getAngle());
 
         for(int i = 0; i < tree.height; ++i) {
             double windForce = calcWindForce(tree, wind.length(), i);
@@ -55,21 +36,23 @@ public class Hwind {
             }
         }
 
-        tree.windPower = Math.min(bendingMoment/rootResistance, 1);
 		tree.windRotation = wind.angle(northVec)/Math.PI;
 
-//       System.out.println("["+tree.x +" " + tree.y + "] : " + bendingMoment + " " + treeResistance + " " + rootResistance);
         if(bendingMoment > treeResistance) {
             tree.cracked = true;
-//            tree.height = tree.height / 2 + 1;  // w celu uproszczenia lamie sie na pol
         }
-        if(bendingMoment > rootResistance)
+        if(bendingMoment > rootResistance) {
             tree.fallen = true;
+            HwindData.registerFallenTree(tree);
+            tree.windPower = 1.;
+        } else {
+            tree.windPower = Math.min(bendingMoment / rootResistance , 35.0/90.0); // limit 35 stopni przechylenia
+        }
     }
 
     private double calcWindForce(TreeGUI tree, double windVecLength, int seg) {
         int stemHeight = tree.height - tree.crownHeight;
-
+//        windVecLength *= 4;
         double windFlowFactor;
         if(windVecLength <= 11.0) windFlowFactor = 0.2;
         else if(windVecLength > 20.0) windFlowFactor = 0.6;
@@ -84,8 +67,8 @@ public class Hwind {
     }
 
     private double calcDistFromForestEdge(TreeGUI tree){
-        double minX = Math.min( Math.abs(tree.x), Math.abs(Forest.width - tree.x) );
-        double minY = Math.min( Math.abs(tree.y), Math.abs(Forest.height - tree.y) );
+        double minX = Math.min( Math.abs(tree.x - Forest.width/2), Forest.width - Math.abs(tree.x - Forest.width/2) );
+        double minY = Math.min( Math.abs(tree.y - Forest.height/2), Forest.height - Math.abs(tree.y - Forest.height/2) );
         return Math.min(minX, minY);
     }
 
@@ -112,6 +95,7 @@ public class Hwind {
     }
 
     private double maxMeanBendMomentPropotion(TreeGUI tree) {
+        double meanHeight = HwindData.getMeanHeight();
         double div = HwindData.spacing / meanHeight;
         double dist = calcDistFromForestEdge(tree);
 

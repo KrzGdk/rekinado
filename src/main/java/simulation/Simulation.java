@@ -23,7 +23,7 @@ public class Simulation {
 
 
 	public static void setDefaultHWindModel() {
-        hWindModel = new Hwind(15. /*z dupy*/);
+        hWindModel = new Hwind();
     }
 
 	/*public static void printForest() {
@@ -75,12 +75,12 @@ public class Simulation {
 //        printForest();
         for(int i = 0; i < maxTime; ++i) {
             try {
-                long startTime = System.nanoTime();
+//                long startTime = System.nanoTime();
                 simulate();
-                long elapsedTime = System.nanoTime() - startTime;
+//                long elapsedTime = System.nanoTime() - startTime;
 
-                System.out.println("Total execution time of single sim on forest [ms]: "
-                        + elapsedTime/1000000);
+//                System.out.println("Total execution time of single sim on forest [ms]: "
+//                        + elapsedTime/1000000);
 
 
 //                if (i % 3 == 0) {

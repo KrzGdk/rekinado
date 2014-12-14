@@ -91,7 +91,7 @@ public class TreeGUI implements Runnable {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		TreeDataSet data = HwindData.randData(HwindData.getRandomTreeSetId());
+		TreeDataSet data = HwindData.randData();
 		this.height = data.height;
 		this.diameter = data.diameter;
 		this.crownMass = data.crownMass;

@@ -12,9 +12,8 @@ import java.util.Random;
  * todo remove hardcoded values
  */
 public class HwindData {
-    public static int typesTableLength = 9;
     public static TreeDataSet treeData [] = {
-        new TreeDataSet(12, 0.100,  13, 5, 3.1,  345., 0.44),
+        new TreeDataSet(12, 0.100,  13, 5, 3.1,  345., 0.44), // h | d | crownM | crownH | crownW | rootM | rootD
         new TreeDataSet(12, 0.120,  18, 5, 3.5,  485., 0.48),
         new TreeDataSet(12, 0.150,  28, 5, 4.0,  719., 0.55),
         new TreeDataSet(16, 0.133,  28, 7, 3.7,  573., 0.51),
@@ -35,13 +34,27 @@ public class HwindData {
     public static double airDensity = 1.226;
     public static double spacing = 6;
 
-    public static int getRandomTreeSetId(){
+    private static int sumHeight = 0;
+    private static int generatedTreeCount = 0;
+
+    public static TreeDataSet randData(){
         Random rand = new Random();
-        return rand.nextInt(9);
+        int id = rand.nextInt(treeData.length);
+        TreeDataSet temp = treeData[id];
+
+        sumHeight += temp.height;
+        generatedTreeCount++;   // do sredniej wysokosci drzewa w lesie
+
+        return temp;
     }
-    public static TreeDataSet randData(int id){
-        if(id < typesTableLength)
-            return treeData[id];
-        return null;
+    public static void registerFallenTree(TreeGUI tree) {
+        if(tree.fallen) {
+            sumHeight -= tree.height;
+            generatedTreeCount--;
+        }
+    }
+
+    public static double getMeanHeight() {
+        return sumHeight / generatedTreeCount;
     }
 }
