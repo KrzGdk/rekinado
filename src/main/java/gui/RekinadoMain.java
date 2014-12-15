@@ -26,6 +26,10 @@ public class RekinadoMain {
 			gui = newui;
 		}
 		
+		public void print(){
+			gui.printFrame();
+		}
+		
 		/**
 		 * Wywołanie symulacji
 		 */
@@ -77,7 +81,7 @@ public class RekinadoMain {
 	}
 	
 	
-	private static GUInterface gui;
+	private static GUInterface gui = null;
 	private static UIListener uilistener;
 	
 	private static Runnable guiLoop;

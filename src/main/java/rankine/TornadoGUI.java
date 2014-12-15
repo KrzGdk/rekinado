@@ -98,7 +98,7 @@ public class TornadoGUI {
 	
 	/**
 	 * Porusza cząsteczkami w tornadzie do następnej klatki
-	 */
+	 
 	public static void moveParticles(){
 		if(particlesZ == null) resetTornado();
 		for(int i=0;i<density;i++){
@@ -106,7 +106,7 @@ public class TornadoGUI {
 			if(angle[i]>1) angle[i]-=1;
 		}
 	}
-	
+	*/
 	
 	// TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -205,7 +205,7 @@ public class TornadoGUI {
 					Y[i]+shifty+2>canvas.getHeight()) 
 				continue;
 			
-			System.out.printf((X[i]+shiftx) + " "+ (Y[i]+shifty) +"\n");
+			//System.out.printf((X[i]+shiftx) + " "+ (Y[i]+shifty) +"\n");
 			
 			canvas.setRGB(X[i]+shiftx, Y[i]+shifty, Color[i]);
 			canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, Color[i]);

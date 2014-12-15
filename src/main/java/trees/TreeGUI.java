@@ -122,7 +122,8 @@ public class TreeGUI implements Runnable {
 		this.fallenColor = new Color(0,0,255-rand.nextInt(var*2));
 		this.crackedColor = new Color(255-rand.nextInt(var*2),0,0);
 		
-		//thread.start();
+		thread = new Thread(this);
+		thread.start();
 	}
 
 	public double distance(TreeGUI tree){
