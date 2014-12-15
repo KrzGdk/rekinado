@@ -4,6 +4,7 @@ import main.java.rankine.Rankine;
 import main.java.trees.Hwind;
 import main.java.trees.Forest;
 import main.java.trees.TreeGUI;
+import java.lang.Thread;
 
 /**
  * Created by Krzysiek on 17/11/2014.
@@ -12,18 +13,22 @@ public class Simulation {
 
 
     private static double angle = Math.PI/4;
-    private static double R_max = 10.0;              /** Promien maksymalny */
-    private static double V_traversal_max = 20.0;    /** Predkosc trawersalna maksymalna */
-    private static double V_radial_max = 5.;       /** Predkosc radialna maksymalna */
-    private static double V_translation = 3.0;      /** Predkosc translacji */
+    private static double R_max = 5.0;              /** Promien maksymalny */
+    private static double V_traversal_max = 5.0;    /** Predkosc trawersalna maksymalna */
+    private static double V_radial_max = 15.;       /** Predkosc radialna maksymalna */
+    private static double V_translation = 15.0;      /** Predkosc translacji */
 
     public static Rankine vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
 
-    private static Hwind hWindModel;
+    public static Hwind hWindModel;
 
 
 	public static void setDefaultHWindModel() {
         hWindModel = new Hwind();
+    }
+
+    public static void resetRankine() {
+        vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
     }
 
 	/*public static void printForest() {
@@ -67,31 +72,36 @@ public class Simulation {
     }
 
 	public static void simMain() {
-//        Rankine wir = new Rankine(0,0,Math.PI/4,3,8,7,2);
-        int maxTime = 2000;
-        //Simulation simulation = new Simulation(wir,20,20);
-        
         setDefaultHWindModel();
-//        printForest();
-        for(int i = 0; i < maxTime; ++i) {
-            try {
-//                long startTime = System.nanoTime();
-                simulate();
-//                long elapsedTime = System.nanoTime() - startTime;
+        TreeGUI [] forest = Forest.getList();
 
-//                System.out.println("Total execution time of single sim on forest [ms]: "
-//                        + elapsedTime/1000000);
-
-
-//                if (i % 3 == 0) {
-//                    System.out.println("Iteration " + (i+1) + ":");
-//                   printForest();
-//                }
-            } catch (Exception e) {
-                System.out.println(e);
-                break;
-            }
+        new Thread(vortex).start();
+        for(TreeGUI tree : forest) {
+            new Thread(tree).start();
         }
+//        int maxTime = 20000;
+//
+//        setDefaultHWindModel();
+////        printForest();
+//        for(int i = 0; i < maxTime; ++i) {
+//            try {
+////                long startTime = System.nanoTime();
+//                simulate();
+////                long elapsedTime = System.nanoTime() - startTime;
+//
+////                System.out.println("Total execution time of single sim on forest [ms]: "
+////                        + elapsedTime/1000000);
+//
+//
+////                if (i % 3 == 0) {
+////                    System.out.println("Iteration " + (i+1) + ":");
+////                   printForest();
+////                }
+//            } catch (Exception e) {
+//                System.out.println(e);
+//                break;
+//            }
+//        }
 		
         System.out.println("Simulation ended");
     }

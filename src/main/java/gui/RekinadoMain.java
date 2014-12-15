@@ -2,6 +2,7 @@ package main.java.gui;
 
 import main.java.simulation.Simulation;
 import main.java.trees.Forest;
+import main.java.trees.TreeGUI;
 
 /**
  * Plik główny projektu
@@ -43,13 +44,20 @@ public class RekinadoMain {
 			if(run){
 				gui.btnSimAction();
 			}
+			if(Forest.getList() != null) {
+				for (TreeGUI tree : Forest.getList()) {
+					if (tree != null){
+						tree.terminate();
+					}
+				}
+			}
 				
 			Forest.setSize(300, 300);
 			Forest.fillRegular(12);
 //			Forest.fillRandom(4, 100);
 //			Forest.fillPatch(8, 200, 50);
 
-			Simulation.vortex.resetOrigin();
+			Simulation.resetRankine();
 
 			gui.printFrame();
 		}

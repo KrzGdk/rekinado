@@ -8,6 +8,7 @@ import static main.java.gui.GUInterface.normToCenter;
 import static main.java.gui.GUInterface.toIzoX;
 import static main.java.gui.GUInterface.toIzoY;
 import main.java.gui.TerrainGUI;
+import main.java.simulation.Simulation;
 
 /**
  * Klasa drzewa przystosowana do rysowania
@@ -58,23 +59,28 @@ public class TreeGUI implements Runnable {
 	
 	//funkcja wywoływana w wątku
 	private void lookToEnv(){
-		//?collision test
-		//?pobierz siłe z wiru
-		//?pochyl
-		//?sprawdz wyrwanie
-		
-		
+		if( !this.fallen )
+			Simulation.hWindModel.calcTreeForce(this, Simulation.vortex);
 		
 	}
-	
+
+	public volatile boolean running = true;
+
+	public void terminate() {
+		running = false;
+	}
+
 	@Override
 	public void run() {
-		while(true){
+		while(running){
 			lookToEnv();
 			
 			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {e.printStackTrace();}
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				running = false;
+			}
 		}
 	}
 	

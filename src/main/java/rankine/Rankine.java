@@ -6,11 +6,12 @@ import java.util.LinkedList;
 
 import java.awt.Point;
 import javax.vecmath.Vector2d;
+import main.java.trees.Forest;
 
 /**
  * Created by Krzysiek on 13/11/2014.
  */
-public class Rankine {
+public class Rankine implements Runnable{
 
     /**
      * Poczatkowy punkt srodka tornada
@@ -68,6 +69,7 @@ public class Rankine {
         this.V_tr = V_tr;
         this.initialOrigin.x = x;
         this.initialOrigin.y = y;
+        TornadoGUI.move(origin.x,origin.y);
     }
 
 	/**
@@ -120,10 +122,10 @@ public class Rankine {
 
 	/**
 	 *
-	 * @param deltaT
+	 * @param deltaT czas ruchu w milisekundach
 	 */
 	public void calculateNewCenter(int deltaT) {
-        double s = V_tr * deltaT;
+        double s = V_tr * deltaT / 1000;
         double deltaY = s * Math.cos(angle);
         double deltaX = s * Math.sin(angle);
         origin.x += deltaX;
@@ -152,4 +154,19 @@ public class Rankine {
         return new Vector2d(Vfi + V_trX, Vr + V_trY);
     }
 
+    @Override
+    public void run() {
+        int millisStep = 100;
+        while(true){
+            calculateNewCenter(millisStep);
+            System.out.println("origin = " + origin);
+            if(origin.y > Forest.height/2 || origin.x > Forest.width/2 ||
+                    origin.y < -Forest.height/2 || origin.x < -Forest.width/2) {
+                break;
+            }
+            try {
+                Thread.sleep(millisStep);
+            } catch (InterruptedException e) {e.printStackTrace();}
+        }
+    }
 }
