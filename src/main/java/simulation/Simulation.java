@@ -33,32 +33,13 @@ public class Simulation {
         vortex = new Rankine(x, y, angle, R_max, V_traversal_max, V_radial_max, V_translation);
     }
 
-	/*public static void printForest() {
-        int k = 0;
-        for(int i = 0; i < forestLength; i += iDist){
-            for(int j = 0; j < forestWidth; j+= jDist) {
-                if(vortex.getOrigin().equals(new Point(i-forestLength/2,j-forestWidth/2))) {
-                   System.out.print("O");
-                }
-                else {
-                   System.out.print(forestList[k].fallen ? "X" : (forestList[k].cracked ? "/" : "I"));
-                }
-                k++;
-            }
-            System.out.println();
-        }
-    }*/
-
 	public Rankine getVortex() {
         return vortex;
     }
 
-
 	public void setVortex(Rankine vortex) {
         this.vortex = vortex;
     }
-
-	
 
 	public static void simulate() throws Exception{
 		TreeGUI [] forestList = Forest.getList();
@@ -80,7 +61,7 @@ public class Simulation {
         new Thread(vortex).start();
 
         for(TreeGUI tree : forest) {
-            new Thread(tree).start();
+            tree.thread.start();
         }
 //        int maxTime = 20000;
 //

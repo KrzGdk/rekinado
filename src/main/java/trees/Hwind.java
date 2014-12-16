@@ -16,6 +16,9 @@ public class Hwind {
     private Vector2d northVec = new Vector2d(0, 1);
 
 	public void calcTreeForce(TreeGUI tree, Rankine rankine){
+        if(!rankine.running)
+            return;
+
         double bendingMoment = 0;
         Vector2d wind = rankine.calculateWind((int)tree.x, (int)tree.y);
 
@@ -42,10 +45,11 @@ public class Hwind {
             tree.cracked = true;
         }
         if(bendingMoment > rootResistance) {
+            tree.windPower = 1.;
             tree.fallen = true;
             HwindData.registerFallenTree(tree);
-            tree.windPower = 1.;
-        } else {
+        }
+        if(!tree.fallen){
             tree.windPower = Math.min(bendingMoment / rootResistance , 35.0/90.0); // limit 35 stopni przechylenia
         }
     }
@@ -67,9 +71,10 @@ public class Hwind {
     }
 
     private double calcDistFromForestEdge(TreeGUI tree){
-        double minX = Math.min( Math.abs(tree.x - Forest.width/2), Forest.width - Math.abs(tree.x - Forest.width/2) );
-        double minY = Math.min( Math.abs(tree.y - Forest.height/2), Forest.height - Math.abs(tree.y - Forest.height/2) );
-        return Math.min(minX, minY);
+//        double minX = Math.min( Math.abs(Forest.width/2 - tree.x), Math.abs(Forest.width  - Math.abs(Forest.width/2 - tree.x)) );
+//        double minY = Math.min( Math.abs(Forest.height/2 -tree.y), Math.abs(Forest.height - Math.abs(Forest.height/2 -tree.y)) );
+//        return Math.min(minX, minY);
+return 0;
     }
 
     private double calcTreeResist(TreeGUI tree) {
@@ -85,8 +90,8 @@ public class Hwind {
         double maxBendMom = maxMeanBendMomentPropotion(tree);
 //        double wind = calcWindForce(tree, rankine, seg);
         double crownDev = crownDeviation(tree, windForce, seg);
-
-        return maxMeanDist * maxBendMom *
+        System.out.println(tree.weakness);
+        return  /*maxMeanDist * /*maxBendMom*/  10 * (tree.weakness) *
                 (windForce + gravityForce(tree) * crownDev);
     }
 
@@ -105,7 +110,7 @@ public class Hwind {
         double Gust_max = (2.7193*div - 0.061) + (-1.273*div + 9.9701) *
                 Math.pow(1.1127*div + 0.0311, dist/meanHeight);
 
-        return Gust_max/Gust_mean;
+        return Math.abs(Gust_max/Gust_mean);
     }
 
     private double maxMeanDistProportion() {

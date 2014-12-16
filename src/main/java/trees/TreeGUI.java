@@ -57,7 +57,7 @@ public class TreeGUI implements Runnable {
 	 */
 	private int trunkWidth;
 	
-	private Thread thread;
+	public Thread thread;
 	
 	//funkcja wywoływana w wątku
 	private void lookToEnv(){
@@ -75,7 +75,7 @@ public class TreeGUI implements Runnable {
 	public void run() {
 		while(running){
 			lookToEnv();
-			
+
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -124,7 +124,6 @@ public class TreeGUI implements Runnable {
 		this.crackedColor = new Color(255-rand.nextInt(var*2),0,0);
 		
 		thread = new Thread(this);
-		thread.start();
 	}
 
 	public double distance(TreeGUI tree){

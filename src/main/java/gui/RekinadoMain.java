@@ -54,7 +54,6 @@ public class RekinadoMain {
 			if(Simulation.vortex != null) {
 				Simulation.vortex.terminate();
 			}
-			Simulation.resetRankine();
 			if(Forest.getList() != null) {
 				for (TreeGUI tree : Forest.getList()) {
 					if (tree != null){
@@ -68,6 +67,8 @@ public class RekinadoMain {
 				 if(Forest.type == Forest.Type.Jednorodny) Forest.fillRegular(HwindData.spacing);
 			else if(Forest.type == Forest.Type.Losowy)     Forest.fillRandom(HwindData.spacing, 100);
 			else if(Forest.type == Forest.Type.Plama)      Forest.fillPatch(HwindData.spacing, 200, 50);
+
+			Simulation.resetRankine();
 			if(Simulation.vortex != null) {
 				System.out.println("Simulation.vortex.running = " + Simulation.vortex.running);
 			}
