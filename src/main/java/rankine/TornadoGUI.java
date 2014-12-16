@@ -106,9 +106,7 @@ public class TornadoGUI {
 			if(angle[i]>1) angle[i]-=1;
 		}
 	}
-	
-	
-	// TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 	/**
 	 * Funkcja licząca promień tornada na danej wysokości

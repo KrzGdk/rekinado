@@ -12,13 +12,15 @@ import java.lang.Thread;
 public class Simulation {
 
 
-    private static double angle = Math.PI/4;
-    private static double R_max = 5.0;              /** Promien maksymalny */
-    private static double V_traversal_max = 5.0;    /** Predkosc trawersalna maksymalna */
-    private static double V_radial_max = 15.;       /** Predkosc radialna maksymalna */
-    private static double V_translation = 15.0;      /** Predkosc translacji */
+    public static int x = 0;
+    public static int y = 0;
+    public static double angle = Math.PI/4;
+    public static double R_max = 5.0;              /** Promien maksymalny */
+    public static double V_traversal_max = 5.0;    /** Predkosc trawersalna maksymalna */
+    public static double V_radial_max = 15.;       /** Predkosc radialna maksymalna */
+    public static double V_translation = 15.0;      /** Predkosc translacji */
 
-    public static Rankine vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
+    public static Rankine vortex;// = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
 
     public static Hwind hWindModel;
 
@@ -28,7 +30,7 @@ public class Simulation {
     }
 
     public static void resetRankine() {
-        vortex = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
+        vortex = new Rankine(x, y, angle, R_max, V_traversal_max, V_radial_max, V_translation);
     }
 
 	/*public static void printForest() {
@@ -76,6 +78,7 @@ public class Simulation {
         TreeGUI [] forest = Forest.getList();
 
         new Thread(vortex).start();
+
         for(TreeGUI tree : forest) {
             new Thread(tree).start();
         }

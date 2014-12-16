@@ -154,19 +154,28 @@ public class Rankine implements Runnable{
         return new Vector2d(Vfi + V_trX, Vr + V_trY);
     }
 
+    public void terminate() {
+        running = false;
+    }
+
+    public boolean running = true;
+
     @Override
     public void run() {
         int millisStep = 100;
-        while(true){
+        while(running){
+            TornadoGUI.moveParticles();
             calculateNewCenter(millisStep);
-            System.out.println("origin = " + origin);
             if(origin.y > Forest.height/2 || origin.x > Forest.width/2 ||
                     origin.y < -Forest.height/2 || origin.x < -Forest.width/2) {
                 break;
             }
             try {
                 Thread.sleep(millisStep);
-            } catch (InterruptedException e) {e.printStackTrace();}
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                running = false;
+            }
         }
     }
 }
