@@ -221,6 +221,7 @@ public class TreeGUI implements Runnable {
 	 * @return kolor
 	 */
 	private Color getTrunkColor(){
+		if(paintWeakness) return new Color((int) (255*(1-weakness)),0, (int) (255*weakness));
 		if(fallen ) return fallenColor;
 		if(cracked) return crackedColor;
 		return trunkColor;
@@ -232,7 +233,6 @@ public class TreeGUI implements Runnable {
 	 * @return koloe
 	 */
 	public Color getCrownColor(){
-		System.out.printf(weakness+"\n");
 		if(paintWeakness) return new Color((int) (255*(1-weakness)),0, (int) (255*weakness));
 		if(fallen ) return fallenColor;
 		if(cracked) return crackedColor;
