@@ -61,47 +61,23 @@ public class Simulation {
         new Thread(vortex).start();
 
         for(TreeGUI tree : forest) {
-            tree.thread.start();
+            if(tree.thread != null)
+                tree.thread.start();
         }
-//        int maxTime = 20000;
-//
-//        setDefaultHWindModel();
-////        printForest();
-//        for(int i = 0; i < maxTime; ++i) {
-//            try {
-////                long startTime = System.nanoTime();
-//                simulate();
-////                long elapsedTime = System.nanoTime() - startTime;
-//
-////                System.out.println("Total execution time of single sim on forest [ms]: "
-////                        + elapsedTime/1000000);
-//
-//
-////                if (i % 3 == 0) {
-////                    System.out.println("Iteration " + (i+1) + ":");
-////                   printForest();
-////                }
-//            } catch (Exception e) {
-//                System.out.println(e);
-//                break;
-//            }
-//        }
-		
+
         System.out.println("Simulation ended");
     }
 
-	
-	
 	// SIM THREAD
-	
-	
-	public static void start(){
-		simLoop = new SIMLoop();
-		thread = new Thread(simLoop);
-		thread.start();
-	}
-	public static void stop(){
-		thread.stop();
+
+	public static void start() {
+        simLoop = new SIMLoop();
+        thread = new Thread(simLoop);
+        thread.start();
+    }
+
+    public static void stop(){
+        thread.stop();
 	}
 	
 	public static class SIMLoop implements Runnable {

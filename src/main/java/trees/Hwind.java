@@ -49,7 +49,7 @@ public class Hwind {
             tree.fallen = true;
             HwindData.registerFallenTree(tree);
         }
-        if(!tree.fallen){
+        if(!tree.fallen && !tree.cracked){
             tree.windPower = Math.min(bendingMoment / rootResistance , 35.0/90.0); // limit 35 stopni przechylenia
         }
     }
@@ -74,7 +74,7 @@ public class Hwind {
 //        double minX = Math.min( Math.abs(Forest.width/2 - tree.x), Math.abs(Forest.width  - Math.abs(Forest.width/2 - tree.x)) );
 //        double minY = Math.min( Math.abs(Forest.height/2 -tree.y), Math.abs(Forest.height - Math.abs(Forest.height/2 -tree.y)) );
 //        return Math.min(minX, minY);
-return 0;
+        return 10*(1-tree.weakness) * HwindData.spacing;
     }
 
     private double calcTreeResist(TreeGUI tree) {
@@ -90,8 +90,8 @@ return 0;
         double maxBendMom = maxMeanBendMomentPropotion(tree);
 //        double wind = calcWindForce(tree, rankine, seg);
         double crownDev = crownDeviation(tree, windForce, seg);
-        System.out.println(tree.weakness);
-        return  /*maxMeanDist * /*maxBendMom*/  10 * (tree.weakness) *
+//        System.out.println(tree.weakness);
+        return  maxMeanDist * maxBendMom *
                 (windForce + gravityForce(tree) * crownDev);
     }
 
