@@ -142,12 +142,18 @@ public class TornadoGUI {
 			p[1] = r*Math.cos(angle[i]*Math.PI*2)+y;
 			p[2] = particlesZ[i]+z;
 			
+
+			
 			X[i] = GUInterface.toIzoX(p);
 			Y[i] = GUInterface.toIzoY(p);
-			color[i] =  tornadoColor 
+			if(p[0]>Forest.width/2 || p[1]>Forest.height/2){
+				color[i]=0;
+			}else{
+				color[i] =  tornadoColor 
 					- ((int)(shadow*0xbf)<<16) 
 					- ((int)(shadow*0xa1)<<8) 
 					- (int)(shadow*0x86);
+			}
 		}
 	}
 	
@@ -207,6 +213,8 @@ public class TornadoGUI {
 			
 			//System.out.printf((X[i]+shiftx) + " "+ (Y[i]+shifty) +"\n");
 			
+			if(Color[i] == 0) continue;
+			
 			canvas.setRGB(X[i]+shiftx, Y[i]+shifty, Color[i]);
 			canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, Color[i]);
 			canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty, Color[i]);
@@ -218,7 +226,7 @@ public class TornadoGUI {
 		int[] Y = new int[density];
 		
 		setShadowParticles(X,Y);
-		
+				
 		for(int i=0; i<TornadoGUI.density;i++){
 
 			addShadow(canvas,X[i]+shiftx  , Y[i]+shifty  );
@@ -227,7 +235,7 @@ public class TornadoGUI {
 			addShadow(canvas,X[i]+shiftx+1, Y[i]+shifty+1);
 			
 			//canvas.setRGB(X[i]+shiftx, Y[i]+shifty, color);
-		//	canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, color);
+			//canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, color);
 			//canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty, color);
 			//canvas.setRGB(X[i]+shiftx, Y[i]+shifty+1, color);
 		}

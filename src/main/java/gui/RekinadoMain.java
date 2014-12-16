@@ -56,7 +56,7 @@ public class RekinadoMain {
 				}
 			}
 				
-			Forest.setSize(300, 300);
+			//
 			Forest.fillRegular(12);
 //			Forest.fillRandom(4, 100);
 //			Forest.fillPatch(8, 200, 50);
@@ -93,6 +93,7 @@ public class RekinadoMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		Forest.setSize(300, 300);
 		gui = new GUInterface();
 		uilistener = new UIListener();
 		gui.addListener(uilistener);

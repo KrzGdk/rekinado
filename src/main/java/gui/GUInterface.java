@@ -19,6 +19,7 @@ public class GUInterface extends javax.swing.JFrame{
 
 	private static boolean started = false;
 	private GUIInfo infoBox = null;
+	private GUIParam param = null;
 	
 	public GUInterface() {
 		initComponents();
@@ -202,8 +203,8 @@ public class GUInterface extends javax.swing.JFrame{
     }//GEN-LAST:event_btnParamActionPerformed
 
     private void btnParamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnParamMouseClicked
-        listener.actualizeUI(this);
-        dialog("Dajcie mi liste");
+        //listener.actualizeUI(this);
+        showParam();
     }//GEN-LAST:event_btnParamMouseClicked
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
@@ -293,6 +294,17 @@ public class GUInterface extends javax.swing.JFrame{
 		infoBox.setText(text);
 		//infoBox.setTitle(text);
 		infoBox.setVisible(true);
+	}
+	
+	
+	
+	private void showParam(){
+		if(param == null) param = new GUIParam(this, false);
+		param.setVisible(false);
+		param.setLocationRelativeTo(this);
+		param.setVisible(true);
+		param.fill(listener);
+		//System.out.printf("Okno parametrów\n");
 	}
 	
 	/**
