@@ -159,7 +159,7 @@ public class GUIParam extends javax.swing.JDialog {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Swiat"));
         jPanel3.setName("nowa krzyzowka"); // NOI18N
 
-        jLabel3.setText("Długosc :");
+        jLabel3.setText("Dlugosc :");
 
         jLabel2.setText("Szerokosc :");
 
