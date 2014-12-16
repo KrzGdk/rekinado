@@ -23,6 +23,7 @@ public class GUInterface extends javax.swing.JFrame{
 	
 	public GUInterface() {
 		initComponents();
+		jLabel1.setText("Powiekszenie");
 		if (!started) {
 			this.add(BG);
 			started = true;
@@ -185,7 +186,7 @@ public class GUInterface extends javax.swing.JFrame{
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
-        listener.actualizeUI(this);
+		listener.actualizeUI(this);
         listener.reset();
     }//GEN-LAST:event_btnResetMouseClicked
 
