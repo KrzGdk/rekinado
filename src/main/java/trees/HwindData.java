@@ -32,7 +32,7 @@ public class HwindData {
 //    public double stemMass;
 	public static double freeFrontSpace = 15; /** wolna przestrzen przed sciana lasu */
     public static double airDensity = 1.226;
-    public static int spacing = 6;
+    public static int spacing = 12;
 
     private static int sumHeight = 0;
     private static int generatedTreeCount = 0;

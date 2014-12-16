@@ -15,7 +15,9 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import main.java.gui.RekinadoMain.UIListener;
 import main.java.trees.Forest;
+import main.java.simulation.Simulation;
 import main.java.trees.HwindData;
+import main.java.rankine.Rankine;
 
 /**
  *
@@ -350,14 +352,8 @@ public class GUIParam extends javax.swing.JDialog {
     }//GEN-LAST:event_chujActionPerformed
 
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
-       // System.out.printf("Zmiana parametrów : \n");
-		
-		//System.out.printf("\nswiat : \n");
-		//System.out.printf("swiat1 "+swiat1.getValue()+" "+swiat1.getValue()+"\n");
-		//System.out.printf("swiat2 "+swiat2.getValue()+"\n");
 		Forest.setSize((int)swiat1.getValue(), (int)swiat2.getValue());
-		
-		System.out.printf("Nowe parametry wiru, udław się nimi i gdzieś podepnij : \n");
+
 		System.out.printf("wir1 "+wir1.getValue()+"\n");
 		System.out.printf("wir2 "+wir2.getValue()+"\n");
 		System.out.printf("wir3 "+wir3.getValue()+"\n");
@@ -365,6 +361,26 @@ public class GUIParam extends javax.swing.JDialog {
 		System.out.printf("x y  "+wir5.getValue()+" ");
 		System.out.printf(""     +wir6.getValue()+"\n");
 		System.out.printf("wir7 "+wir7.getValue()+"\n");
+        int x = (int)wir5.getValue();
+        int y = (int)wir6.getValue();
+        double angle = Math.toRadians((double)(int)wir7.getValue());
+        double R_max = (double)(int)wir1.getValue();
+        double V_fi_max = (double)(int)wir2.getValue();
+        double V_r_max = (double)(int)wir3.getValue();
+        double V_tr = (double)(int)wir4.getValue();
+
+
+        Simulation.x = (int)wir5.getValue();
+        Simulation.y = (int)wir6.getValue();
+        Simulation.angle = Math.toRadians((double)(int)wir7.getValue());
+        Simulation.R_max = (double)(int)wir1.getValue();
+        Simulation.V_traversal_max = (double)(int)wir2.getValue();
+        Simulation.V_radial_max = (double)(int)wir3.getValue();
+        Simulation.V_translation = (double)(int)wir4.getValue();
+        if(Simulation.vortex != null) {
+            Simulation.vortex.terminate();
+        }
+        Simulation.vortex = new Rankine(x,y,angle,R_max,V_fi_max,V_r_max,V_tr);
 		
 		
 		HwindData.spacing = (int)las1.getValue();
@@ -380,15 +396,14 @@ public class GUIParam extends javax.swing.JDialog {
 		this.listener = listener;
 		swiat1.setValue(Forest.width);
 		swiat2.setValue(Forest.height);
-		
-		System.out.printf("Wstawienie parametrów wiru nie wiem kurwa skąd \n");
-		wir1.setValue(666);
-		wir2.setValue(666);
-		wir3.setValue(666);
-		wir4.setValue(666);
-		wir5.setValue(666);
-		wir6.setValue(666);
-		wir7.setValue(666);		
+
+		wir1.setValue(5);
+		wir2.setValue(5);
+		wir3.setValue(15);
+		wir4.setValue(15);
+		wir5.setValue(0);
+		wir6.setValue(0);
+		wir7.setValue(45);
 		
 		las1.setValue(HwindData.spacing);
 		     if(Forest.type == Forest.Type.Jednorodny) las2.setSelectedIndex(0);
