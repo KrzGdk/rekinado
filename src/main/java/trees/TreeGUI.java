@@ -26,6 +26,8 @@ public class TreeGUI implements Runnable {
 	public double rootDepth;
 	public int crownHeight;
 	public double crownWidth;
+	
+	public double weakness;
 
 	/**
 	 * 0..1, kąt pod jakim drzewo się przechyla

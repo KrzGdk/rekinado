@@ -129,7 +129,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="&#x15a;wiat">
+            <TitledBorder title="Swiat">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder/>
               </Border>
@@ -178,12 +178,12 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="D&#x142;ugo&#x15b;&#x107; :"/>
+            <Property name="text" type="java.lang.String" value="D&#x142;ugosc :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Szeroko&#x15b;&#x107; :"/>
+            <Property name="text" type="java.lang.String" value="Szerokosc :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSpinner" name="swiat1">
@@ -284,32 +284,32 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pr&#x119;dko&#x15b;&#x107; radialna (max) :"/>
+            <Property name="text" type="java.lang.String" value="Predkosc radialna (max) :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pr&#x119;dko&#x15b;&#x107; trawersalna (max) :"/>
+            <Property name="text" type="java.lang.String" value="Predkosc trawersalna (max) :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Promie&#x144; (max) :"/>
+            <Property name="text" type="java.lang.String" value="Promien (max) :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
-            <Property name="text" type="java.lang.String" value="K&#x105;t przemieszczania si&#x119; :"/>
+            <Property name="text" type="java.lang.String" value="Kat przemieszczania sie :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pr&#x119;dko&#x15b;&#x107; translacji :"/>
+            <Property name="text" type="java.lang.String" value="Predkosc translacji :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Wsp&#xf3;&#x142;rz&#x119;dne pocz&#x105;tku :"/>
+            <Property name="text" type="java.lang.String" value="Wspolrzedne poczatku :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSpinner" name="wir1">
@@ -380,12 +380,12 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Odst&#x119;py mi&#x119;dzy drzewami :"/>
+            <Property name="text" type="java.lang.String" value="Odstepy miedzy drzewami :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Rozk&#x142;ad drzew :"/>
+            <Property name="text" type="java.lang.String" value="Rozklad drzew :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="las2">
@@ -398,6 +398,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="las2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="las1">
         </Component>
