@@ -357,7 +357,7 @@ public class GUIParam extends javax.swing.JDialog {
 		//System.out.printf("swiat2 "+swiat2.getValue()+"\n");
 		Forest.setSize((int)swiat1.getValue(), (int)swiat2.getValue());
 		
-		System.out.printf("\nwir : \n");
+		System.out.printf("Nowe parametry wiru, udław się nimi i gdzieś podepnij : \n");
 		System.out.printf("wir1 "+wir1.getValue()+"\n");
 		System.out.printf("wir2 "+wir2.getValue()+"\n");
 		System.out.printf("wir3 "+wir3.getValue()+"\n");
@@ -366,12 +366,8 @@ public class GUIParam extends javax.swing.JDialog {
 		System.out.printf(""     +wir6.getValue()+"\n");
 		System.out.printf("wir7 "+wir7.getValue()+"\n");
 		
-		System.out.printf("\nlas : \n");
-		System.out.printf("las1 "+las1.getValue()+"\n");
-		System.out.printf("las1 "+las2.getSelectedIndex() +"\n");
 		
 		HwindData.spacing = (int)las1.getValue();
-		
 		     if(las2.getSelectedIndex() == 0) Forest.type = Forest.Type.Jednorodny;
 		else if(las2.getSelectedIndex() == 1) Forest.type = Forest.Type.Losowy;
 		else if(las2.getSelectedIndex() == 2) Forest.type = Forest.Type.Plama;
@@ -385,6 +381,14 @@ public class GUIParam extends javax.swing.JDialog {
 		swiat1.setValue(Forest.width);
 		swiat2.setValue(Forest.height);
 		
+		System.out.printf("Wstawienie parametrów wiru nie wiem kurwa skąd \n");
+		wir1.setValue(666);
+		wir2.setValue(666);
+		wir3.setValue(666);
+		wir4.setValue(666);
+		wir5.setValue(666);
+		wir6.setValue(666);
+		wir7.setValue(666);		
 		
 		las1.setValue(HwindData.spacing);
 		     if(Forest.type == Forest.Type.Jednorodny) las2.setSelectedIndex(0);

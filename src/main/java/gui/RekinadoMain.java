@@ -60,7 +60,7 @@ public class RekinadoMain {
 			else if(Forest.type == Forest.Type.Losowy)     Forest.fillRandom(4, 100);
 			else if(Forest.type == Forest.Type.Plama)      Forest.fillPatch(8, 200, 50);
 				 
-			System.out.printf("RekinadoMain / linia 63, powyższe wartości są z dupy\n");
+			System.out.printf("RekinadoMain / linia 63 : powyższe wartości są z dupy\n");
 
 			Simulation.resetRankine();
 
