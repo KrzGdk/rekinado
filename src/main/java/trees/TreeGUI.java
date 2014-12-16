@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.Random;
 import static main.java.gui.GUInterface.normToCenter;
+import static main.java.gui.GUInterface.paintWeakness;
 import static main.java.gui.GUInterface.toIzoX;
 import static main.java.gui.GUInterface.toIzoY;
 import main.java.gui.TerrainGUI;
@@ -231,6 +232,8 @@ public class TreeGUI implements Runnable {
 	 * @return koloe
 	 */
 	public Color getCrownColor(){
+		System.out.printf(weakness+"\n");
+		if(paintWeakness) return new Color((int) (255*(1-weakness)),0, (int) (255*weakness));
 		if(fallen ) return fallenColor;
 		if(cracked) return crackedColor;
 		return crownColor;		
