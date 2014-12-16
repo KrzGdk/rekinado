@@ -20,10 +20,10 @@ public class GUInterface extends javax.swing.JFrame{
 	private static boolean started = false;
 	private GUIInfo infoBox = null;
 	private GUIParam param = null;
+	public static Boolean paintWeakness = false;
 	
 	public GUInterface() {
 		initComponents();
-		jLabel1.setText("Powiekszenie");
 		if (!started) {
 			this.add(BG);
 			started = true;
@@ -44,8 +44,9 @@ public class GUInterface extends javax.swing.JFrame{
         btnParam = new javax.swing.JButton();
         btnSim = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
-        jSlider1 = new javax.swing.JSlider();
+        btnReset1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jSlider1 = new javax.swing.JSlider();
         BG = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -94,16 +95,33 @@ public class GUInterface extends javax.swing.JFrame{
             }
         });
 
-        jSlider1.setMaximum(50);
-        jSlider1.setMinimum(5);
-        jSlider1.setValue(40);
+        btnReset1.setText("Wytrzymalosc");
+        btnReset1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReset1MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnReset1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnReset1MouseReleased(evt);
+            }
+        });
+        btnReset1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReset1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Powiekszenie :");
+
+        jSlider1.setMaximum(60);
+        jSlider1.setMinimum(10);
         jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSlider1StateChanged(evt);
             }
         });
-
-        jLabel1.setText("Powiększenie");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -115,23 +133,26 @@ public class GUInterface extends javax.swing.JFrame{
                 .addComponent(btnSim, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReset1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnParam)
                         .addComponent(btnSim)
                         .addComponent(btnReset)
-                        .addComponent(jLabel1))))
+                        .addComponent(btnReset1)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         BG.setBackground(new java.awt.Color(255, 255, 255));
@@ -150,7 +171,7 @@ public class GUInterface extends javax.swing.JFrame{
         );
         BGLayout.setVerticalGroup(
             BGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 405, Short.MAX_VALUE)
+            .addGap(0, 397, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -216,6 +237,26 @@ public class GUInterface extends javax.swing.JFrame{
 		listener.print();
     }//GEN-LAST:event_jSlider1StateChanged
 
+    private void btnReset1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReset1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReset1MouseClicked
+
+    private void btnReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReset1ActionPerformed
+
+    private void btnReset1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReset1MousePressed
+        paintWeakness = true;
+		listener.actualizeUI(this);
+		listener.print();
+    }//GEN-LAST:event_btnReset1MousePressed
+
+    private void btnReset1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReset1MouseReleased
+        paintWeakness = false;
+		listener.actualizeUI(this);
+		listener.print();
+    }//GEN-LAST:event_btnReset1MouseReleased
+
 	public void btnSimAction(){
 		listener.actualizeUI(this);
 		listener.run = !listener.run;
@@ -266,6 +307,7 @@ public class GUInterface extends javax.swing.JFrame{
     private javax.swing.JPanel BG;
     private javax.swing.JButton btnParam;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnReset1;
     private javax.swing.JButton btnSim;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel3;
