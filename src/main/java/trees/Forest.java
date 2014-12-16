@@ -12,6 +12,11 @@ public class Forest {
 	private static int length = 0;
 	public static int width;
 	public static int height;
+	public static Type type = Type.Jednorodny; // type
+			
+	public enum Type {
+		Jednorodny, Losowy, Plama;
+	}
 	
 	public static void setSize(int width, int height){
 		Forest.width = width;

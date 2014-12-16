@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import main.java.gui.RekinadoMain.UIListener;
 import main.java.trees.Forest;
+import main.java.trees.HwindData;
 
 /**
  *
@@ -369,6 +370,12 @@ public class GUIParam extends javax.swing.JDialog {
 		System.out.printf("las1 "+las1.getValue()+"\n");
 		System.out.printf("las1 "+las2.getSelectedIndex() +"\n");
 		
+		HwindData.spacing = (int)las1.getValue();
+		
+		     if(las2.getSelectedIndex() == 0) Forest.type = Forest.Type.Jednorodny;
+		else if(las2.getSelectedIndex() == 1) Forest.type = Forest.Type.Losowy;
+		else if(las2.getSelectedIndex() == 2) Forest.type = Forest.Type.Plama;
+		
         listener.reset();
     }//GEN-LAST:event_okButtonMouseClicked
 	
@@ -377,6 +384,12 @@ public class GUIParam extends javax.swing.JDialog {
 		this.listener = listener;
 		swiat1.setValue(Forest.width);
 		swiat2.setValue(Forest.height);
+		
+		
+		las1.setValue(HwindData.spacing);
+		     if(Forest.type == Forest.Type.Jednorodny) las2.setSelectedIndex(0);
+		else if(Forest.type == Forest.Type.Losowy)     las2.setSelectedIndex(1);
+		else if(Forest.type == Forest.Type.Plama)      las2.setSelectedIndex(2);
 	}
 	
 	private void doClose(int retStatus) {

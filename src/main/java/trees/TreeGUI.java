@@ -59,8 +59,8 @@ public class TreeGUI implements Runnable {
 	
 	//funkcja wywoływana w wątku
 	private void lookToEnv(){
-		if( !this.fallen )
-			Simulation.hWindModel.calcTreeForce(this, Simulation.vortex);
+		//if( !this.fallen )
+		//	Simulation.hWindModel.calcTreeForce(this, Simulation.vortex);
 		
 	}
 
