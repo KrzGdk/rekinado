@@ -3,6 +3,7 @@ package main.java.gui;
 import main.java.simulation.Simulation;
 import main.java.trees.Forest;
 import main.java.trees.TreeGUI;
+import main.java.trees.HwindData;
 
 /**
  * Plik główny projektu
@@ -56,9 +57,9 @@ public class RekinadoMain {
 				}
 			}
 							
-				 if(Forest.type == Forest.Type.Jednorodny) Forest.fillRegular(12);
-			else if(Forest.type == Forest.Type.Losowy)     Forest.fillRandom(4, 100);
-			else if(Forest.type == Forest.Type.Plama)      Forest.fillPatch(8, 200, 50);
+				 if(Forest.type == Forest.Type.Jednorodny) Forest.fillRegular(HwindData.spacing);
+			else if(Forest.type == Forest.Type.Losowy)     Forest.fillRandom(HwindData.spacing, 100);
+			else if(Forest.type == Forest.Type.Plama)      Forest.fillPatch(HwindData.spacing, 200, 50);
 				 
 			System.out.printf("RekinadoMain / linia 63 : powyższe wartości są z dupy\n");
 
