@@ -124,11 +124,11 @@ public class Hwind {
         if( seg <= crownMidH) {
             double val1 = windForce * Math.pow(crownMidH, 2) * tree.height;
             double val2 = (3 - crownMidH / tree.height - 3 * seg2topDist / tree.height);
-            return (val1 *  val2) / (6 * HwindData.moe * I);
+            return Math.abs((val1 *  val2) / (6 * HwindData.moe * I));
         }
         else
-            return (windForce * Math.pow(crownMidH, 3) * (2 - 3*(seg2topDist - top2midDist)/crownMidH +
-                    Math.pow((seg2topDist - top2midDist), 3)/Math.pow(crownMidH, 3))) / (6*HwindData.moe*I);
+            return Math.abs((windForce * Math.pow(crownMidH, 3) * (2 - 3*(seg2topDist - top2midDist)/crownMidH +
+                    Math.pow((seg2topDist - top2midDist), 3)/Math.pow(crownMidH, 3))) / (6*HwindData.moe*I));
     }
 
     private double triangleSectorArea(TreeGUI tree, int seg){
