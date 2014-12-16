@@ -156,12 +156,12 @@ public class GUIParam extends javax.swing.JDialog {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Świat"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Swiat"));
         jPanel3.setName("nowa krzyzowka"); // NOI18N
 
-        jLabel3.setText("Długość :");
+        jLabel3.setText("Długosc :");
 
-        jLabel2.setText("Szerokość :");
+        jLabel2.setText("Szerokosc :");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -195,17 +195,17 @@ public class GUIParam extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Wir"));
         jPanel5.setName("nowa krzyzowka"); // NOI18N
 
-        jLabel7.setText("Prędkość radialna (max) :");
+        jLabel7.setText("Predkosc radialna (max) :");
 
-        jLabel6.setText("Prędkość trawersalna (max) :");
+        jLabel6.setText("Predkosc trawersalna (max) :");
 
-        jLabel5.setText("Promień (max) :");
+        jLabel5.setText("Promien (max) :");
 
-        jLabel10.setText("Kąt przemieszczania się :");
+        jLabel10.setText("Kat przemieszczania sie :");
 
-        jLabel8.setText("Prędkość translacji :");
+        jLabel8.setText("Predkosc translacji :");
 
-        jLabel9.setText("Współrzędne początku :");
+        jLabel9.setText("Wspolrzedne poczatku :");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -270,11 +270,16 @@ public class GUIParam extends javax.swing.JDialog {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Las"));
         jPanel6.setName("nowa krzyzowka"); // NOI18N
 
-        jLabel12.setText("Odstępy między drzewami :");
+        jLabel12.setText("Odstepy miedzy drzewami :");
 
-        jLabel13.setText("Rozkład drzew :");
+        jLabel13.setText("Rozklad drzew :");
 
         las2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Jednorodny", "Losowy", "Plama" }));
+        las2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                las2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -374,6 +379,10 @@ public class GUIParam extends javax.swing.JDialog {
 		
         listener.reset();
     }//GEN-LAST:event_okButtonMouseClicked
+
+    private void las2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_las2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_las2ActionPerformed
 	
 	private UIListener listener;
 	public void fill(UIListener listener){

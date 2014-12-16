@@ -3,6 +3,7 @@ package main.java.gui;
 import main.java.simulation.Simulation;
 import main.java.trees.Forest;
 import main.java.trees.TreeGUI;
+import main.java.trees.Weakness;
 
 /**
  * Plik główny projektu
@@ -59,8 +60,10 @@ public class RekinadoMain {
 				 if(Forest.type == Forest.Type.Jednorodny) Forest.fillRegular(12);
 			else if(Forest.type == Forest.Type.Losowy)     Forest.fillRandom(4, 100);
 			else if(Forest.type == Forest.Type.Plama)      Forest.fillPatch(8, 200, 50);
-				 
 			System.out.printf("RekinadoMain / linia 63 : powyższe wartości są z dupy\n");
+			Weakness.calc();
+			
+		
 
 			Simulation.resetRankine();
 
@@ -74,9 +77,7 @@ public class RekinadoMain {
 				gui.printFrame();
 				try {
 					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				} catch (InterruptedException e) {}
 			}
 		}
 	}
@@ -94,11 +95,12 @@ public class RekinadoMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Forest.setSize(300, 300);
+		Forest.setSize(100, 100);
 		gui = new GUInterface();
 		uilistener = new UIListener();
 		gui.addListener(uilistener);
 		uilistener.reset();
+		
 	}
 	
 }

@@ -98,7 +98,7 @@ public class TornadoGUI {
 	
 	/**
 	 * Porusza cząsteczkami w tornadzie do następnej klatki
-	 
+	 */
 	public static void moveParticles(){
 		if(particlesZ == null) resetTornado();
 		for(int i=0;i<density;i++){
@@ -106,7 +106,7 @@ public class TornadoGUI {
 			if(angle[i]>1) angle[i]-=1;
 		}
 	}
-	*/
+	
 	
 	// TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
