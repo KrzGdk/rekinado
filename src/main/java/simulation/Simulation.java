@@ -12,8 +12,8 @@ import java.lang.Thread;
 public class Simulation {
 
 
-    public static int x = 0;
-    public static int y = 0;
+    public static int x = -80;
+    public static int y = -80;
     public static double angle = Math.PI/4;
     public static double R_max = 7.0;              /** Promien maksymalny */
     public static double V_traversal_max = 12.0;    /** Predkosc trawersalna maksymalna */
