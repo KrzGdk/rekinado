@@ -359,20 +359,20 @@ public class GUIParam extends javax.swing.JDialog {
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
 		Forest.setSize((int)swiat1.getValue(), (int)swiat2.getValue());
 
-		System.out.printf("wir1 "+wir1.getValue()+"\n");
-		System.out.printf("wir2 "+wir2.getValue()+"\n");
-		System.out.printf("wir3 "+wir3.getValue()+"\n");
-		System.out.printf("wir4 "+wir4.getValue()+"\n");
-		System.out.printf("x y  "+wir5.getValue()+" ");
-		System.out.printf(""     +wir6.getValue()+"\n");
-		System.out.printf("wir7 "+wir7.getValue()+"\n");
-        int x = (int)wir5.getValue();
-        int y = (int)wir6.getValue();
-        double angle = Math.toRadians((double)(int)wir7.getValue());
-        double R_max = (double)(int)wir1.getValue();
-        double V_fi_max = (double)(int)wir2.getValue();
-        double V_r_max = (double)(int)wir3.getValue();
-        double V_tr = (double)(int)wir4.getValue();
+//		System.out.printf("wir1 "+wir1.getValue()+"\n");
+//		System.out.printf("wir2 "+wir2.getValue()+"\n");
+//		System.out.printf("wir3 "+wir3.getValue()+"\n");
+//		System.out.printf("wir4 "+wir4.getValue()+"\n");
+//		System.out.printf("x y  "+wir5.getValue()+" ");
+//		System.out.printf(""     +wir6.getValue()+"\n");
+//		System.out.printf("wir7 "+wir7.getValue()+"\n");
+//        int x = (int)wir5.getValue();
+//        int y = (int)wir6.getValue();
+//        double angle = Math.toRadians((double)(int)wir7.getValue());
+//        double R_max = (double)(int)wir1.getValue();
+//        double V_fi_max = (double)(int)wir2.getValue();
+//        double V_r_max = (double)(int)wir3.getValue();
+//        double V_tr = (double)(int)wir4.getValue();
 
 
         Simulation.x = (int)wir5.getValue();
@@ -385,7 +385,7 @@ public class GUIParam extends javax.swing.JDialog {
         if(Simulation.vortex != null) {
             Simulation.vortex.terminate();
         }
-        Simulation.vortex = new Rankine(x,y,angle,R_max,V_fi_max,V_r_max,V_tr);
+        Simulation.resetRankine();
 		
 		
 		HwindData.spacing = (int)las1.getValue();

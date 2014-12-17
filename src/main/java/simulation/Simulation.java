@@ -43,8 +43,7 @@ public class Simulation {
 
 	public static void simulate() throws Exception{
 		TreeGUI [] forestList = Forest.getList();
-		
-        vortex.calculateNewCenter(1);
+
         if(vortex.getOrigin().x >= Forest.width/2 || vortex.getOrigin().y >=  Forest.height/2) {
             throw new Exception("Vortex origin out of bounds: (" + vortex.getOrigin().x + "," + vortex.getOrigin().y + ")");
         }

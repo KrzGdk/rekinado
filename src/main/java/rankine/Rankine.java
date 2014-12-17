@@ -124,12 +124,12 @@ public class Rankine implements Runnable{
 	 *
 	 * @param deltaT czas ruchu w milisekundach
 	 */
-	public void calculateNewCenter(int deltaT) {
-        double s = V_tr * deltaT / 1000;
+	public void calculateNewCenter(int deltaT, int i) {
+        double s = V_tr * deltaT * i / 1000;
         double deltaY = s * Math.cos(angle);
         double deltaX = s * Math.sin(angle);
-        origin.x += deltaX;
-        origin.y += deltaY; // mozna zamienic na - w razie czego
+        origin.x = initialOrigin.x + (int)deltaX;
+        origin.y = initialOrigin.y + (int)deltaY; // mozna zamienic na - w razie czego
         TornadoGUI.move(origin.x,origin.y);
     }
 
@@ -163,13 +163,15 @@ public class Rankine implements Runnable{
     @Override
     public void run() {
         int millisStep = 100;
+        int i = 1;
         while(running){
             TornadoGUI.moveParticles();
-            calculateNewCenter(millisStep);
+            calculateNewCenter(millisStep,i);
             if(origin.y > Forest.height/2 || origin.x > Forest.width/2 ||
                     origin.y < -Forest.height/2 || origin.x < -Forest.width/2) {
                 break;
             }
+            i++;
             try {
                 Thread.sleep(millisStep);
             } catch (InterruptedException e) {
