@@ -36,7 +36,7 @@ public class TornadoGUI {
 	/** 
 	 * 0..1, kąt o jaki się przesuwa tornado w jednej klatce
 	*/
-	private static double windPower = .01;
+	private static double windPower = .05;
 	
 	/** 
 	 * wysokość tornada w metrach. Od powierzchni ziemi
