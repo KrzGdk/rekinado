@@ -70,14 +70,7 @@ public class Weakness {
 				force[i][j] = force1[i][j]+force2[i][j]+force3[i][j]+force4[i][j];
 			}
 		}
-		
-		/*for(int j=0; j<H; ++j){
-			for(int i=0; i<W; ++i){
-				System.out.printf((int)(force[i][H-j-1]/40)+" ");
-			}
-			System.out.printf("\n");
-		}*/
-		
+
 		for(int i=0; i<Forest.getLength();i++){
 			tree[i].weakness = force[(int)(tree[i].x+Forest.width/2)/10][(int)(tree[i].y+Forest.height/2)/10]/40;
 		}

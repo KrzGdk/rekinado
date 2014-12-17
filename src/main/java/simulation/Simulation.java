@@ -15,12 +15,12 @@ public class Simulation {
     public static int x = 0;
     public static int y = 0;
     public static double angle = Math.PI/4;
-    public static double R_max = 5.0;              /** Promien maksymalny */
-    public static double V_traversal_max = 5.0;    /** Predkosc trawersalna maksymalna */
-    public static double V_radial_max = 15.;       /** Predkosc radialna maksymalna */
-    public static double V_translation = 15.0;      /** Predkosc translacji */
+    public static double R_max = 7.0;              /** Promien maksymalny */
+    public static double V_traversal_max = 12.0;    /** Predkosc trawersalna maksymalna */
+    public static double V_radial_max = 13.;       /** Predkosc radialna maksymalna */
+    public static double V_translation = 14.0;      /** Predkosc translacji */
 
-    public static Rankine vortex;// = new Rankine(0, 0, angle, R_max, V_traversal_max, V_radial_max, V_translation);
+    public static Rankine vortex;
 
     public static Hwind hWindModel;
 
@@ -41,18 +41,6 @@ public class Simulation {
         this.vortex = vortex;
     }
 
-	public static void simulate() throws Exception{
-		TreeGUI [] forestList = Forest.getList();
-
-        if(vortex.getOrigin().x >= Forest.width/2 || vortex.getOrigin().y >=  Forest.height/2) {
-            throw new Exception("Vortex origin out of bounds: (" + vortex.getOrigin().x + "," + vortex.getOrigin().y + ")");
-        }
-
-        for(int i = 0; i <  Forest.getLength() ; ++i)
-            if( !forestList[i].fallen )
-                hWindModel.calcTreeForce(forestList[i], vortex);
-    }
-
 	public static void simMain() {
         setDefaultHWindModel();
         TreeGUI [] forest = Forest.getList();
@@ -60,7 +48,7 @@ public class Simulation {
         new Thread(vortex).start();
 
         for(TreeGUI tree : forest) {
-            if(tree.thread != null)
+            if(tree != null && tree.thread != null)
                 tree.thread.start();
         }
 
@@ -82,13 +70,11 @@ public class Simulation {
 	public static class SIMLoop implements Runnable {
 		@Override
 		public void run() {
-			//while(true){
 				simMain();
 				
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {e.printStackTrace();}
-			//}
 		}
 	}
 	

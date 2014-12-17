@@ -56,7 +56,6 @@ public class GUIParam extends javax.swing.JDialog {
 			}
 		});
 		if (!started) {
-			//this.add(BG);
 			started = true;
 			start();
 		}
@@ -87,7 +86,6 @@ public class GUIParam extends javax.swing.JDialog {
         wir9 = new javax.swing.JTextField();
         wir8 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        chuj = new javax.swing.JTextField();
         okButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -132,13 +130,6 @@ public class GUIParam extends javax.swing.JDialog {
         wir8.setText("jTextField1");
 
         jTextField3.setText("jTextField3");
-
-        chuj.setText("jTextField4");
-        chuj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chujActionPerformed(evt);
-            }
-        });
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -352,36 +343,16 @@ public class GUIParam extends javax.swing.JDialog {
 		doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
 
-    private void chujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chujActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chujActionPerformed
-
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
 		Forest.setSize((int)swiat1.getValue(), (int)swiat2.getValue());
-
-//		System.out.printf("wir1 "+wir1.getValue()+"\n");
-//		System.out.printf("wir2 "+wir2.getValue()+"\n");
-//		System.out.printf("wir3 "+wir3.getValue()+"\n");
-//		System.out.printf("wir4 "+wir4.getValue()+"\n");
-//		System.out.printf("x y  "+wir5.getValue()+" ");
-//		System.out.printf(""     +wir6.getValue()+"\n");
-//		System.out.printf("wir7 "+wir7.getValue()+"\n");
-//        int x = (int)wir5.getValue();
-//        int y = (int)wir6.getValue();
-//        double angle = Math.toRadians((double)(int)wir7.getValue());
-//        double R_max = (double)(int)wir1.getValue();
-//        double V_fi_max = (double)(int)wir2.getValue();
-//        double V_r_max = (double)(int)wir3.getValue();
-//        double V_tr = (double)(int)wir4.getValue();
-
 
         Simulation.x = (int)wir5.getValue();
         Simulation.y = (int)wir6.getValue();
         Simulation.angle = Math.toRadians((double)(int)wir7.getValue());
-        Simulation.R_max = (double)(int)wir1.getValue();
-        Simulation.V_traversal_max = (double)(int)wir2.getValue();
-        Simulation.V_radial_max = (double)(int)wir3.getValue();
-        Simulation.V_translation = (double)(int)wir4.getValue();
+        Simulation.R_max = (double)wir1.getValue();
+        Simulation.V_traversal_max = (double)wir2.getValue();
+        Simulation.V_radial_max = (double)wir3.getValue();
+        Simulation.V_translation = (double)wir4.getValue();
         if(Simulation.vortex != null) {
             Simulation.vortex.terminate();
         }
@@ -406,13 +377,13 @@ public class GUIParam extends javax.swing.JDialog {
 		swiat1.setValue(Forest.width);
 		swiat2.setValue(Forest.height);
 
-		wir1.setValue(5);
-		wir2.setValue(5);
-		wir3.setValue(15);
-		wir4.setValue(15);
-		wir5.setValue(0);
-		wir6.setValue(0);
-		wir7.setValue(45);
+		wir1.setValue(Simulation.R_max);
+		wir2.setValue(Simulation.V_traversal_max);
+		wir3.setValue(Simulation.V_radial_max);
+		wir4.setValue(Simulation.V_translation);
+		wir5.setValue(Simulation.x);
+		wir6.setValue(Simulation.y);
+		wir7.setValue((int)Math.toDegrees(Simulation.angle));
 		
 		las1.setValue(HwindData.spacing);
 		     if(Forest.type == Forest.Type.Jednorodny) las2.setSelectedIndex(0);
@@ -469,7 +440,6 @@ public class GUIParam extends javax.swing.JDialog {
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField chuj;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

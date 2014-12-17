@@ -69,11 +69,7 @@ public class RekinadoMain {
 			else if(Forest.type == Forest.Type.Plama)      Forest.fillPatch(HwindData.spacing, 200, 50);
 
 			Simulation.resetRankine();
-			if(Simulation.vortex != null) {
-				System.out.println("Simulation.vortex.running = " + Simulation.vortex.running);
-			}
-				 
-			System.out.printf("RekinadoMain / linia 63 : powyższe wartości są z dupy\n");
+
 			Weakness.calc();
 			
 		
@@ -106,7 +102,7 @@ public class RekinadoMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Forest.setSize(100, 100);
+		Forest.setSize(200, 200);
 		gui = new GUInterface();
 		uilistener = new UIListener();
 		gui.addListener(uilistener);

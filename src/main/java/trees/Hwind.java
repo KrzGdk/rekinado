@@ -8,7 +8,7 @@ import javax.vecmath.Vector2d;
 import java.util.LinkedList;
 
 /**
- * Created by Mariusz Gej on 2014-11-15.
+ * Created by Mariusz on 2014-11-15.
  */
 public class Hwind {
 
@@ -71,9 +71,6 @@ public class Hwind {
     }
 
     private double calcDistFromForestEdge(TreeGUI tree){
-//        double minX = Math.min( Math.abs(Forest.width/2 - tree.x), Math.abs(Forest.width  - Math.abs(Forest.width/2 - tree.x)) );
-//        double minY = Math.min( Math.abs(Forest.height/2 -tree.y), Math.abs(Forest.height - Math.abs(Forest.height/2 -tree.y)) );
-//        return Math.min(minX, minY);
         return 10*(1-tree.weakness) * HwindData.spacing;
     }
 
@@ -88,9 +85,7 @@ public class Hwind {
     private double calcMaxBendingMoment(TreeGUI tree, double windForce, int seg) {
         double maxMeanDist = maxMeanDistProportion();
         double maxBendMom = maxMeanBendMomentPropotion(tree);
-//        double wind = calcWindForce(tree, rankine, seg);
         double crownDev = crownDeviation(tree, windForce, seg);
-//        System.out.println(tree.weakness);
         return  maxMeanDist * maxBendMom *
                 (windForce + gravityForce(tree) * crownDev);
     }

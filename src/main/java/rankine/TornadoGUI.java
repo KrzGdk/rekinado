@@ -169,16 +169,6 @@ public class TornadoGUI {
 			p[1] = r*Math.cos(angle[i]*Math.PI*2)+y +Math.abs(particlesZ[i]+z);
 			p[2] = 0;
 			
-			/*if(p[0]>+TerrainGUI.width/2) 
-				p[0] =  TerrainGUI.width/2;
-			if(p[0]<-TerrainGUI.width/2)
-				p[0] = -TerrainGUI.width/2;
-			if(p[1]>+TerrainGUI.height/2)
-				p[1] =  TerrainGUI.height/2;
-			if(p[1]<-TerrainGUI.height/2)
-				p[1] = -TerrainGUI.height/2;*/
-			
-			
 			X[i] = GUInterface.toIzoX(p);
 			Y[i] = GUInterface.toIzoY(p);
 		}
@@ -196,20 +186,13 @@ public class TornadoGUI {
 		int[] Y = new int[density];
 		int[] Color = new int[density];
 		setParticles(X,Y,Color);
-		
-		//For particle 1x1
-		//for(int i=0; i<TornadoGUI.density;i++){
-		//	canvas.setRGB(X[i]+(bgWidth/2), Y[i]+(bgHeight/2), Color[i]);
-		//}
-		
+
 		//For particle 2x2
 		for(int i=0; i<TornadoGUI.density;i++){			
 			if(X[i]+shiftx<1 || Y[i]+shifty<1 || 
 					X[i]+shiftx+2>canvas.getWidth() || 
 					Y[i]+shifty+2>canvas.getHeight()) 
 				continue;
-			
-			//System.out.printf((X[i]+shiftx) + " "+ (Y[i]+shifty) +"\n");
 			
 			if(Color[i] == 0) continue;
 			
@@ -231,11 +214,7 @@ public class TornadoGUI {
 			addShadow(canvas,X[i]+shiftx+1, Y[i]+shifty  );
 			addShadow(canvas,X[i]+shiftx  , Y[i]+shifty+1);
 			addShadow(canvas,X[i]+shiftx+1, Y[i]+shifty+1);
-			
-			//canvas.setRGB(X[i]+shiftx, Y[i]+shifty, color);
-			//canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty+1, color);
-			//canvas.setRGB(X[i]+shiftx+1, Y[i]+shifty, color);
-			//canvas.setRGB(X[i]+shiftx, Y[i]+shifty+1, color);
+
 		}
 	}
 	private static void addShadow(BufferedImage canvas, int x, int y){

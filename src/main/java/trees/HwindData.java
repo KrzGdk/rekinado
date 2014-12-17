@@ -29,10 +29,9 @@ public class HwindData {
     public static double moe = 7000. * 1000. * 1000.;          /** wspolczynnik elastycznosci */
     public static double friction = 0.29;     /** wspolczynnik tarcia */
 
-//    public double stemMass;
 	public static double freeFrontSpace = 15; /** wolna przestrzen przed sciana lasu */
     public static double airDensity = 1.226;
-    public static int spacing = 12;
+    public static int spacing = 9;
 
     private static int sumHeight = 0;
     private static int generatedTreeCount = 0;
